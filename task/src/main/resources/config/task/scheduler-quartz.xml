@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       	http://www.springframework.org/schema/beans/spring-beans.xsd    
+        http://www.springframework.org/schema/cache 
+        http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task.xsd">
+	
+	<description>
+		quartz 批量任务
+		伸缩性
+		负载均衡
+		高可用性
+	</description>
+	
+	<!-- Scheduler包含一个Trigger列表，每个Trigger表示一个作业  -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+		<property name="dataSource" ref="quartzDataSource"/>
+		<property name="schedulerName" value="taskDemoScheduler"/>
+		<!-- 必须的,QuartzScheduler延时启动, 应用启动完后QuartzScheduler再启动  -->
+		<property name="startupDelay" value="30"/>
+		<!-- 可选，QuartzScheduler 启动时更新己存在的Job，
+			这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了 -->
+    	<property name="overwriteExistingJobs" value="true" />
+		<!-- 设置自动启动 -->
+		<property name="autoStartup" value="true"/>
+		
+		<!-- 注册触发器 -->
+		<property name="triggers">  
+           <list>  
+              <ref bean="demoSimpleJobTrigger"/>  
+           </list>  
+		</property>  
+	</bean>
+	
+	<!-- quartz-2.x -->
+	<bean id="demoSimpleJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+       <property name="jobDetail" ref="demoSimpleJobDetail"/>
+       <!-- 每隔2秒钟触发一次 -->
+       <property name="cronExpression" value="0/2 * * * * ?"/>
+	</bean>
+	
+	<!-- job的配置开始 -->
+	<bean id="demoSimpleJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="demoSimplePropertyScheduler"/>
+		<property name="targetMethod" value="lsogst"/>
+	</bean>
+	
+	<bean id="demoSimplePropertyScheduler" class="com.yueny.demo.task.scheduler.quartz.DemoSimplePropertyScheduler"/>
+    
+</beans>  
