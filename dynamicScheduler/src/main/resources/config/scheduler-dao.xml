@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+			http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+	
+	<mybatis:scan annotation="org.springframework.stereotype.Repository" 
+		base-package="com.yueny.demo.dynamic.scheduler.dao"
+		factory-ref="sqlSessionFactory"/>
+	
+	<bean id="dataSourceChecker" class="com.yueny.superclub.util.storage.db.DataSourceChecker"
+          init-method="check" p:dataSourceName="dataSource"/>
+          
+	<!-- 加载myBatis-config.xml配置文件，以及扫描myBatis/目录下每个DAO对应的SQL配置的XML文件 -->  
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		depends-on="dataSourceChecker">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:com/yueny/kapo/maps/singleTable-**-Mapping.xml</value>
+				<value>classpath*:com/yueny/demo/scheduler/maps/*Mapping.xml</value>
+			</list>
+		</property>
+		<!-- configLocation属性指定mybatis的核心配置文件 -->
+		<property name="configLocation" value="classpath:/config/mybatis.xml"/>
+	</bean>
+	
+	<!-- SqlSessionTemplate是我们代码中使用的SQL模板对象，用来操作数据库  -->
+    <bean class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
+    </bean>
+    
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	 
+</beans>

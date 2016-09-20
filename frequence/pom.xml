@@ -1,0 +1,326 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.yueny</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.1.1-SNAPSHOT</version>
+		<relativePath>../</relativePath>
+	</parent>
+	
+	<groupId>com.yueny.demo</groupId>
+	<artifactId>frequence</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<description>频率控制</description>
+	
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+		    <groupId>com.yueny.rapid</groupId>
+			<artifactId>api</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	
+		<!-- Spring Dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		
+		<!-- Project Lombok -->
+		<dependency>
+	        <groupId>org.projectlombok</groupId>
+	        <artifactId>lombok</artifactId>
+	        <scope>provided</scope>
+	    </dependency>
+		
+		<!-- Log Dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-spring</artifactId>
+		</dependency>
+		
+        <!-- common -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+		</dependency>
+		
+        <!-- test -->
+        <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		
+		<!-- 接口访问频率限制。使用注解进行配置，支持时长配置。应用场景，如涉及金钱、经验等业务操作，限制用户单线程访问，在编写业务代码时不需要过多考虑并发安全问题。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-frequency</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 消息队列操作，目前只是做了基于Redis的实现 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-queue</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 多机负载均衡的环境，可以通过Leopard-Proxy指定访问某台WebServer。可以通过URL参数、Cookie、HttpHeader(serverIp=xxxx)进行指定要访问的服务器。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-proxy</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 规范、简化定时器定义，使定时器测试更加方便。为在线管理定时器提供接口支持。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-timer</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 集成测试、单元测试时，不需要为测试做任何额外的Spring相关配置。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-test</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 异常处理，细到URL级别的异常的配置(状态码转换、日志开关)，兼容各种接口返回的数据类型(Json、HTML)。默认使用异常类名作为状态码，极大程度简化状态码转换工作。 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-trynb</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 异常类、Util类、Leopard自定义的数据类型等  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-lang</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- Redis操作，基于Jedis封装，简化Redis操作。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-redis</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- Memcache操作，基于Memcached-Java-Client封装，简化Memcached操作。 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-memcache</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- Http操作类库。支持Get、Post、文件上传等常用操作。可在TopNB查看耗时统计信息。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-httpnb</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 规范、简化Mock代码编写。提供自动属性Mock功能。 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-mock</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 规范、简化Json操作，可选Jackson、FastJson实现 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-json</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 请求特殊参数。让Controller类像普通的Service类一样定义接口参数，让接口定义更加清晰、方便编写单元测试、方便编写Javadoc。APIdoc可以根据这些特殊参数自动生成文档。 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-xparam</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 自定义Spring标签。<leopard:mysql-dsn />、<leopard:jdbc />、<leopard:redis-dsn />、<leopard:redis />、<leopard:queue />、<leopard:component-scan/>等 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-schema</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 自动单元测试 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>autounit</artifactId>
+		    <version>0.2</version>
+		</dependency>
+		<!-- 验证码生成和验证。使用注解简化业务代码编写，支持验证码分组。 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-captcha</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 接口访问权限。可以根据IP、签名进行接口权限认证。可细到URL级别进行配置。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-allow</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 整个Leopard开发框架的集成模块 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-web</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 分布式session实现。基于Leopard Memcache接口实现，目前Leopard已实现基于Memcached、Redis两种实现 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-session</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 系统监控模块。系统性能(CPU、内存、线程等)监控、数据源连接统计、阈值报警等功能。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-monitor</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 常见数据源组合操作组件，如：新数量计数器(日、周、月等)、按自然时间的数量排名等。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-kit</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- CSRF、JSONP劫持漏洞防范  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>nobug-csrf</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- Leopard Util  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-util</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 通行证验证。包含登录验证、登录框、自定义登录框、自定义登录验证实现。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-passport</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+	    <!-- 运营后台管理员权限框架。管理员配置、权限认证。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-admin</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- JVM虚拟DNS，开发期间可以省去hosts文件配置 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>javahost</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 分布式文件系统实现，目前只是做了基于GridFS的实现，可以在本机文件系统进行缓存。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-dfs</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 缓存操作，使程序可以非常方便增加、删除缓存实现类(XxxDaoRedisImpl、XxxDaoMemoryImpl、XxxDaoThreadImpl、XxxDaoRsyncImpl)。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-cache</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- Servlet常用操作类库。如CookieUtil、RequestUtil等。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-servlet</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 日志类库。 规范、简化、增强业务系统日志配置，支持log4j、logback。为在线修改日志配置提供接口支持。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-log</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 乱七八糟未成熟的业务组件 -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-biz</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+		<!-- 规范、简化Freemarker，自带常用自定义Freemarker指令、方法。  -->
+		<dependency>
+		    <groupId>io.leopard</groupId>
+		    <artifactId>leopard-freemarker</artifactId>
+		    <version>0.9.6</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+		
+		<plugins>
+	    	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+			</plugin>
+	    </plugins>
+	</build>
+	
+</project>
