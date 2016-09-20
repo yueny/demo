@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd	
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+			
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8" index="0"/>
+                <property name="writeAcceptCharset" value="false"/>
+            </bean>
+			
+			<bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+			
+			<ref bean="fastJsonHttpMessageConverter"/>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<!-- json转换器.避免IE执行AJAX时,返回JSON出现下载文件 -->
+	<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+		    <list>
+		        <value>application/json;charset=UTF-8</value>
+		        <value>text/html;charset=UTF-8</value>
+		    </list>
+		</property>
+	</bean>
+	
+	<context:component-scan base-package="com.yueny.demo.rocketmq.provider"/>
+	
+	<mvc:default-servlet-handler/>
+
+	<!-- 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/content/**" />
+			<bean class="com.yueny.superclub.service.rest.context.ServiceContextInterceptor"
+				p:systemCode="${app.system.code}"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	 -->
+	 
+	<!-- FreeMarker视图解析 如返回userinfo。。在这里配置后缀名ftl和视图解析器。  -->  
+	<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"
+		p:prefix="/" p:suffix=".ftl">
+        <property name="order" value="0"></property>
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="contentType" value="text/html; charset=utf-8"/>
+		<property name="cache" value="false"></property>
+        <property name="exposeRequestAttributes" value="true" />  
+        <property name="exposeSessionAttributes" value="true" />  
+        <property name="exposeSpringMacroHelpers" value="true" />
+    </bean>
+	
+</beans>
