@@ -13,7 +13,6 @@ import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
 import com.yueny.demo.common.constant.MqConstants;
 import com.yueny.demo.rocketmq.data.EventData;
-import com.yueny.demo.rocketmq.enums.EventRequestType;
 import com.yueny.demo.rocketmq.provider.factory.ProducerFactory;
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
 import com.yueny.rapid.lang.json.JsonUtil;
@@ -48,8 +47,6 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 	public boolean message(final int trys, final int steps) {
 		System.out.println("---------------------- message start ----------------------");
 		try {
-			// 根据消息查询相关信息
-			// .
 			sendMsg(trys, steps);
 			return true;
 		} catch (final MQClientException e) {
@@ -83,11 +80,11 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 				final EventData data = new EventData();
 				data.setContent(sb.toString());
 				data.setSubject("消息");
-				data.setEventRequestType(EventRequestType.PAYMENT_PAY_FAILURE.name());
+				data.setEventRequestType("PAYMENT_PAY_HANDING_TIMEOUT");
 
 				final String json = JsonUtil.toJson(data);
-				final Message msg = new Message(MqConstants.Topic.NOTIFIES_MQ_TOPIC.topic(), // topic
-						MqConstants.Tags.NOTIFIES_TAG_WARNING.tag(), // tag
+				final Message msg = new Message(MqConstants.Topic.DEMO_MQ_TOPIC.topic(), // topic
+						MqConstants.Tags.DEMO_TAG_MQ_MSG.tag(), // tag
 						json.getBytes());
 
 				final SendResult sendResult = producer.send(msg);
