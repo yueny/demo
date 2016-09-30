@@ -38,7 +38,7 @@ public class ProducerDemoScheduler {
 
 	@Scheduled(cron = "0/10 * * * * ?")
 	public void autoLogs() {
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 1; i++) {
 			try {
 				sendDemoMsg(i, 1);
 			} catch (final Exception e) {

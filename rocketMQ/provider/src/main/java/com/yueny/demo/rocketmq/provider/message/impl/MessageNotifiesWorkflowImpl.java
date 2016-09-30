@@ -72,7 +72,11 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 			try {
 				final StringBuilder sb = new StringBuilder();
 				sb.append(trys);
-				sb.append("/");
+				sb.append("统内部帐对帐结束,总耗时:46201毫秒!");
+				sb.append("支付系统内部商户:S003");
+				sb.append("该商户下总处理数目[平账/不平账/异常]:7[7/0/0]");
+				sb.append("该商户下总处理数目[平账/不平账/异常]:0[0/0/0]");
+				sb.append("该商户下总处理数目[平账/不平账/异常]:0[0/0/0]");
 				sb.append(i);
 				sb.append("--");
 				sb.append("Just for test.push!");
@@ -80,12 +84,16 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 				final EventData data = new EventData();
 				data.setContent(sb.toString());
 				data.setSubject("消息");
-				data.setEventRequestType("PAYMENT_PAY_HANDING_TIMEOUT");
+				data.setEventRequestType("PAYMENT_RECON_PROCESS_INFO");
 
 				final String json = JsonUtil.toJson(data);
-				final Message msg = new Message(MqConstants.Topic.DEMO_MQ_TOPIC.topic(), // topic
-						MqConstants.Tags.DEMO_TAG_MQ_MSG.tag(), // tag
+				final Message msg = new Message(MqConstants.Topic.NOTIFIES_MQ_TOPIC.topic(), // topic
+						MqConstants.Tags.NOTIFIES_TAG_WARNING.tag(), // tag
 						json.getBytes());
+				// final Message msg = new
+				// Message(MqConstants.Topic.DEMO_MQ_TOPIC.topic(), // topic
+				// MqConstants.Tags.DEMO_TAG_MQ_MSG.tag(), // tag
+				// json.getBytes());
 
 				final SendResult sendResult = producer.send(msg);
 				if (sendResult == null || sendResult.getSendStatus() != SendStatus.SEND_OK) {
