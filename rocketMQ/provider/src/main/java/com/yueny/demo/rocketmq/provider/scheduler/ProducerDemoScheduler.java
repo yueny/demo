@@ -17,7 +17,7 @@ import com.yueny.demo.rocketmq.provider.factory.ProducerFactory;
 import com.yueny.rapid.lang.json.JsonUtil;
 
 /**
- * demo
+ * demo TEST_2
  *
  * @author <a href="mailto:yueny09@126.com"> 袁洋 2014年12月9日 下午4:52:34
  *
@@ -36,7 +36,7 @@ public class ProducerDemoScheduler {
 	 */
 	private final AtomicLong successCounter = new AtomicLong(0L);
 
-	@Scheduled(cron = "0/10 * * * * ?")
+	@Scheduled(cron = "0/20 * * * * ?")
 	public void autoLogs() {
 		for (int i = 0; i < 1; i++) {
 			try {
@@ -75,8 +75,12 @@ public class ProducerDemoScheduler {
 				data.setEventRequestType("TEST_2");
 
 				final String json = JsonUtil.toJson(data);
-				final Message msg = new Message(MqConstants.Topic.DEMO_MQ_TOPIC.topic(), // topic
-						MqConstants.Tags.DEMO_TAG_MQ_MSG.tag(), // tag
+				// final Message msg = new
+				// Message(MqConstants.Topic.DEMO_MQ_TOPIC.topic(), // topic
+				// MqConstants.Tags.DEMO_TAG_MQ_MSG.tag(), // tag
+				// json.getBytes());
+				final Message msg = new Message(MqConstants.Topic.NOTIFIES_MQ_TOPIC.topic(), // topic
+						MqConstants.Tags.NOTIFIES_TAG_WARNING.tag(), // tag
 						json.getBytes());
 
 				final SendResult sendResult = producer.send(msg);

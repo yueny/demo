@@ -2,7 +2,6 @@ package com.yueny.demo.rocketmq.provider.scheduler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
 
@@ -13,7 +12,7 @@ import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
  *
  * @category tag
  */
-@Service
+// @Service
 public class ProducerNotifiesScheduler {
 	@Autowired
 	private IMessageNotifiesWorkflow notifiesMessageWorkflow;

@@ -13,6 +13,11 @@
 	<packaging>war</packaging>
 	
 	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+    		<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		
 		<!-- Log Dependencies -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -64,12 +69,14 @@
 		</testResources>
 		
 	    <plugins>
-	      <plugin>
-	        <artifactId>maven-compiler-plugin</artifactId>
-	      </plugin>
-	      <plugin>
-	        <artifactId>maven-war-plugin</artifactId>
-	      </plugin>
+	    	<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
 	    </plugins>
 	</build>
 </project>
