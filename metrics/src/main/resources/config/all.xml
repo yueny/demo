@@ -6,5 +6,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<import resource="classpath*:/config/demo-*.xml"/>
+	
+	<import resource="classpath*:/config/spring-dozer.xml"/>
             
 </beans>

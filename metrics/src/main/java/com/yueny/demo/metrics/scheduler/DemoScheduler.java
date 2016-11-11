@@ -16,7 +16,6 @@ import com.yueny.demo.metrics.service.IDemoService;
 public class DemoScheduler extends SuperScheduler {
 	@Autowired
 	private IDemoService demoService;
-	// private DemoController demoService;
 
 	/**
 	 * autoBars
