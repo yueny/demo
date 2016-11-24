@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+	
+	<!--  -->
+	<bean class="com.yueny.demo.job.scheduler.job.tb.helper.TBScheduleInitializer">
+		<constructor-arg name="zkConnectString" value="${tb.schedule.zookeeper.address}"/>
+		<constructor-arg name="consoleUserName" value="${tb.schedule.username}"/>
+		<constructor-arg name="consolePassword" value="${tb.schedule.password}"/>
+		<constructor-arg name="rootPath" value="${tb.schedule.root.catalog}"/>
+		<constructor-arg name="scheduleTimeout" value="${tb.schedule.timeout}"/>
+		<constructor-arg name="isCheckParentPath" value="${tb.is.check.parent.path}"/>
+	</bean>
+	
+	
+	<!-- or
+    <bean id="scheduleManagerFactory"
+        class="com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory"
+        init-method="init">
+        <property name="zkConfig">
+            <map>
+                <entry key="zkConnectString" value="${tb.schedule.zookeeper.address}" />
+                <entry key="userName" value="${tb.schedule.username}" />
+                <entry key="password" value="${tb.schedule.password}" />
+                <entry key="rootPath" value="${tb.schedule.root.catalog}" />
+                <entry key="zkSessionTimeout" value="${tb.schedule.timeout}" />
+                <entry key="isCheckParentPath" value="${tb.is.check.parent.path}" />
+            </map>
+        </property>
+    </bean>
+    -->
+      
+</beans>
