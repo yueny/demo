@@ -11,9 +11,9 @@
 	
 	<task:scheduler id="scheduler" pool-size="10"/>
     <task:executor id="executor" pool-size="10" queue-capacity="1000"/>
-    <!-- 
+    <!--  -->
     <task:annotation-driven scheduler="scheduler" executor="executor" 
     	proxy-target-class="true"/>
-     -->
+    
 	
 </beans>  

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:reg="http://www.dangdang.com/schema/ddframe/reg" 
+    xmlns:job="http://www.dangdang.com/schema/ddframe/job"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+						http://www.dangdang.com/schema/ddframe/reg http://www.dangdang.com/schema/ddframe/reg/reg.xsd 
+                        http://www.dangdang.com/schema/ddframe/job http://www.dangdang.com/schema/ddframe/job/job.xsd">
+	
+	<reg:zookeeper id="regCenter" server-lists="${ej.server.lists}" namespace="${ej.namespace}" 
+		base-sleep-time-milliseconds="${ej.base.sleep.time.milliseconds}" 
+		max-sleep-time-milliseconds="${ej.maxSleepTimeMilliseconds}" max-retries="${ej.maxRetries}"/>
+    
+    <job:simple id="springDemoSimpleJob" class="com.yueny.demo.job.scheduler.job.ej.SpringDemoSimpleJob" 
+    	registry-center-ref="regCenter" sharding-total-count="${simple.demo.shardingTotalCount}" 
+    	cron="${simple.demo.cron}" sharding-item-parameters="${simple.demo.shardingItemParameters}" 
+    	monitor-execution="${simple.demo.monitorExecution}" monitor-port="${simple.demo.monitorPort}" 
+    	failover="${simple.demo.failover}" description="${simple.demo.description}" disabled="${simple.demo.disabled}" 
+    	overwrite="${simple.demo.overwrite}">
+        
+        <job:listener class="com.yueny.demo.job.scheduler.job.ej.listener.SimpleListener"/>
+    </job:simple>
+    
+</beans>

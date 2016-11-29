@@ -17,6 +17,17 @@
 	
 	<dependencies>
 		<dependency>
+	        <groupId>com.yueny.kapo</groupId>
+	        <artifactId>kapo-api</artifactId>
+	        <version>1.1.0-SNAPSHOT</version>
+	    </dependency>
+	    <dependency>
+		    <groupId>com.yueny.kapo</groupId>
+			<artifactId>kapo-core</artifactId>
+			<version>1.1.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
 		    <groupId>com.yueny.rapid</groupId>
 			<artifactId>api</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
@@ -26,7 +37,17 @@
 			<artifactId>rapid-data-storage-db</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-	    
+	    <dependency>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-util</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-dozer</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -72,6 +93,10 @@
 	        <groupId>org.projectlombok</groupId>
 	        <artifactId>lombok</artifactId>
 	    </dependency>
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -159,6 +184,24 @@
 		    <artifactId>zookeeper</artifactId>  
 		</dependency>
 		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+         <!-- freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+        
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework</groupId>
