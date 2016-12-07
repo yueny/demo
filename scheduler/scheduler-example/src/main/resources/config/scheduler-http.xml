@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<bean class="com.yueny.demo.dynamic.scheduler.shared.Application"/>
+	
+	<!-- 设置freeMarker的配置文件路径 -->
+    <bean id="freemarkerConfiguration"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:properties/freemarker.properties"/>
+    </bean>
+    <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
+    
+    <!-- FreeMarker环境配置 -->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="freemarkerSettings" ref="freemarkerConfiguration"/>
+        <property name="templateLoaderPath">
+			<value>/WEB-INF/views/ftl/</value>
+		</property>
+		<property name="defaultEncoding" value="utf-8"></property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="xml_escape" value-ref="fmXmlEscape"/>
+                <!-- 
+                <entry key="indexOf">
+					<bean class="com.yueny.rapid.util.web.freemarker.template.IndexOfMethod" />
+				</entry>
+				<entry key="unixTimeFormat">
+					<bean class="com.yueny.rapid.util.web.freemarker.template.UnixTimeFormat" />
+				</entry>
+                 -->
+            </map>
+        </property>
+    </bean>
+    
+</beans>
