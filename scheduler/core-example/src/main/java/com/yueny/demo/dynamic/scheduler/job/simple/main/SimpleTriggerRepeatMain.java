@@ -17,7 +17,7 @@ import org.quartz.SimpleTrigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yueny.demo.dynamic.scheduler.job.simple.SimpleQuartzJob;
+import com.yueny.demo.dynamic.scheduler.job.simple.demo.SimpleDemoQuartzJob;
 import com.yueny.demo.dynamic.scheduler.job.simple.factory.SimpleSchedulerFactory;
 
 /**
@@ -42,7 +42,7 @@ public class SimpleTriggerRepeatMain {
 
 		// job1 will run 11 times (run once and repeat 10 more times),repeat
 		// every 8 seconds
-		final JobDetail job1 = newJob(SimpleQuartzJob.class).withIdentity("job1", "group1").build();
+		final JobDetail job1 = newJob(SimpleDemoQuartzJob.class).withIdentity("job1", "group1").build();
 
 		// 设置触发器名称和触发器所属的组名初始化一个触发器
 		// 设置触发器触发运行的时间间隔(10 seconds here)
@@ -65,7 +65,7 @@ public class SimpleTriggerRepeatMain {
 				+ " times, every " + trigger.getRepeatInterval() / 1000 + " seconds");
 
 		// job2 will run indefinitely, every 40 seconds
-		final JobDetail job2 = newJob(SimpleQuartzJob.class).withIdentity("job2", "group1").build();
+		final JobDetail job2 = newJob(SimpleDemoQuartzJob.class).withIdentity("job2", "group1").build();
 		final SimpleTrigger trigger2 = newTrigger().withIdentity("trigger2", "group1").startAt(startTime)
 				.withSchedule(simpleSchedule().withIntervalInSeconds(40).repeatForever()).build();
 		ft = scheduler.scheduleJob(job2, trigger2);
@@ -73,7 +73,7 @@ public class SimpleTriggerRepeatMain {
 				+ trigger2.getRepeatInterval() / 1000 + " seconds");
 
 		// job3 will run once, five minutes in the future
-		final JobDetail job3 = newJob(SimpleQuartzJob.class).withIdentity("job3", "group1").build();
+		final JobDetail job3 = newJob(SimpleDemoQuartzJob.class).withIdentity("job3", "group1").build();
 		final SimpleTrigger trigger3 = (SimpleTrigger) newTrigger().withIdentity("trigger3", "group1")
 				.startAt(futureDate(5, IntervalUnit.MINUTE)).build();
 		ft = scheduler.scheduleJob(job3, trigger3);

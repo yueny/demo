@@ -14,7 +14,7 @@ import org.quartz.SchedulerMetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yueny.demo.dynamic.scheduler.job.simple.SimpleQuartzJob;
+import com.yueny.demo.dynamic.scheduler.job.simple.demo.SimpleDemoQuartzJob;
 import com.yueny.demo.dynamic.scheduler.job.simple.factory.SimpleSchedulerFactory;
 
 /**
@@ -34,7 +34,7 @@ public class SimpleTriggerCronMain {
 
 		log.info("------- Scheduling Job  -------------------");
 		// job 1 will run every 20 seconds
-		final JobDetail job1 = newJob(SimpleQuartzJob.class).withIdentity("job1", "group1").build();
+		final JobDetail job1 = newJob(SimpleDemoQuartzJob.class).withIdentity("job1", "group1").build();
 		final CronTrigger trigger1 = newTrigger().withIdentity("trigger1", "group1")
 				.withSchedule(cronSchedule("0/20 * * * * ?")).build();
 		// schedule it to run! 交给调度器调度运行JobDetail和Trigger
@@ -43,7 +43,7 @@ public class SimpleTriggerCronMain {
 				+ trigger1.getCronExpression());
 
 		// job 2 will run every other minute (at 15 seconds past the minute)
-		final JobDetail job2 = newJob(SimpleQuartzJob.class).withIdentity("job2", "group1").build();
+		final JobDetail job2 = newJob(SimpleDemoQuartzJob.class).withIdentity("job2", "group1").build();
 		final CronTrigger trigger2 = newTrigger().withIdentity("trigger2", "group1")
 				.withSchedule(cronSchedule("15 0/2 * * * ?")).build();
 		ft = scheduler.scheduleJob(job2, trigger2);
@@ -51,7 +51,7 @@ public class SimpleTriggerCronMain {
 				+ trigger2.getCronExpression());
 
 		// job 3 will run every other minute but only between 8am and 5pm
-		final JobDetail job3 = newJob(SimpleQuartzJob.class).withIdentity("job3", "group1").build();
+		final JobDetail job3 = newJob(SimpleDemoQuartzJob.class).withIdentity("job3", "group1").build();
 		final CronTrigger trigger3 = newTrigger().withIdentity("trigger3", "group1")
 				.withSchedule(cronSchedule("0 0/2 8-17 * * ?")).build();
 		ft = scheduler.scheduleJob(job3, trigger3);
@@ -60,7 +60,7 @@ public class SimpleTriggerCronMain {
 
 		// job 6 will run every 30 seconds but only on Weekdays (Monday through
 		// Friday)
-		final JobDetail job6 = newJob(SimpleQuartzJob.class).withIdentity("job6", "group1").build();
+		final JobDetail job6 = newJob(SimpleDemoQuartzJob.class).withIdentity("job6", "group1").build();
 		final CronTrigger trigger6 = newTrigger().withIdentity("trigger6", "group1")
 				.withSchedule(cronSchedule("0,30 * * ? * MON-FRI")).build();
 		ft = scheduler.scheduleJob(job6, trigger6);

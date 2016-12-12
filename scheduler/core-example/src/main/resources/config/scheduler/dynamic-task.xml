@@ -11,14 +11,15 @@
 	
 	<task:scheduler id="scheduler" pool-size="10"/>
     
-    <!-- 配置线程池
+    <!-- 配置线程池 -->
     <bean name="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-        <property name="corePoolSize" value="15"/>
+        <property name="corePoolSize" value="10"/>
         <property name="maxPoolSize" value="25"/>
-        <property name="queueCapacity" value="100"/>
+        <property name="queueCapacity" value="1000"/>
     </bean>
-    -->
+    <!-- 
     <task:executor id="executor" pool-size="10" queue-capacity="1000"/>
+     -->
    
     <!-- 
     <task:annotation-driven scheduler="scheduler" executor="executor" 

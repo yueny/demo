@@ -13,7 +13,7 @@ import org.quartz.SimpleTrigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yueny.demo.dynamic.scheduler.job.simple.SimpleQuartzJob;
+import com.yueny.demo.dynamic.scheduler.job.simple.demo.SimpleDemoQuartzJob;
 import com.yueny.demo.dynamic.scheduler.job.simple.factory.SimpleSchedulerFactory;
 
 /**
@@ -38,7 +38,7 @@ public class SimpleTriggerMain {
 
 		// define the job and tie it to our HelloJob class
 		// 通过设置job name, job group, and executable job class初始化一个JobDetail
-		final JobDetail job = newJob(SimpleQuartzJob.class).withIdentity("jobDetail-s1", "jobDetailGroup-s1").build();
+		final JobDetail job = newJob(SimpleDemoQuartzJob.class).withIdentity("jobDetail-s1", "jobDetailGroup-s1").build();
 		// Trigger the job to run on the next round minute
 		// 设置触发器名称和触发器所属的组名初始化一个触发器
 		final SimpleTrigger trigger = (SimpleTrigger) newTrigger().withIdentity("simpleTrigger", "triggerGroup1")

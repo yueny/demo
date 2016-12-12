@@ -1,9 +1,11 @@
-package com.yueny.demo.dynamic.scheduler.job.simple;
+package com.yueny.demo.dynamic.scheduler.job.simple.demo;
 
 import java.util.Date;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
+
+import com.yueny.demo.dynamic.scheduler.job.simple.AbstractSimpleJavaJobService;
 
 /**
  * example 1
@@ -13,7 +15,7 @@ import org.quartz.JobKey;
  * @DATE 2016年12月5日 下午2:13:08
  *
  */
-public class SimpleQuartzJob extends AbstractSimpleJavaJobService {
+public class SimpleDemoQuartzJob extends AbstractSimpleJavaJobService {
 	@Override
 	public void scheduler(final JobExecutionContext context) {
 		final JobKey jobKey = context.getJobDetail().getKey();

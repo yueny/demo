@@ -36,7 +36,6 @@
         <!-- 配置初始化大小、最小、最大  -->
         <property name="initialSize" value="${db.jdbc.default.pool.initialSize}"/>
         <property name="minIdle" value="${db.jdbc.default.pool.minIdle}"/>
-        <property name="maxIdle" value="${db.jdbc.default.pool.maxIdle}"/>
         <property name="maxActive" value="${db.jdbc.default.pool.maxActive}"/>
 		
 		<!-- 配置获取连接等待超时的时间  -->
@@ -111,7 +110,6 @@
         
         <!-- 配置初始化大小、最小、最大  -->
         <property name="initialSize" value="${db.jdbc.default.pool.initialSize}"/>
-        <property name="minIdle" value="${db.jdbc.default.pool.minIdle}"/>
         <property name="maxIdle" value="${db.jdbc.default.pool.maxIdle}"/>
         <property name="maxActive" value="${db.jdbc.default.pool.maxActive}"/>
 		

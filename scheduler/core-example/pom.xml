@@ -145,12 +145,6 @@
             <artifactId>ehcache-web</artifactId>
         </dependency>
 		
-		<!--  task -->
-		<dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-        </dependency>
-        
 		<!-- common -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
