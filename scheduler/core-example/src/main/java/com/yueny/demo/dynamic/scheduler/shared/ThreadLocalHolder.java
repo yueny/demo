@@ -6,6 +6,7 @@ package com.yueny.demo.dynamic.scheduler.shared;
  * @DATE 2016年1月29日 上午12:35:50
  *
  */
+@Deprecated
 public abstract class ThreadLocalHolder {
 	// Filter中ThreadLocalHolder.clientIp(clientIp);；使用时ThreadLocalHolder.clientIp()
 	private static ThreadLocal<String> clientIpThreadLocal = new ThreadLocal<>();

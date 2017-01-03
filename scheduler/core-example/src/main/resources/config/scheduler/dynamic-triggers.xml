@@ -10,28 +10,27 @@
 						http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
     
     <!-- 配置Job详情 -->
-    <!-- 
-    <bean id="scanJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="ScanWithMethodInvokingScheduler"/>
-        <property name="targetMethod" value="doSomething"/>
-        	上一次未执行完成的，要等待有再执行
-        <property name="concurrent" value="false"/>
-    </bean>
-     -->
-    <bean id="scanJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass" value="com.yueny.demo.dynamic.scheduler.job.spring.ScanScheduler"/>
-        <!-- durability 表示任务完成之后是否依然保留到数据库，默认false   -->
+    <bean id="firstConsoleJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.yueny.demo.dynamic.scheduler.job.spring.FirstConsoleScheduler"/>
+    	<!-- durability 表示任务完成之后是否依然保留到数据库，默认false   -->
         <property name="durability" value="true"/> 
-        <property name="requestsRecovery" value="false"/>
+    </bean>
+    <bean id="secondConsoleJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.yueny.demo.dynamic.scheduler.job.spring.SecondConsoleScheduler"/>
+    	<!-- durability 表示任务完成之后是否依然保留到数据库，默认false   -->
+        <property name="durability" value="true"/> 
     </bean>
     
     <!-- 配置触发时间Trigger -->
-    <bean id="scanTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <property name="jobDetail" ref="scanJobDetail"/>
-        <property name="cronExpression" value="0/10 * * * * ?"/>
+    <bean id="firstConsoleTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="firstConsoleJobDetail"/>
+        <property name="cronExpression" value="0/5 * * * * ?"/>
         <property name="timeZone">
             <value>GMT+8:00</value>
         </property>
     </bean>
-    
+     <bean id="secondConsoleTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="secondConsoleJobDetail"/>
+        <property name="cronExpression" value="0/10 * * * * ?"/>
+    </bean>
 </beans>  
