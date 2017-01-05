@@ -1,5 +1,10 @@
-package com.yueny.demo.pagehelper.util;
+package com.yueny.demo.pagehelper.dao.comp;
 
+import java.io.IOException;
+import java.sql.Connection;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,22 +36,6 @@ public class MybatisHelper implements InitializingBean {
 		//
 		// reader.close();
 		// // if (false) {
-		// // // 执行SQL, 创建数据库
-		// // SqlSession session = null;
-		// // try {
-		// // session = sqlSessionFactory.openSession();
-		// // final Connection conn = session.getConnection();
-		// // reader = Resources.getResourceAsReader("init.sql");
-		// // final ScriptRunner runner = new ScriptRunner(conn);
-		// // runner.setLogWriter(null);
-		// // runner.runScript(reader);
-		// // reader.close();
-		// // } finally {
-		// // if (session != null) {
-		// // session.close();
-		// // }
-		// // }
-		// // }
 		// } catch (final IOException e) {
 		// e.printStackTrace();
 		// }
@@ -59,5 +48,53 @@ public class MybatisHelper implements InitializingBean {
 	 */
 	public SqlSession getSqlSession() {
 		return sqlSessionFactory.openSession();
+	}
+
+	/**
+	 * 执行SQL文件, eg: ddl/mysql/jpetstore-mysql-dataload.sql
+	 */
+	public boolean runnerSqlFile(final String sqlFile) {
+		// 执行SQL
+		SqlSession session = null;
+		try {
+			session = getSqlSession();
+			final Connection conn = session.getConnection();
+
+			final ScriptRunner runner = new ScriptRunner(conn);
+			runner.setLogWriter(null);
+			runner.runScript(Resources.getResourceAsReader(sqlFile));
+
+			return true;
+		} catch (final IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 执行SQL语句
+	 *
+	 * @return
+	 */
+	public void runnerSqlScript(final String sql) {
+		// 执行SQL
+		SqlSession session = null;
+		try {
+			session = getSqlSession();
+			final Connection conn = session.getConnection();
+
+			final ScriptRunner runner = new ScriptRunner(conn);
+			runner.setLogWriter(null);
+			// runner.run
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
 	}
 }

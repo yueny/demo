@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yueny.demo.pagehelper.dao.BaseDaoTest;
+import com.yueny.demo.pagehelper.dao.comp.MybatisHelper;
 import com.yueny.demo.pagehelper.entry.ModifyDemoEntry;
-import com.yueny.demo.pagehelper.util.MybatisHelper;
 
 public class IModifyDemoMapperTest extends BaseDaoTest {
 	@Autowired
