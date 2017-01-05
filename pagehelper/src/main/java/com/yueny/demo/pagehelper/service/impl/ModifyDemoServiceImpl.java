@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yueny.demo.pagehelper.bo.ModifyDemoBo;
-import com.yueny.demo.pagehelper.dao.mybatis.mapper.IModifyDemoMapper;
+import com.yueny.demo.pagehelper.dao.mapper.IModifyDemoMapper;
 import com.yueny.demo.pagehelper.entry.ModifyDemoEntry;
 import com.yueny.demo.pagehelper.service.BaseSevice;
 import com.yueny.demo.pagehelper.service.IModifyDemoService;

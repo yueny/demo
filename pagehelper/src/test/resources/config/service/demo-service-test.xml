@@ -10,6 +10,8 @@
 						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd"
 	default-lazy-init="true">
 	
-	<import resource="classpath*:/config/service/demo-service-test.xml"/>
-    
+	<import resource="classpath*:/config/dao/demo-dao-test.xml"/>
+	
+	<import resource="classpath*:/config/service-dozer.xml"/>
+	
 </beans>	

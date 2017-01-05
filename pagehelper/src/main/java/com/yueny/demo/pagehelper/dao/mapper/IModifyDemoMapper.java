@@ -1,8 +1,6 @@
-package com.yueny.demo.pagehelper.dao.mybatis.mapper;
+package com.yueny.demo.pagehelper.dao.mapper;
 
 import java.util.List;
-
-import org.springframework.stereotype.Repository;
 
 import com.yueny.demo.pagehelper.entry.ModifyDemoEntry;
 
@@ -14,7 +12,7 @@ import com.yueny.demo.pagehelper.entry.ModifyDemoEntry;
  * @DATE 2016年8月10日 下午4:25:18
  *
  */
-@Repository
+// @Repository
 public interface IModifyDemoMapper {
 	List<ModifyDemoEntry> selectAll();
 }

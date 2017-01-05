@@ -1,4 +1,4 @@
-package com.yueny.demo;
+package com.yueny.demo.pagehelper.service;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,12 +15,12 @@ import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:config/all-test.xml" })
+@ContextConfiguration(locations = { "classpath*:config/service/demo-service-test.xml" })
 // As of Spring Framework 4.2
 @Rollback(value = true) // @Rollback(false). equeals @Commit
 @Transactional(value = "transactionManager")
 @ActiveProfiles("dev")
-public class BaseTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class BaseBizTest extends AbstractTransactionalJUnit4SpringContextTests {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
 
 	@AfterTransaction

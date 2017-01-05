@@ -7,20 +7,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 			http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 			http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
-	<mybatis:scan annotation="org.springframework.stereotype.Repository" 
-		base-package="com.yueny.demo.pagehelper.dao.mybatis.mapper"
+	
+	<!-- scan for mappers.java and let them be autowired -->
+    <mybatis:scan
+		base-package="com.yueny.demo.pagehelper.dao.mapper"
 		factory-ref="sqlSessionFactory"/>
      
 	<!-- 加载myBatis-config.xml配置文件，以及扫描myBatis/目录下每个DAO对应的SQL配置的XML文件 -->  
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
+		<!-- configLocation属性指定mybatis的核心配置文件 -->
+		<property name="configLocation" value="classpath:/config/mybatis.cfg.xml"/>
+		<!-- -->
 		<property name="mapperLocations">
 			<list>
-				<value>classpath*:com/yueny/demo/example/maps/**.xml</value>
+				<value>classpath*:com/yueny/demo/pagehelper/maps/**.xml</value>
 			</list>
 		</property>
-		<!-- configLocation属性指定mybatis的核心配置文件 -->
-		<property name="configLocation" value="classpath:/config/mybatis.xml"/>
 	</bean>
 	
 	<!-- SqlSessionTemplate是我们代码中使用的SQL模板对象，用来操作数据库  -->
