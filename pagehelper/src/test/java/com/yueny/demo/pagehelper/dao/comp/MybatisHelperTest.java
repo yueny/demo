@@ -18,14 +18,22 @@ public class MybatisHelperTest extends BaseDaoTest {
 	private MybatisHelper mybatisHelper;
 
 	/**
-	 * 使用Mapper接口调用时，使用PageHelper.startPage效果更好，不需要添加Mapper接口参数
 	 */
 	@Test
-	public void testPageSize10() {
+	public void testGetSqlSession() {
 		final SqlSession sqlSession = mybatisHelper.getSqlSession();
 
 		final IModifyDemoMapper scriptMapper = sqlSession.getMapper(IModifyDemoMapper.class);
 
 	}
 
+	@Test
+	public void testRunnerSqlFile() {
+		mybatisHelper.runnerSqlFile("tfs/select.sql");
+	}
+
+	@Test
+	public void testRunnerSqlScript() {
+		mybatisHelper.runnerSqlScript("select * from modify_demo");
+	}
 }

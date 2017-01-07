@@ -23,7 +23,6 @@ public class ModifyDemoServiceImplTest extends BaseBizTest {
 	@Autowired
 	private IModifyDemoService demoService;
 
-	///
 	@Test
 	public void testQueryAll() {
 		final List<ModifyDemoBo> lists = demoService.queryAll();
