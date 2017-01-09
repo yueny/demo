@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.yueny.demo.capture.read.impl;
+package com.yueny.demo.capture.read;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yueny.demo.capture.BaseBizTest;
 import com.yueny.demo.capture.read.IFileReaderService;
+import com.yueny.rapid.lang.util.io.ResourcesLoader;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -52,12 +53,23 @@ public class FileReaderServiceTest extends BaseBizTest {
 
 	@Test
 	public void testGetPrintWriter() {
-		final File file = new File("/tfs/select.sql");
-		if (!file.exists()) {
+		final File file1 = new File("D:/adcfg.json");
+		if (!file1.exists()) {
 			Assert.fail("文件不存在！");
 		}
+		final PrintWriter pr1 = fileReaderService.getPrintWriter(file1);
+		Assert.assertNotNull(pr1);
 
-		final PrintWriter pr = fileReaderService.getPrintWriter(file);
-		Assert.assertNotNull(pr);
+		try {
+			final File file2 = ResourcesLoader.getResourceAsFile("/tfs/select.sql");
+			if (!file2.exists()) {
+				Assert.fail("文件不存在！");
+			}
+			final PrintWriter pr2 = fileReaderService.getPrintWriter(file2);
+			Assert.assertNotNull(pr2);
+		} catch (final IOException e) {
+			Assert.fail("文件不存在！");
+			e.printStackTrace();
+		}
 	}
 }

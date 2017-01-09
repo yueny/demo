@@ -1,4 +1,4 @@
-package com.yueny.demo.capture.read.impl;
+package com.yueny.demo.capture.read;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +14,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.yueny.demo.capture.BaseSevice;
-import com.yueny.demo.capture.read.IFileReaderService;
 import com.yueny.rapid.lang.util.io.ResourcesLoader;
 
 /**
