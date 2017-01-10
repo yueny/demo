@@ -4,10 +4,18 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * 导入文件
+ * 
+ * @author yueny09 <deep_blue_yang@163.com>
+ *
+ * @DATE 2017年1月9日 下午1:21:42
+ *
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class ImportModel {
+public class ImportFileBo {
 	/** 文件名 */
 	private String fileName;
 	/** 文件大小 */

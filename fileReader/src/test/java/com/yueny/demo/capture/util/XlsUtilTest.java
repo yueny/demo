@@ -1,31 +1,21 @@
-package com.yueny.demo.capture.core;
+package com.yueny.demo.capture.util;
 
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import com.yueny.demo.capture.BaseBizTest;
 import com.yueny.demo.capture.model.config.ImportConfig;
 import com.yueny.demo.capture.model.data.ImportSheetDataBo;
 import com.yueny.demo.capture.model.format.ImportFormatterBo;
+import com.yueny.demo.capture.read.FileReaderService;
 import com.yueny.demo.capture.read.IFileReaderService;
 import com.yueny.rapid.lang.util.StringUtil;
 
-/**
- * @author yueny09 <deep_blue_yang@163.com>
- *
- * @DATE 2017年1月9日 上午9:56:35
- *
- */
-public class ImportFilesServiceImplTest extends BaseBizTest {
-	@Autowired
-	private IFileReaderService fileReaderService;
-	@Autowired
-	private IImportFilesService filesService;
+public class XlsUtilTest {
+	private final IFileReaderService fileReaderService = new FileReaderService();
 
 	@Test
 	public void testImportFile() {
@@ -33,8 +23,9 @@ public class ImportFilesServiceImplTest extends BaseBizTest {
 		importConfig.setIgnoreLines(4);
 		importConfig.setFormatters(assemblyFormatterRule());
 
-		final List<ImportSheetDataBo> rs = filesService.importFile(importConfig);
-		Assert.assertTrue(rs != null);
+		final List<ImportSheetDataBo> list = XlsUtil.readXls(importConfig);
+
+		Assert.assertTrue(list.size() == 1);
 	}
 
 	private List<ImportFormatterBo> assemblyFormatterRule() {
@@ -60,4 +51,5 @@ public class ImportFilesServiceImplTest extends BaseBizTest {
 		}
 		return importFormatterRules;
 	}
+
 }

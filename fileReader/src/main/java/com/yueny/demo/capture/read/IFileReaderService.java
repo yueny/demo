@@ -1,11 +1,11 @@
 package com.yueny.demo.capture.read;
 
-import java.io.File;
-import java.io.LineNumberReader;
-import java.io.PrintWriter;
+import java.io.InputStream;
 import java.util.List;
 
 /**
+ * 文件读
+ *
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2016年8月5日 上午9:56:50
@@ -13,22 +13,12 @@ import java.util.List;
  */
 public interface IFileReaderService {
 	/**
-	 * 获取LineNumberReader
+	 * 读取文件输入流
 	 *
-	 * @param absoluteFilePath
-	 *            绝对路径， 如 D:/adcfg.json or /tfs/select.sql
-	 * @return LineNumberReader
+	 * @param filePath
+	 *            文件路径
 	 */
-	LineNumberReader getLineNumberReader(final String absoluteFilePath);
-
-	/**
-	 * 使用文件获取该文件的printewriter
-	 *
-	 * @param file
-	 *            文件
-	 * @return printwrite
-	 */
-	PrintWriter getPrintWriter(final File file);
+	InputStream read(final String filePath);
 
 	/**
 	 * 读取所有的行
@@ -38,5 +28,4 @@ public interface IFileReaderService {
 	 * @return 所有文件内容
 	 */
 	List<String> readLines(final String filePath);
-
 }

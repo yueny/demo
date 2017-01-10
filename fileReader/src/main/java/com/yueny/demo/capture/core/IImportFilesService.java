@@ -1,6 +1,9 @@
 package com.yueny.demo.capture.core;
 
+import java.util.List;
+
 import com.yueny.demo.capture.model.config.ImportConfig;
+import com.yueny.demo.capture.model.data.ImportSheetDataBo;
 
 /**
  * 文件导入入口
@@ -12,11 +15,11 @@ import com.yueny.demo.capture.model.config.ImportConfig;
  */
 public interface IImportFilesService {
 	/**
-	 * 导入文件中的数据， 忽略第一行
+	 * 获取导入文件中的数据， 忽略第N行
 	 *
 	 * @param importConfig
 	 *            导入配置
 	 * @return true or false
 	 */
-	boolean importFile(ImportConfig importConfig);
+	List<ImportSheetDataBo> importFile(ImportConfig importConfig);
 }

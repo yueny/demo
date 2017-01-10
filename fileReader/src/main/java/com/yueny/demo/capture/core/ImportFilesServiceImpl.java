@@ -12,14 +12,16 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.yueny.demo.capture.BaseSevice;
-import com.yueny.demo.capture.model.ImportModel;
+import com.yueny.demo.capture.model.ImportFileBo;
 import com.yueny.demo.capture.model.config.ImportConfig;
+import com.yueny.demo.capture.model.data.ImportSheetDataBo;
 import com.yueny.demo.capture.model.format.ImportFormatterBo;
 import com.yueny.demo.capture.read.IFileReaderService;
 import com.yueny.demo.capture.read.line.IImportLineExtractor;
+import com.yueny.demo.capture.util.FilefixUtil;
+import com.yueny.demo.capture.util.XlsUtil;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -35,50 +37,66 @@ public class ImportFilesServiceImpl extends BaseSevice implements IImportFilesSe
 	private IFileReaderService readerService;
 
 	@Override
-	public boolean importFile(final ImportConfig importConfig) {
-		final ImportModel importModel = assemblyModel(importConfig);
+	public List<ImportSheetDataBo> importFile(final ImportConfig importConfig) {
+		final ImportFileBo importModel = assemblyModel(importConfig);
 		if (importModel == null) {
-			return false;
+			return null;
 		}
 
-		final LineNumberReader lineNumberReader = readerService.getLineNumberReader(importModel.getOriginFilePath());
-		Assert.notNull(lineNumberReader, "临时文件无法获取");
+		if (importModel.getFileType().equals("xls")) {
+			final List<ImportSheetDataBo> sheetDataList = XlsUtil.readXls(importConfig);
 
-		final List<ImportFormatterBo> importFormatterBoList = null;
-		try {
-			checkHeadLine(importFormatterBoList, lineNumberReader);
-			disposeIngoreExampleLine(lineNumberReader, importConfig.getIgnoreLines());
+			return sheetDataList;
+		}
+		if (importModel.getFileType().equals("xsls")) {
+			final List<ImportSheetDataBo> sheetDataList = XlsUtil.readXls(importConfig);
 
-			disposeDataLine(importFormatterBoList, lineNumberReader);
-		} catch (final IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				lineNumberReader.close();
-			} catch (final IOException e) {
-				logger.error("关闭lineNumberReader异常", e);
-				return false;
-			}
+			return sheetDataList;
+		}
+		if (importModel.getFileType().equals("cvs")) {
+			final List<ImportSheetDataBo> sheetDataList = XlsUtil.readXls(importConfig);
 
-			// ExportImportUtils.deleteFile(importBo.getTempFilePath());
+			return sheetDataList;
 		}
 
-		return true;
+		// final LineNumberReader lineNumberReader =
+		// readerService.getLineNumberReader(importModel.getOriginFilePath());
+		// Assert.notNull(lineNumberReader, "临时文件无法获取");
+		//
+		// final List<ImportFormatterBo> importFormatterBoList = null;
+		// try {
+		// checkHeadLine(importFormatterBoList, lineNumberReader);
+		// disposeIngoreLine(lineNumberReader, importConfig.getIgnoreLines());
+		//
+		// disposeDataLine(importFormatterBoList, lineNumberReader);
+		// } catch (final IOException e) {
+		// e.printStackTrace();
+		// } finally {
+		// try {
+		// lineNumberReader.close();
+		// } catch (final IOException e) {
+		// logger.error("关闭lineNumberReader异常", e);
+		// return false;
+		// }
+		//
+		// // ExportImportUtils.deleteFile(importBo.getTempFilePath());
+		// }
+
+		return null;
 	}
 
-	private ImportModel assemblyModel(final ImportConfig importConfig) {
+	private ImportFileBo assemblyModel(final ImportConfig importConfig) {
 		final String originFilePath = importConfig.getFilePath();
 
 		// 获取导入文件类型
-		final String fileSuffix = originFilePath.substring(originFilePath.lastIndexOf(".") + 1,
-				originFilePath.length());
+		final String fileSuffix = FilefixUtil.getPostfix(originFilePath);
 
-		final ImportModel importModel = new ImportModel();
+		final ImportFileBo importModel = new ImportFileBo();
 		importModel.setOriginFilePath(originFilePath);
 		importModel.setFileSuffix(fileSuffix);
 		importModel.setFileType(fileSuffix);
 
-		final File f = new File(originFilePath);
+		final File f = FilefixUtil.getFile(originFilePath);
 		if (!f.exists() || (!f.isFile())) {
 			logger.warn("file doesn't exist or is not a file");
 			return null;
@@ -182,7 +200,7 @@ public class ImportFilesServiceImpl extends BaseSevice implements IImportFilesSe
 	 *
 	 * @param lineNumberReader
 	 */
-	private void disposeIngoreExampleLine(final LineNumberReader lineNumberReader, final Integer ignoreLines) {
+	private void disposeIngoreLine(final LineNumberReader lineNumberReader, final Integer ignoreLines) {
 		try {
 			for (int i = 1; i < ignoreLines; i++) {
 				lineNumberReader.readLine();

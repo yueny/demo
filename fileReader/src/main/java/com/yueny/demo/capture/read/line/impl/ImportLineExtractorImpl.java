@@ -17,6 +17,7 @@ import com.yueny.demo.capture.read.line.IImportLineExtractor;
  * @DATE 2017年1月7日 下午10:53:09
  *
  */
+@Deprecated
 @Service
 public class ImportLineExtractorImpl extends BaseSevice implements IImportLineExtractor {
 	// csv默认分隔符

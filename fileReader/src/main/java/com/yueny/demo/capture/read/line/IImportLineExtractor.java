@@ -13,6 +13,7 @@ import com.yueny.demo.capture.model.format.ImportFormatterBo;
  * @DATE 2017年1月7日 下午10:52:23
  *
  */
+@Deprecated
 public interface IImportLineExtractor {
 	/**
 	 * 抽取一行数据
