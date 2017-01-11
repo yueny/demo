@@ -2,8 +2,10 @@ package com.yueny.demo.capture.model.format;
 
 import com.yueny.demo.capture.model.data.RowColOrderBo;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 文件导入格式对象
@@ -13,13 +15,14 @@ import lombok.EqualsAndHashCode;
  * @DATE 2017年1月7日 下午10:43:32
  *
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class ImportFormatterBo extends RowColOrderBo {
-	/** 导入属性的数据类型 */
-	private Class<?> dataType;
 	/** 示例表头名 */
+	@Getter
+	@Setter
 	private String example;
+
 	// /** 属性名 */
 	// private String fieldName;
 	//// /** 导入类型 */

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -49,7 +50,7 @@ public final class XlsUtil {
 			final ImportFormatterModel formatterModel) {
 		final List<ImportSheetDataBo> sheetDataList = Lists.newArrayList();
 
-		final Map<Integer, ImportFormatterBo> orderMaps = formatterModel.getOrderMap();
+		final Map<String, ImportFormatterBo> titleNameMap = formatterModel.getByTitleName();
 
 		HSSFWorkbook hssfWorkbook = null;
 		try {
@@ -67,7 +68,8 @@ public final class XlsUtil {
 				final ImportSheetDataBo sheetDataBo = new ImportSheetDataBo(hssfSheet.getSheetName());
 
 				// 标题行列表, key:索引位置， 从1开始; value:该处的单元格的值
-				final List<Map<Integer, String>> headerLine = Lists.newArrayList();
+				final List<Map<Integer, String>> headerContext = Lists.newArrayList();
+				final Map<Integer, String> headerLine = Maps.newHashMap();
 				// 数据行列表, List中位每一行的数据，key: fieldName; value: 数据
 				final List<Map<String, Object>> fieldDataList = Lists.newArrayList();
 
@@ -79,6 +81,7 @@ public final class XlsUtil {
 
 				final ImportCellDataBo importDataBo = new ImportCellDataBo();
 				importDataBo.setIgnoreLines(ignoreLines);
+				importDataBo.setFieldOrders(formatterModel.getFieldOrders());
 
 				final Table<Integer, Integer, String> tableHeader = HashBasedTable.create();
 				// 获取合并行
@@ -90,9 +93,16 @@ public final class XlsUtil {
 						continue;
 					}
 
-					headerLine.add(disposeHeaderLine(hssfRow, tableHeader, listCombineCell));
+					final Map<Integer, String> disposeHeaderLine = disposeHeaderLine(hssfRow, tableHeader,
+							listCombineCell);
+					headerContext.add(disposeHeaderLine);
+
+					// TODO 暂定最后一行为模板
+					if (rowNum == (ignoreLines - 1)) {
+						headerLine.putAll(disposeHeaderLine);
+					}
 				}
-				importDataBo.setHeaderLine(headerLine);
+				importDataBo.setHeaderContext(headerContext);
 
 				/* body --> 循环行Row: ignoreLines-max */
 				for (int rowNum = ignoreLines; rowNum <= lastRowNum; rowNum++) {
@@ -109,18 +119,23 @@ public final class XlsUtil {
 							continue;
 						}
 
-						// 第几列的数据， 则取第几列的模板
-						final ImportFormatterBo importFormatter = orderMaps.get(cellNum - 1);
+						// 第几列的数据， 则取第几列的header， 获取相应的模板
+						final ImportFormatterBo format = titleNameMap.get(headerLine.get(cellNum));
+						if (format == null) {
+							continue;
+						}
+						final String dataKey = format.getFieldName();
 
-						final String dataKey = importFormatter.getFieldName();
 						final String dataValue = getValue(hssfCell);
-						fieldRowData.put(dataKey, dataValue);
+						// 去除换行符
+						final String newDataValue = StringUtils.replace(dataValue, "\n", "");
+
+						fieldRowData.put(dataKey, newDataValue);
 					}
 
 					fieldDataList.add(fieldRowData);
 				}
 				importDataBo.setFieldDataList(fieldDataList);
-				importDataBo.setFieldNames(formatterModel.getFieldOrder());
 
 				sheetDataBo.setCellDataBo(importDataBo);
 				sheetDataList.add(sheetDataBo);

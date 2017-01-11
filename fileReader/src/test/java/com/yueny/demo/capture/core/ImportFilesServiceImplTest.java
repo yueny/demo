@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.yueny.demo.capture.BaseBizTest;
+import com.yueny.demo.capture.enums.ImportDataType;
 import com.yueny.demo.capture.model.config.ImportConfig;
 import com.yueny.demo.capture.model.data.ImportSheetDataBo;
 import com.yueny.demo.capture.model.format.ImportFormatterBo;
@@ -53,7 +54,7 @@ public class ImportFilesServiceImplTest extends BaseBizTest {
 			fo.setTitleName(columnRule.get(0));
 			fo.setFieldName(columnRule.get(1));
 			fo.setOrderNo(Integer.parseInt(columnRule.get(2)));
-			// fo.setDataType(columnRule.get(3));
+			fo.setDataType(ImportDataType.valueOf(columnRule.get(3)));
 			fo.setExample(columnRule.get(4));
 
 			importFormatterRules.add(fo);

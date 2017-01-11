@@ -1,5 +1,6 @@
 package com.yueny.demo.capture.demo.cardbin;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +19,7 @@ public interface ICardBinService {
 	 *            文件路径
 	 * @return key: 源文件名： value:生成的SQL
 	 */
-	Map<String, String> sqlWithFile(final String importFilePath);
+	Map<String, List<String>> sqlWithFile(final String importFilePath);
 
 	/**
 	 * 根据卡bin文件生成SQL

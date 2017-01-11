@@ -1,0 +1,7 @@
+# 表头名(titleName) | 属性名(fieldName) | 顺序(orderNo) | 导入属性的数据类型(dataType) | 示例表头名(example)
+卡名|CARD_NAME|1|STRING|牡丹VISA信用卡
+ATM|ATM_SUPPORT|2|NUMBER|√
+POS|POS_SUPPORT|3|NUMBER|√
+磁道|TRACK|4|STRING|2
+磁道长度|TRACK_LENGTH|5|NUMBER|40
+卡种|CARD_TYPE|6|STRING|贷记卡

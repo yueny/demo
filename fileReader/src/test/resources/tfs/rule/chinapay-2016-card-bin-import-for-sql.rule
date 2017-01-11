@@ -1,0 +1,10 @@
+# 表头名(titleName) | 属性名(fieldName) | 顺序(orderNo) | 导入属性的数据类型(dataType) | 示例表头名(example)
+发卡行名称及机构代码|bankName|1|STRING|工商银行(01020000)
+卡名|cardName|2|STRING|牡丹VISA信用卡
+ATM|atmSupport|3|NUMBER|√
+POS|posSupport|4|NUMBER|√
+主帐号长度|primaryAccountLength|9|NUMBER|15
+主帐号|primaryAccount|10|STRING|370249xxxxxxxxx
+发卡行长度|issuingBankLength|13|NUMBER|6
+取值|cardBin|14|STRING|370249
+卡种|cardTypeDesc|16|STRING|贷记卡

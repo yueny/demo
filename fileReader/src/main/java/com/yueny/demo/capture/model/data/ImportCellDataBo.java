@@ -33,14 +33,14 @@ public class ImportCellDataBo {
 	 */
 	@Getter
 	@Setter
-	private List<String> fieldNames;
+	private List<RowColOrderBo> fieldOrders;
 	/**
 	 * 标题行<br>
 	 * 标题行列表, key:索引位置， 从1开始; value:该处的单元格的值
 	 */
 	@Getter
 	@Setter
-	private List<Map<Integer, String>> headerLine;
+	private List<Map<Integer, String>> headerContext;
 	/**
 	 * 忽略行数，从1开始，原则上等于headerLine.size()
 	 */

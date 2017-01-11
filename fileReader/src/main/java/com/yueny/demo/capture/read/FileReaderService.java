@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.yueny.demo.capture.BaseSevice;
 import com.yueny.demo.capture.util.FilefixUtil;
+import com.yueny.rapid.lang.util.StringUtil;
 
 /**
  * 文件读取
@@ -54,8 +55,17 @@ public class FileReaderService extends BaseSevice implements IFileReaderService 
 		try {
 			while (true) {
 				final String stringLine = lineNumberReader.readLine();
+				// 空 null
 				if (stringLine == null) {
 					break;
+				}
+				// 注释
+				if (StringUtil.startWith(stringLine, "#", false)) {
+					continue;
+				}
+				// 空行"" or " "
+				if (StringUtil.isBlank(stringLine)) {
+					continue;
 				}
 
 				lists.add(stringLine);

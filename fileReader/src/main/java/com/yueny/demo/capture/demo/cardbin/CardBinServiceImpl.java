@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yueny.demo.capture.BaseSevice;
 import com.yueny.demo.capture.core.IImportFilesService;
+import com.yueny.demo.capture.enums.ImportDataType;
 import com.yueny.demo.capture.model.config.ImportConfig;
 import com.yueny.demo.capture.model.data.ImportCellDataBo;
 import com.yueny.demo.capture.model.data.ImportSheetDataBo;
+import com.yueny.demo.capture.model.data.RowColOrderBo;
 import com.yueny.demo.capture.model.format.ImportFormatterBo;
 import com.yueny.demo.capture.read.IFileReaderService;
+import com.yueny.rapid.lang.util.DigitalUtil;
 import com.yueny.rapid.lang.util.StringUtil;
 
 /**
@@ -31,57 +35,83 @@ import com.yueny.rapid.lang.util.StringUtil;
  */
 @Service
 public class CardBinServiceImpl extends BaseSevice implements ICardBinService {
+	public interface IAssemblyLine {
+		ImportFormatterBo line(List<String> columnRule);
+	}
+
 	@Autowired
 	private IFileReaderService fileReaderService;
 	@Autowired
 	private IImportFilesService importFilesService;
 
 	@Override
-	public Map<String, String> sqlWithFile(final String importFilePath) {
-		final ImportConfig importConfig = new ImportConfig(importFilePath);
-		importConfig.setIgnoreLines(4);
-		importConfig.setFormatters(assemblyFormatterRule());
+	public Map<String, List<String>> sqlWithFile(final String importFilePath) {
+		final Map<String, List<String>> sqlDataMaps = Maps.newHashMap();
 
-		final List<ImportSheetDataBo> sheetDataList = importFilesService.importFile(importConfig);
-		System.out.println(sheetDataList);
+		try {
+			final ImportConfig importConfig = new ImportConfig(importFilePath);
+			importConfig.setIgnoreLines(4);
+			importConfig.setFormatters(
+					assemblyFormatterRule("/tfs/rule/chinapay-2016-card-bin-import-for-sql.rule", new IAssemblyLine() {
+						@Override
+						public ImportFormatterBo line(final List<String> columnRule) {
+							// columnRule eg： ATM|ATM_SUPPORT|3|NUMBER|√
 
-		if (CollectionUtils.isEmpty(sheetDataList)) {
-			return Collections.emptyMap();
-		}
+							final ImportFormatterBo fo = new ImportFormatterBo();
+							fo.setTitleName(columnRule.get(0));// 表头名(titleName)
+							fo.setFieldName(columnRule.get(1));// 属性名(fieldName)
+							fo.setOrderNo(Integer.parseInt(columnRule.get(2)));// 顺序(orderNo)
+							fo.setDataType(ImportDataType.valueOf(columnRule.get(3)));// 导入属性的数据类型(dataType)
+							fo.setExample(columnRule.get(4));// 示例表头名(example)
 
-		final Map<String, String> sqlDataMaps = Maps.newHashMap();
-		for (final ImportSheetDataBo sheetDataBo : sheetDataList) {
-			final ImportCellDataBo cellData = sheetDataBo.getCellDataBo();
+							return fo;
+						}
+					}));
 
-			final String sqlTemplete = sqlTemplete(cellData.getFieldNames());
-			System.out.println(sqlTemplete);
+			final List<ImportSheetDataBo> sheetDataList = importFilesService.importFile(importConfig);
 
-			for (final Map<String, Object> map : cellData.getFieldDataList()) {
-				/*
-				 * eg： {CARD_BIN=623529, TRACK_START=2, CARD_NAME=中国银联移动支付标记化产品,
-				 * ATM_SUPPORT=√, PRIMARY_ACCOUNT=623529xxxxxxxxxxxxx,
-				 * PRIMARY_ACCOUNT_TRACK=2, CARD_TYPE=借记卡,
-				 * ISSUING_BANK_LENGTH=6, TRACK=2, ISSUING_BANK_TRACK=2,
-				 * PRIMARY_ACCOUNT_START=2, PRIMARY_ACCOUNT_LENGTH=19,
-				 * TRACK_LENGTH=37, ISSUING_BANK_START=2, POS_SUPPORT=√,
-				 * ADDITIONS= , BANK_NAME=中国银联支付标记(00010030)}
-				 */
-
-				// map.entrySet();
-
+			if (CollectionUtils.isEmpty(sheetDataList)) {
+				return Collections.emptyMap();
 			}
-			importConfig.getFormatters();
 
-			final StringBuilder sb = new StringBuilder();
-			// for (final ImportSheetDataBo importSheetDataBo :
-			// cellData.getRowOrderColNamesList()) {
-			//
-			// }
-			// sb.append(String.format(sqlTemplete, ""));
-			sb.append("</br>");
+			for (final ImportSheetDataBo sheetDataBo : sheetDataList) {
+				final ImportCellDataBo cellData = sheetDataBo.getCellDataBo();
 
-			sqlDataMaps.put(sheetDataBo.getSheetName(), sb.toString());
+				final String sqlTemplete = sqlTemplete(cellData.getFieldOrders());
+
+				final List<String> sqls = Lists.newArrayList();
+				for (final Map<String, Object> map : cellData.getFieldDataList()) {
+					String sql = sqlTemplete;
+
+					final List<Object> args = Lists.newArrayList();
+					for (final RowColOrderBo field : cellData.getFieldOrders()) {
+						Object fieldValue = map.get(field.getFieldName());
+						if (field.getDataType() == ImportDataType.NUMBER) {
+							if (!DigitalUtil.isDigital(fieldValue.toString())) {
+								if (StringUtils.equals("√", fieldValue.toString())) {
+									fieldValue = 1;
+								} else {
+									fieldValue = 0;
+								}
+							} else {
+								fieldValue = Long.valueOf(fieldValue.toString());
+							}
+						} else if (field.getDataType() == ImportDataType.STRING) {
+							fieldValue = fieldValue.toString();
+						}
+
+						sql = StringUtils.replace(sql, "%" + field.getFieldName() + "%", fieldValue.toString());
+						args.add(fieldValue);
+					}
+
+					sqls.add(sql);
+				}
+				sqlDataMaps.put(sheetDataBo.getSheetName(), sqls);
+			}
+		} catch (final Exception e) {
+			e.printStackTrace();
 		}
+
 		return sqlDataMaps;
 	}
 
@@ -104,10 +134,10 @@ public class CardBinServiceImpl extends BaseSevice implements ICardBinService {
 		return false;
 	}
 
-	private List<ImportFormatterBo> assemblyFormatterRule() {
+	private List<ImportFormatterBo> assemblyFormatterRule(final String ruleFile, final IAssemblyLine assemblyLine) {
 		final List<ImportFormatterBo> importFormatterRules = Lists.newArrayList();
 
-		final List<String> rules = fileReaderService.readLines("/tfs/rule/chinapay-card-bin.rule");
+		final List<String> rules = fileReaderService.readLines(ruleFile);
 		for (final String rule : rules) {
 			if (StringUtil.isEmpty(rule) || StringUtil.startWith(rule, "#", false)) {
 				continue;
@@ -115,31 +145,45 @@ public class CardBinServiceImpl extends BaseSevice implements ICardBinService {
 
 			// eg： ATM|ATM_SUPPORT|3|NUMBER|√
 			final List<String> columnRule = Splitter.on("|").splitToList(rule);
-
-			final ImportFormatterBo fo = new ImportFormatterBo();
-			fo.setTitleName(columnRule.get(0));
-			fo.setFieldName(columnRule.get(1));
-			fo.setOrderNo(Integer.parseInt(columnRule.get(2)));
-			// fo.setDataType(columnRule.get(3));
-			fo.setExample(columnRule.get(4));
-
-			importFormatterRules.add(fo);
+			importFormatterRules.add(assemblyLine.line(columnRule));
 		}
 		return importFormatterRules;
 	}
 
-	private String sqlTemplete(final List<String> rowColsWeight) {
-		// delete from `CARD_BIN_DATA` where payGateCode='UM_PAY' and
-		// requestType='PAY' and executeType='EXECUTE';
+	private String sqlTemplete(final List<RowColOrderBo> rowColsWeight) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO `CARD_BIN_DATA` ");
+		sb.append("INSERT INTO `cardBinConfig` ");
 		sb.append("(");
-		// `payGateCode`,`bizDefineType`
-		sb.append(Joiner.on(",").join(rowColsWeight));
+
+		// 表字段组装
+		final List<String> fcs = Lists.newArrayListWithCapacity(rowColsWeight.size());
+		for (final RowColOrderBo rowColOrderBo : rowColsWeight) {
+			fcs.add("`" + rowColOrderBo.getFieldName() + "`");
+		}
+		fcs.add("createDate");
+		fcs.add("modifyDate");
+		sb.append(Joiner.on(", ").join(fcs));
+
 		sb.append(") ");
 
 		sb.append("VALUES (");
-		sb.append("s%, s%, s%, s%, s%, s%, s%, s%, now(), now()");
+		// 将rowColsWeight生成相应占位符
+		final List<String> lps = Lists.newArrayListWithCapacity(rowColsWeight.size());
+		for (final RowColOrderBo rowColOrderBo : rowColsWeight) {
+			// %s 字符串类型; %b 布尔类型; %d 整数类型（十进制）
+			if (rowColOrderBo.getDataType() == ImportDataType.STRING) {
+				lps.add("'%" + rowColOrderBo.getFieldName() + "%'");
+			} else if (rowColOrderBo.getDataType() == ImportDataType.NUMBER) {
+				lps.add("%" + rowColOrderBo.getFieldName() + "%");
+			} else if (rowColOrderBo.getDataType() == ImportDataType.DATE) {
+				lps.add("'%s'");
+			}
+		}
+		lps.add("now()");
+		lps.add("now()");
+		final String values = Joiner.on(", ").join(lps);
+		// 表字段新增数据占位符
+		sb.append(values);
 		sb.append(");");
 
 		return sb.toString();
