@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -128,7 +127,7 @@ public final class XlsUtil {
 
 						final String dataValue = getValue(hssfCell);
 						// 去除换行符
-						final String newDataValue = StringUtils.replace(dataValue, "\n", "");
+						final String newDataValue = StringUtil.replaceBlank(dataValue);
 
 						fieldRowData.put(dataKey, newDataValue);
 					}

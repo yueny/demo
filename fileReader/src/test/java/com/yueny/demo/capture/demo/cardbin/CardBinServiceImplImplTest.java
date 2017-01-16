@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yueny.demo.capture.BaseBizTest;
 import com.yueny.rapid.lang.util.burrow.FileUtil;
+import com.yueny.rapid.lang.util.burrow.IoUtil;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -31,8 +32,8 @@ public class CardBinServiceImplImplTest extends BaseBizTest {
 		final File sqlFile = FileUtil.createNewFile("D:/data/chinapay.sql");
 		for (final Map.Entry<String, List<String>> entry : sqlMaps.entrySet()) {
 			for (final String sql : entry.getValue()) {
-				FileUtil.write(sql, sqlFile, true);
-				FileUtil.write("\r\n", sqlFile, true);
+				IoUtil.write(sql, sqlFile, true);
+				IoUtil.write("\r\n", sqlFile, true);
 			}
 		}
 	}
