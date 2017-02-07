@@ -1,14 +1,5 @@
 package com.yueny.demo.dynamic.scheduler.job.simple.main;
 
-import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
-
-import java.util.Date;
-
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerMetaData;
 import org.slf4j.Logger;
@@ -16,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.common.util.concurrent.AbstractIdleService;
-import com.yueny.demo.dynamic.scheduler.job.simple.factory.SimpleSchedulerFactory;
+import com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerFactory;
+import com.yueny.demo.dynamic.scheduler.job.core.jobbean.demo.SimpleDemoQuartzJob;
+import com.yueny.demo.dynamic.scheduler.job.core.model.DynamicJob;
 
 /**
  * exampel 1<br>
@@ -73,41 +66,50 @@ public class SimpleTriggerCronMain extends AbstractIdleService {
 				.getBean("dynamicSchedulerFactory");
 		System.out.println(dynamicSchedulerFactory);
 
-		final Scheduler scheduler = SimpleSchedulerFactory.getScheduler();
+		// final Scheduler scheduler = SimpleSchedulerFactory.getScheduler();
 		logger.info("------- Scheduling Job  -------------------");
+
 		// job 1 will run every 20 seconds
-		final JobDetail job1 = newJob(SimpleDemoQuartzJob.class).withIdentity("job1", "group1").build();
-		final CronTrigger trigger1 = newTrigger().withIdentity("trigger1", "group1")
-				.withSchedule(cronSchedule("0/20 * * * * ?")).build();
+		final DynamicJob dj1 = DynamicJob.builder().target(SimpleDemoQuartzJob.class).jobName("job1").jobGroup("group1")
+				.cronExpression("0/20 * * * * ?").build();
+		dynamicSchedulerFactory.registerJob(dj1);
+		// final JobDetail job1 =
+		// newJob(SimpleDemoQuartzJob.class).withIdentity("job1",
+		// "group1").build();
+		// final CronTrigger trigger1 = newTrigger().withIdentity("trigger1",
+		// "group1")
+		// .withSchedule(cronSchedule("0/20 * * * * ?")).build();
 		// schedule it to run! 交给调度器调度运行JobDetail和Trigger
-		Date ft = scheduler.scheduleJob(job1, trigger1);
-		logger.info(job1.getKey() + " has been scheduled to run at:" + ft + " and repeat based on expression:"
-				+ trigger1.getCronExpression());
+		// Date ft = scheduler.scheduleJob(job1, trigger1);
+		// logger.info(job1.getKey() + " has been scheduled to run at:" + ft + "
+		// and repeat based on expression:"
+		// + trigger1.getCronExpression());
 
 		// job 2 will run every other minute (at 15 seconds past the minute)
-		final JobDetail job2 = newJob(SimpleDemoQuartzJob.class).withIdentity("job2", "group1").build();
-		final CronTrigger trigger2 = newTrigger().withIdentity("trigger2", "group1")
-				.withSchedule(cronSchedule("15 0/2 * * * ?")).build();
-		ft = scheduler.scheduleJob(job2, trigger2);
-		logger.info(job2.getKey() + " has been scheduled to run at: " + ft + " and repeat based on expression: "
-				+ trigger2.getCronExpression());
+		final DynamicJob dj2 = DynamicJob.builder().target(SimpleDemoQuartzJob.class).jobName("job2").jobGroup("group1")
+				.cronExpression("15 0/2 * * * ?").build();
+		dynamicSchedulerFactory.registerJob(dj2);
 
 		// job 3 will run every other minute but only between 8am and 5pm
-		final JobDetail job3 = newJob(SimpleDemoQuartzJob.class).withIdentity("job3", "group1").build();
-		final CronTrigger trigger3 = newTrigger().withIdentity("trigger3", "group1")
-				.withSchedule(cronSchedule("0 0/2 8-17 * * ?")).build();
-		ft = scheduler.scheduleJob(job3, trigger3);
-		logger.info(job3.getKey() + " has been scheduled to run at: " + ft + " and repeat based on expression: "
-				+ trigger3.getCronExpression());
+		final DynamicJob dj3 = DynamicJob.builder().target(SimpleDemoQuartzJob.class).jobName("job3").jobGroup("group1")
+				.cronExpression("0 0/2 8-17 * * ?").build();
+		dynamicSchedulerFactory.registerJob(dj3);
+		// final JobDetail job3 =
+		// newJob(SimpleDemoQuartzJob.class).withIdentity("job3",
+		// "group1").build();
+		// final CronTrigger trigger3 = newTrigger().withIdentity("trigger3",
+		// "group1")
+		// .withSchedule(cronSchedule("0 0/2 8-17 * * ?")).build();
+		// ft = scheduler.scheduleJob(job3, trigger3);
+		// logger.info(job3.getKey() + " has been scheduled to run at: " + ft +
+		// " and repeat based on expression: "
+		// + trigger3.getCronExpression());
 
 		// job 6 will run every 30 seconds but only on Weekdays (Monday through
 		// Friday)
-		final JobDetail job6 = newJob(SimpleDemoQuartzJob.class).withIdentity("job6", "group1").build();
-		final CronTrigger trigger6 = newTrigger().withIdentity("trigger6", "group1")
-				.withSchedule(cronSchedule("0,30 * * ? * MON-FRI")).build();
-		ft = scheduler.scheduleJob(job6, trigger6);
-		logger.info(job6.getKey() + " has been scheduled to run at: " + ft + " and repeat based on expression: "
-				+ trigger6.getCronExpression());
+		final DynamicJob dj6 = DynamicJob.builder().target(SimpleDemoQuartzJob.class).jobName("job6").jobGroup("group1")
+				.cronExpression("0,30 * * ? * MON-FRI").build();
+		dynamicSchedulerFactory.registerJob(dj6);
 
 		// Start up the scheduler (nothing can actually run until the
 		// scheduler has been started) 启动调度器

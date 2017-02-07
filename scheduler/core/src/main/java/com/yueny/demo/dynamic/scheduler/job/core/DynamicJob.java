@@ -1,14 +1,16 @@
-package com.yueny.demo.dynamic.scheduler.job.core.model;
+package com.yueny.demo.dynamic.scheduler.job.core;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.util.Map;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.Job;
-import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
-import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 
 import com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerFactory;
@@ -34,6 +36,45 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class DynamicJob {
+	@ToString
+	public static class DynamicJobBuilder {
+		private String cronExpression;
+		private String jobGroup;
+		private String jobName;
+		private Class<? extends Job> target;
+
+		private DynamicJobBuilder() {
+		}
+
+		public DynamicJob build() {
+			return new DynamicJob(jobName, target, cronExpression, jobGroup);
+		}
+
+		public DynamicJobBuilder cronExpression(final String cronExpression) {
+			this.cronExpression = cronExpression;
+			return this;
+		}
+
+		public DynamicJobBuilder jobGroup(final String jobGroup) {
+			this.jobGroup = jobGroup;
+			return this;
+		}
+
+		public DynamicJobBuilder jobName(final String jobName) {
+			this.jobName = jobName;
+			return this;
+		}
+
+		public DynamicJobBuilder target(final Class<? extends Job> target) {
+			this.target = target;
+			return this;
+		}
+	}
+
+	public static DynamicJobBuilder builder() {
+		return new DynamicJobBuilder();
+	}
+
 	/**
 	 * cron 表达式
 	 */
@@ -41,14 +82,17 @@ public class DynamicJob {
 	private String cronExpression;
 
 	private transient JobDetail jobDetail;
+	/**
+	 * 任务分组
+	 */
 	@Getter
 	private String jobGroup = DynamicSchedulerFactory.DEFAULT_GROUP;
-
 	/**
 	 * 必须唯一. Must unique, is identifier， 任务的唯一标识
 	 */
 	@Getter
 	private String jobName;
+
 	/**
 	 * 要执行类, 实现Job接口
 	 */
@@ -57,12 +101,13 @@ public class DynamicJob {
 
 	private transient TriggerKey triggerKey;
 
-	// // /**
-	// // * default
-	// // */
-	// public DynamicJob(final String jobName) {
-	// this.jobName = jobName;
-	// }
+	private DynamicJob(final String jobName, final Class<? extends Job> target, final String cronExpression,
+			final String jobGroup) {
+		this.jobName = jobName;
+		this.target = target;
+		this.cronExpression = cronExpression;
+		this.jobGroup = jobGroup;
+	}
 
 	/**
 	 * Transfer data to job In job use context.getMergedJobDataMap().get(key)
@@ -88,22 +133,23 @@ public class DynamicJob {
 		return this;
 	}
 
-	public DynamicJob cronExpression(final String cronExpression) {
-		this.cronExpression = cronExpression;
-		return this;
-	}
-
 	/**
 	 * @return 获取CronTrigger触发器
 	 */
 	public CronTrigger cronTrigger() {
-		final CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(this.cronExpression);
-		return TriggerBuilder.newTrigger().withIdentity(getTriggerKey()).withSchedule(cronScheduleBuilder).build();
+		// eg。
+		// newTrigger().withIdentity("trigger1",
+		// "group1").withSchedule(cronSchedule("0/20 * * * * ?")).build();
+		final CronScheduleBuilder cronScheduleBuilder = cronSchedule(this.cronExpression);
+		return newTrigger().withIdentity(getTriggerKey()).withSchedule(cronScheduleBuilder).build();
 	}
 
 	public JobDetail getJobDetail() {
 		if (jobDetail == null) {
-			jobDetail = JobBuilder.newJob(target).withIdentity(this.jobName, this.jobGroup).build();
+			// eg.
+			// newJob(SimpleDemoQuartzJob.class).withIdentity("job1",
+			// "group1").build();
+			jobDetail = newJob(target).withIdentity(this.jobName, this.jobGroup).build();
 		}
 		return jobDetail;
 	}
@@ -116,21 +162,6 @@ public class DynamicJob {
 			triggerKey = TriggerKey.triggerKey(this.jobName, this.jobGroup);
 		}
 		return triggerKey;
-	}
-
-	public DynamicJob jobGroup(final String jobGroup) {
-		this.jobGroup = jobGroup;
-		return this;
-	}
-
-	public DynamicJob jobName(final String jobName) {
-		this.jobName = jobName;
-		return this;
-	}
-
-	public DynamicJob target(final Class<? extends Job> target) {
-		this.target = target;
-		return this;
 	}
 
 }

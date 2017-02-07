@@ -22,5 +22,8 @@ public class SimpleDemoQuartzJob extends AbstractQuartzJobBean {
 
 		System.out.println("SimpleQuartzJob says: " + jobKey + " executing at " + new Date() + " by "
 				+ context.getTrigger().getDescription());
+
+		// ScheduleJob scheduleJob = (ScheduleJob)
+		// context.getMergedJobDataMap().get("scheduleJobEntry");
 	}
 }

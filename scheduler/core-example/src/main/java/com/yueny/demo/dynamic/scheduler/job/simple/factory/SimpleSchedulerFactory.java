@@ -7,6 +7,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class SimpleSchedulerFactory {
 	private static Logger log = LoggerFactory.getLogger(SimpleSchedulerFactory.class);
 
