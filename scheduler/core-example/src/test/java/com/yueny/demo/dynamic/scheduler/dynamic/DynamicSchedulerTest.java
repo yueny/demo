@@ -4,10 +4,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yueny.demo.dynamic.scheduler.BaseTest;
-import com.yueny.demo.dynamic.scheduler.job.factory.DynamicSchedulerFactory;
-import com.yueny.demo.dynamic.scheduler.job.model.DynamicJob;
-import com.yueny.demo.dynamic.scheduler.job.model.JobParamManager;
-import com.yueny.demo.dynamic.scheduler.job.simple.demo.SimpleDemoQuartzJob;
+import com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerFactory;
+import com.yueny.demo.dynamic.scheduler.job.core.jobbean.demo.SimpleDemoQuartzJob;
+import com.yueny.demo.dynamic.scheduler.job.core.model.DynamicJob;
+import com.yueny.demo.dynamic.scheduler.job.core.model.JobParamManager;
 import com.yueny.demo.dynamic.scheduler.util.HeartBeatFrequency;
 
 /**

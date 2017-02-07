@@ -11,20 +11,22 @@
     
     <!-- 配置Job详情 -->
     <bean id="firstConsoleJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass" value="com.yueny.demo.dynamic.scheduler.job.spring.FirstConsoleScheduler"/>
+        <property name="jobClass" value="com.yueny.demo.dynamic.scheduler.job.spring.demo.FirstConsoleScheduler"/>
     	<!-- durability 表示任务完成之后是否依然保留到数据库，默认false   -->
         <property name="durability" value="true"/> 
     </bean>
     <bean id="secondConsoleJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass" value="com.yueny.demo.dynamic.scheduler.job.spring.SecondConsoleScheduler"/>
+        <property name="jobClass" value="com.yueny.demo.dynamic.scheduler.job.spring.demo.SecondConsoleScheduler"/>
     	<!-- durability 表示任务完成之后是否依然保留到数据库，默认false   -->
         <property name="durability" value="true"/> 
     </bean>
+    
     
     <!-- 配置触发时间Trigger -->
     <bean id="firstConsoleTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="firstConsoleJobDetail"/>
         <property name="cronExpression" value="0/5 * * * * ?"/>
+        
         <property name="timeZone">
             <value>GMT+8:00</value>
         </property>

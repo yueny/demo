@@ -1,4 +1,4 @@
-package com.yueny.demo.dynamic.scheduler.job.spring;
+package com.yueny.demo.dynamic.scheduler.job.spring.demo;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

@@ -13,7 +13,7 @@ import org.quartz.SimpleTrigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yueny.demo.dynamic.scheduler.job.simple.demo.SimpleDemoQuartzJob;
+import com.yueny.demo.dynamic.scheduler.job.core.jobbean.demo.SimpleDemoQuartzJob;
 import com.yueny.demo.dynamic.scheduler.job.simple.factory.SimpleSchedulerFactory;
 
 /**

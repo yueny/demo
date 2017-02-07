@@ -3,12 +3,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 	
-	<import resource="classpath*:/config/scheduler/dynamic-task.xml"/>
-	<import resource="classpath*:/config/scheduler/dynamic-triggers.xml"/>
+	<task:scheduler id="scheduler" pool-size="10"/>
+    
+    <!-- 配置线程池 -->
+    <bean name="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="10"/>
+        <property name="maxPoolSize" value="25"/>
+        <property name="queueCapacity" value="1000"/>
+    </bean>
+    
+	<import resource="classpath*:/config/scheduler/dynamic-triggers-detail.xml"/>
 	<import resource="classpath*:/config/scheduler/dynamic-scheduler.xml"/>
 	
 </beans>

@@ -13,15 +13,7 @@
 		配置调度任务
 	</description>
 	
-	<task:scheduler id="scheduler" pool-size="10"/>
-    
-    <!-- 配置线程池 -->
-    <bean name="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-        <property name="corePoolSize" value="10"/>
-        <property name="maxPoolSize" value="25"/>
-        <property name="queueCapacity" value="1000"/>
-    </bean>
-    
+
     <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
     <bean id="quartzScheduler" name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
     	lazy-init="false" destroy-method="destroy">
@@ -35,11 +27,13 @@
         <property name="overwriteExistingJobs" value="true"/>
         <property name="applicationContextSchedulerContextKey" value="appli"/>
         
+        <!-- 使job类支持spring的自动注入 -->
         <property name="jobFactory">
-            <bean class="com.yueny.demo.dynamic.scheduler.job.factory.autowired.AutowiringSpringBeanJobFactory"/>
+            <bean class="com.yueny.demo.dynamic.scheduler.job.core.factory.autowired.AutowiringSpringBeanJobFactory"/>
         </property>
         
 	    <property name="autoStartup" value="${scheduler.auto.startup}"/>
+	    
 	    <property name="jobDetails">  
             <list>  
                 <ref bean="firstConsoleJobDetail"/>
@@ -55,10 +49,14 @@
 	    </property>
 	</bean>
 	
-	
+	<bean id="quartzJobListener" name="quartzJobListener"
+          class="com.yueny.demo.dynamic.scheduler.job.core.listener.QuartzJobListener"/>
+          
 	<!--dynamic scheduler factory -->
-    <bean id="dynamicSchedulerFactory" class="com.yueny.demo.dynamic.scheduler.job.factory.DynamicSchedulerFactory">
+    <bean id="schedulerManager" name="schedulerManager" 
+    	class="com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerFactory">
         <property name="scheduler" ref="quartzScheduler"/>
+        <property name="listener" ref="quartzJobListener"/>
     </bean>
      
 </beans>  

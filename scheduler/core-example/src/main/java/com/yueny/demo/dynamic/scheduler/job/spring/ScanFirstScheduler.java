@@ -5,10 +5,7 @@ import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-
-import com.yueny.demo.dynamic.scheduler.job.factory.DynamicSchedulerFactory;
 
 /**
  * 无用文件扫描并删除任务
@@ -23,14 +20,11 @@ import com.yueny.demo.dynamic.scheduler.job.factory.DynamicSchedulerFactory;
 public class ScanFirstScheduler extends QuartzJobBean {
 	/** 日志 */
 	private static final Logger logger = LoggerFactory.getLogger(ScanFirstScheduler.class);
-	// 这里就是因为有上文中的AutowiringSpringBeanJobFactory才可以使用@Autowired注解，否则只能在配置文件中设置这属性的值
-	@Autowired
-	private DynamicSchedulerFactory dynamicSchedulerFactory;
 
 	/* 业务实现 */
 	public void work() {
 		System.out.println("==============================================");
-		logger.info("I am working doSomething on {}.", dynamicSchedulerFactory);
+		logger.info("I am working doSomething on ...");
 		System.out.println("==============================================");
 	}
 
