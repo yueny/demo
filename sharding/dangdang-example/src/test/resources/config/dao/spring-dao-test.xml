@@ -9,40 +9,30 @@
 						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 						http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 	
+	<import resource="classpath:/config/dao/sharding-context-db-test.xml"/>
+	
 	<!-- scan for mappers.java and let them be autowired -->
     <mybatis:scan
 		base-package="com.yueny.demo.sharding.example.dao.mapper"
 		factory-ref="sqlSessionFactory"/>
-    <!-- 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.yueny.demo.pagehelper.dao.mapper"/>
-    	sqlSessionFactory
-    </bean>
-     -->
-    
-    <!-- 此方式Mapper.java上需要添加 @Repository -->
-    <!-- 
-    <mybatis:scan annotation="org.springframework.stereotype.Repository" 
-		base-package="com.yueny.demo.pagehelper.dao.mapper"
-		factory-ref="sqlSessionFactory"/>
-     --> 
     
 	<!-- 加载myBatis-config.xml配置文件，以及扫描myBatis/目录下每个DAO对应的SQL配置的XML文件 -->  
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- dataSource属性指定要用到的连接池 -->
-		<property name="dataSource" ref="dataSource"/>
+		<property name="dataSource" ref="shardingDataSource"/>
 		<!-- configLocation属性指定mybatis的核心配置文件 -->
 		<property name="configLocation" value="classpath:/config/mybatis-test.cfg.xml"/>
 		<property name="mapperLocations">
 			<list>
-				<value>classpath*:com/yueny/demo/sharding/maps/**.xml</value>
+				<value>classpath*:com/yueny/demo/sharding/maps/**Mapper.xml</value>
 			</list>
 		</property>
 	</bean>
 	
-	<!-- SqlSessionTemplate是我们代码中使用的SQL模板对象，用来操作数据库  -->
-    <bean class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg ref="sqlSessionFactory"/>
-    </bean>
+	<!-- tx -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+	    <property name="dataSource" ref="shardingDataSource" />  
+	</bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     
 </beans>

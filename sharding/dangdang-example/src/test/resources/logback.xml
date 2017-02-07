@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<contextName>sharding-dangdang-example</contextName>
+	
+	<property name="LOG_HOME" value="/data/logs/demo/sharding" />
+	<property name="DEFAULT_PATTERN" value="%d %-5level [%X{ctxLogId}][%thread] %logger{5} - %msg%n" />
+	<property name="LEVEL" value="debug" />
+	<property name="CHARSET" value="UTF-8" />
+	
+	<!-- ConsoleAppender -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%-5level] %date{HH:mm:ss.SSS} %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- Loggers : Root Logger -->
+	<root level="${LEVEL}">
+		<appender-ref ref="STDOUT" />
+	</root>
+		
+</configuration>

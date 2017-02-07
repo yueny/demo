@@ -33,4 +33,6 @@ public class ShardingOrderEntry implements Serializable {
 	 * 包含更新时间和毫秒戳
 	 */
 	private Timestamp updateTime;
+	/** 用户ID */
+	private Long userId;
 }

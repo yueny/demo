@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:rdb="http://www.dangdang.com/schema/ddframe/rdb" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.dangdang.com/schema/ddframe/rdb 
+			http://www.dangdang.com/schema/ddframe/rdb/rdb.xsd">
+	
+	<!-- db 来源于 spring-db.xml -->
+	<rdb:strategy id="shardingUserTableStrategy" sharding-columns="USER_ID" algorithm-expression="sharding_order_${USER_ID.longValue()%3}"/>
+    
+    <rdb:data-source id="shardingDataSource">
+        <rdb:sharding-rule data-sources="dataSource">
+            <rdb:table-rules>
+                <rdb:table-rule logic-table="sharding_order" actual-tables="sharding_order_${0..2}" table-strategy="shardingUserTableStrategy">
+                </rdb:table-rule>
+            </rdb:table-rules>
+            
+            <rdb:default-database-strategy sharding-columns="none" algorithm-class="com.dangdang.ddframe.rdb.sharding.api.strategy.database.NoneDatabaseShardingAlgorithm"/>
+        </rdb:sharding-rule>
+    </rdb:data-source>
+                    
+</beans>

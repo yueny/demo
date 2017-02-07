@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yueny.demo.sharding.example.dao.mapper.IShardingOrderRepository">
+
+    <select id="selectByUserId" resultType="ShardingOrderEntry">
+        select * from SHARDING_ORDER where USER_ID = ${userId};
+    </select>
+    
+    <select id="selectAll" resultType="ShardingOrderEntry">
+        select * from SHARDING_ORDER order by ID;
+    </select>
+    
+</mapper>
