@@ -2,18 +2,19 @@ package com.yueny.demo.dynamic.scheduler.job.core.factory;
 
 import java.util.Date;
 
+import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.JobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 import com.yueny.demo.dynamic.scheduler.job.core.DynamicInvokJob;
 import com.yueny.demo.dynamic.scheduler.job.core.DynamicJob;
+import com.yueny.demo.dynamic.scheduler.job.core.api.IJob;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class DynamicSchedulerFactory implements InitializingBean {
+public class DynamicSchedulerManager implements InitializingBean {
 	public static final String DEFAULT_GROUP = "DEFAULT";
 	public static final String UNKNOWN_STATUS = "NA";
 
@@ -42,7 +43,7 @@ public class DynamicSchedulerFactory implements InitializingBean {
 	@Setter
 	private Scheduler scheduler;
 
-	public DynamicSchedulerFactory() {
+	public DynamicSchedulerManager() {
 		// .
 	}
 
@@ -56,7 +57,7 @@ public class DynamicSchedulerFactory implements InitializingBean {
 	 * 判断任务是否存在<br>
 	 * Check the job is exist or not
 	 */
-	public boolean existJob(final DynamicJob job) throws SchedulerException {
+	public boolean existJob(final IJob job) throws SchedulerException {
 		final TriggerKey triggerKey = job.getTriggerKey();
 
 		return scheduler.checkExists(triggerKey);
@@ -80,6 +81,10 @@ public class DynamicSchedulerFactory implements InitializingBean {
 		// Trigger trigger = scheduler.getTrigger(triggerKey);
 		// return trigger != null;
 		return scheduler.checkExists(triggerKey);
+	}
+
+	public TriggerKey getTriggerKey(final String identifier, final String jobGroup) {
+		return TriggerKey.triggerKey(identifier, jobGroup);
 	}
 
 	/**
@@ -109,7 +114,50 @@ public class DynamicSchedulerFactory implements InitializingBean {
 	}
 
 	/**
-	 * 注册一个job 1.调用 {@link #scheduler} 的 scheduleJob 加入
+	 * 注册一个job 1.检查是否有相同的 scheduler(根据 trigger key) ,若有则抛出异常 2.调用
+	 * {@link #scheduler} 的 scheduleJob 加入
+	 *
+	 * @param invokJob
+	 *            DynamicInvokJob
+	 * @param isRecove
+	 *            如果任务存在，是否更新执行
+	 * @return True is register successful
+	 * @throws org.quartz.SchedulerException
+	 */
+	private boolean registerIJob(final IJob ijob, final boolean isRecove) throws SchedulerException {
+		if (existJob(ijob)) {
+			final TriggerKey triggerKey = ijob.getTriggerKey();
+			// 获取trigger，即在spring配置文件中定义的 bean id="myTrigger"
+			CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
+			if (!isRecove) {
+				throw new SchedulerException(
+						"Already exist trigger [" + trigger + "] by key [" + triggerKey + "] in Scheduler");
+			}
+
+			// Trigger已存在，更新任务（时间表达式） 表达式调度构建器
+			final CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(ijob.getCronExpression());
+
+			// 按新的cronExpression表达式重新构建trigger
+			trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(cronScheduleBuilder).build();
+
+			// 按新的trigger重新设置job执行
+			scheduler.rescheduleJob(triggerKey, trigger);
+			return true;
+		}
+
+		final CronTrigger cronTrigger = ijob.cronTrigger();
+
+		final JobDetail jobDetail = ijob.getJobDetail();
+		final Date ft = scheduler.scheduleJob(jobDetail, cronTrigger);
+
+		log.info("Register IJob {} has been scheduled to run at [{}] and repeat based on expression:{}."
+				+ cronTrigger.getCronExpression(), ijob, ft);
+		return true;
+	}
+
+	/**
+	 * 注册一个job 1.检查是否有相同的 scheduler(根据 trigger key) ,若有则抛出异常 2.调用
+	 * {@link #scheduler} 的 scheduleJob 加入
 	 *
 	 * @param invokJob
 	 *            DynamicInvokJob
@@ -117,21 +165,22 @@ public class DynamicSchedulerFactory implements InitializingBean {
 	 * @throws org.quartz.SchedulerException
 	 */
 	public boolean registerJob(final DynamicInvokJob invokJob) throws SchedulerException {
-		final TriggerKey triggerKey = invokJob.getTriggerKey();
-		if (scheduler.checkExists(triggerKey)) {
-			final Trigger trigger = scheduler.getTrigger(triggerKey);
-			throw new SchedulerException(
-					"Already exist trigger [" + trigger + "] by key [" + triggerKey + "] in Scheduler");
-		}
+		return registerJob(invokJob, false);
+	}
 
-		final CronTrigger cronTrigger = invokJob.cronTrigger();
-
-		final JobDetail jobDetail = invokJob.getJobDetail();
-		final Date ft = scheduler.scheduleJob(jobDetail, cronTrigger);
-
-		log.info("Register DynamicInvokJob {} has been scheduled to run at [{}] and repeat based on expression:{}."
-				+ cronTrigger.getCronExpression(), invokJob, ft);
-		return true;
+	/**
+	 * 注册一个job 1.检查是否有相同的 scheduler(根据 trigger key) ,若有则抛出异常 2.调用
+	 * {@link #scheduler} 的 scheduleJob 加入
+	 *
+	 * @param invokJob
+	 *            DynamicInvokJob
+	 * @param isRecove
+	 *            如果任务存在，是否更新执行
+	 * @return True is register successful
+	 * @throws org.quartz.SchedulerException
+	 */
+	public boolean registerJob(final DynamicInvokJob invokJob, final boolean isRecove) throws SchedulerException {
+		return registerIJob(invokJob, isRecove);
 	}
 
 	/**
@@ -151,48 +200,15 @@ public class DynamicSchedulerFactory implements InitializingBean {
 	 * 注册一个job 1.检查是否有相同的 scheduler(根据 trigger key) ,若有则抛出异常 2.调用
 	 * {@link #scheduler} 的 scheduleJob 加入
 	 *
-	 * @param job
+	 * @param scheduleJob
 	 *            DynamicJob
 	 * @param isRecove
 	 *            如果任务存在，是否更新执行
 	 * @return True is register successful
 	 * @throws org.quartz.SchedulerException
 	 */
-	public boolean registerJob(final DynamicJob job, final boolean isRecove) throws SchedulerException {
-		final TriggerKey triggerKey = job.getTriggerKey();
-		if (existJob(job)) {
-			final Trigger trigger = scheduler.getTrigger(triggerKey);
-
-			if (!isRecove) {
-				throw new SchedulerException(
-						"Already exist trigger [" + trigger + "] by key [" + triggerKey + "] in Scheduler");
-			}
-
-			// TODO
-			// // Trigger已存在，那么更新相应的定时设置
-			// final CronScheduleBuilder cronScheduleBuilder =
-			// cronSchedule(job.getCronExpression());
-			//
-			// // 按新的cronExpression表达式重新构建trigger
-			// final CronTrigger trigger1 =
-			// trigger.getTriggerBuilder().withIdentity(triggerKey)
-			// .withSchedule(cronScheduleBuilder).build();
-			//
-			// // 按新的trigger重新设置job执行
-			// scheduler.rescheduleJob(triggerKey, trigger1);
-			// return true;
-			throw new SchedulerException(
-					"Already exist trigger [" + trigger + "] by key [" + triggerKey + "] in Scheduler");
-		}
-
-		final CronTrigger cronTrigger = job.cronTrigger();
-
-		final JobDetail jobDetail = job.getJobDetail();
-		final Date ft = scheduler.scheduleJob(jobDetail, cronTrigger);
-
-		log.info("Register DynamicJob {} has been scheduled to run at [{}] and repeat based on expression:{}."
-				+ cronTrigger.getCronExpression(), job, ft);
-		return true;
+	public boolean registerJob(final DynamicJob scheduleJob, final boolean isRecove) throws SchedulerException {
+		return registerIJob(scheduleJob, isRecove);
 	}
 
 	/**
@@ -274,14 +290,6 @@ public class DynamicSchedulerFactory implements InitializingBean {
 			log.error("<{}> startJob [" + job + "] failed", e);
 		}
 		return result;
-	}
-
-	private TriggerKey getTriggerKey(final String identifier) {
-		return getTriggerKey(identifier, DEFAULT_GROUP);
-	}
-
-	private TriggerKey getTriggerKey(final String identifier, final String jobGroup) {
-		return TriggerKey.triggerKey(identifier, jobGroup);
 	}
 
 }

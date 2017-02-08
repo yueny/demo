@@ -1,22 +1,11 @@
 package com.yueny.demo.dynamic.scheduler.job.core;
 
-import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
 
-import java.util.Map;
-
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
 import org.quartz.Job;
-import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
-import org.quartz.TriggerKey;
-
-import com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerFactory;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -34,8 +23,7 @@ import lombok.ToString;
  *
  */
 @ToString
-@NoArgsConstructor
-public class DynamicJob {
+public class DynamicJob extends BaseJob {
 	@ToString
 	public static class DynamicJobBuilder {
 		private String cronExpression;
@@ -79,89 +67,37 @@ public class DynamicJob {
 	 * cron 表达式
 	 */
 	@Getter
-	private String cronExpression;
+	private final String cronExpression;
 
 	private transient JobDetail jobDetail;
-	/**
-	 * 任务分组
-	 */
-	@Getter
-	private String jobGroup = DynamicSchedulerFactory.DEFAULT_GROUP;
-	/**
-	 * 必须唯一. Must unique, is identifier， 任务的唯一标识
-	 */
-	@Getter
-	private String jobName;
 
 	/**
 	 * 要执行类, 实现Job接口
 	 */
 	@Getter
-	private Class<? extends Job> target;
-
-	private transient TriggerKey triggerKey;
+	private final Class<? extends Job> target;
 
 	private DynamicJob(final String jobName, final Class<? extends Job> target, final String cronExpression,
 			final String jobGroup) {
-		this.jobName = jobName;
+		super(jobName, jobGroup);
 		this.target = target;
 		this.cronExpression = cronExpression;
-		this.jobGroup = jobGroup;
 	}
 
-	/**
-	 * Transfer data to job In job use context.getMergedJobDataMap().get(key)
-	 * <br>
-	 * 传参数给 执行的 job 在job中 通过 context.getMergedJobDataMap().get(key) 获取值
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see com.yueny.demo.dynamic.scheduler.job.core.api.IJob#getJobDetail()
 	 */
-	public DynamicJob addJobData(final String key, final Object value) {
-		final JobDetail detail = getJobDetail();
-		final JobDataMap jobDataMap = detail.getJobDataMap();
-		jobDataMap.put(key, value);
-		return this;
-	}
-
-	/**
-	 * Transfer data to job In job use context.getMergedJobDataMap().get(key)
-	 * <br>
-	 * 传参数给 执行的 job 在job中 通过 context.getMergedJobDataMap().get(key) 获取值
-	 */
-	public DynamicJob addJobDataMap(final Map<String, Object> map) {
-		final JobDetail detail = getJobDetail();
-		final JobDataMap jobDataMap = detail.getJobDataMap();
-		jobDataMap.putAll(map);
-		return this;
-	}
-
-	/**
-	 * @return 获取CronTrigger触发器
-	 */
-	public CronTrigger cronTrigger() {
-		// eg。
-		// newTrigger().withIdentity("trigger1",
-		// "group1").withSchedule(cronSchedule("0/20 * * * * ?")).build();
-		final CronScheduleBuilder cronScheduleBuilder = cronSchedule(this.cronExpression);
-		return newTrigger().withIdentity(getTriggerKey()).withSchedule(cronScheduleBuilder).build();
-	}
-
+	@Override
 	public JobDetail getJobDetail() {
 		if (jobDetail == null) {
 			// eg.
 			// newJob(SimpleDemoQuartzJob.class).withIdentity("job1",
 			// "group1").build();
-			jobDetail = newJob(target).withIdentity(this.jobName, this.jobGroup).build();
+			jobDetail = newJob(target).withIdentity(getJobName(), getJobGroup()).build();
 		}
 		return jobDetail;
-	}
-
-	/**
-	 * @return 获取TriggerKey
-	 */
-	public TriggerKey getTriggerKey() {
-		if (triggerKey == null) {
-			triggerKey = TriggerKey.triggerKey(this.jobName, this.jobGroup);
-		}
-		return triggerKey;
 	}
 
 }

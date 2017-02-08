@@ -41,6 +41,7 @@ public abstract class AbstractQuartzinvokJobBean extends AbstractQuartzJobBean {
 			method = clazz.getDeclaredMethod(scheduleJob.getMethodName());
 		} catch (final NoSuchMethodException e) {
 			logger.error("任务名称 = [" + scheduleJob.getJobName() + "]---------------未启动成功，方法名设置错误！！！");
+			e.printStackTrace();
 		} catch (final SecurityException e) {
 			e.printStackTrace();
 		}

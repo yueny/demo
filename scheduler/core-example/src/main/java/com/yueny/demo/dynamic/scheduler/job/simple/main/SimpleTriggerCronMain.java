@@ -1,15 +1,14 @@
 package com.yueny.demo.dynamic.scheduler.job.simple.main;
 
 import org.quartz.SchedulerException;
-import org.quartz.SchedulerMetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.common.util.concurrent.AbstractIdleService;
-import com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerFactory;
+import com.yueny.demo.dynamic.scheduler.job.core.DynamicJob;
+import com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerManager;
 import com.yueny.demo.dynamic.scheduler.job.core.jobbean.demo.SimpleDemoQuartzJob;
-import com.yueny.demo.dynamic.scheduler.job.core.model.DynamicJob;
 
 /**
  * exampel 1<br>
@@ -18,7 +17,6 @@ import com.yueny.demo.dynamic.scheduler.job.core.model.DynamicJob;
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2016年12月5日 下午2:15:25
- *
  */
 public class SimpleTriggerCronMain extends AbstractIdleService {
 	private static Logger logger = LoggerFactory.getLogger(SimpleTriggerCronMain.class);
@@ -62,9 +60,9 @@ public class SimpleTriggerCronMain extends AbstractIdleService {
 		context.registerShutdownHook();
 		System.out.println("----------------provider service startedsuccessfully------------");
 
-		final DynamicSchedulerFactory dynamicSchedulerFactory = (DynamicSchedulerFactory) context
-				.getBean("dynamicSchedulerFactory");
-		System.out.println(dynamicSchedulerFactory);
+		final DynamicSchedulerManager dynamicSchedulerManager = (DynamicSchedulerManager) context
+				.getBean("dynamicSchedulerManager");
+		System.out.println(dynamicSchedulerManager);
 
 		// final Scheduler scheduler = SimpleSchedulerFactory.getScheduler();
 		logger.info("------- Scheduling Job  -------------------");
@@ -72,7 +70,7 @@ public class SimpleTriggerCronMain extends AbstractIdleService {
 		// job 1 will run every 20 seconds
 		final DynamicJob dj1 = DynamicJob.builder().target(SimpleDemoQuartzJob.class).jobName("job1").jobGroup("group1")
 				.cronExpression("0/20 * * * * ?").build();
-		dynamicSchedulerFactory.registerJob(dj1);
+		dynamicSchedulerManager.registerJob(dj1);
 		// final JobDetail job1 =
 		// newJob(SimpleDemoQuartzJob.class).withIdentity("job1",
 		// "group1").build();
@@ -88,12 +86,12 @@ public class SimpleTriggerCronMain extends AbstractIdleService {
 		// job 2 will run every other minute (at 15 seconds past the minute)
 		final DynamicJob dj2 = DynamicJob.builder().target(SimpleDemoQuartzJob.class).jobName("job2").jobGroup("group1")
 				.cronExpression("15 0/2 * * * ?").build();
-		dynamicSchedulerFactory.registerJob(dj2);
+		dynamicSchedulerManager.registerJob(dj2);
 
 		// job 3 will run every other minute but only between 8am and 5pm
 		final DynamicJob dj3 = DynamicJob.builder().target(SimpleDemoQuartzJob.class).jobName("job3").jobGroup("group1")
 				.cronExpression("0 0/2 8-17 * * ?").build();
-		dynamicSchedulerFactory.registerJob(dj3);
+		dynamicSchedulerManager.registerJob(dj3);
 		// final JobDetail job3 =
 		// newJob(SimpleDemoQuartzJob.class).withIdentity("job3",
 		// "group1").build();
@@ -109,32 +107,7 @@ public class SimpleTriggerCronMain extends AbstractIdleService {
 		// Friday)
 		final DynamicJob dj6 = DynamicJob.builder().target(SimpleDemoQuartzJob.class).jobName("job6").jobGroup("group1")
 				.cronExpression("0,30 * * ? * MON-FRI").build();
-		dynamicSchedulerFactory.registerJob(dj6);
-
-		// Start up the scheduler (nothing can actually run until the
-		// scheduler has been started) 启动调度器
-		scheduler.start();
-		logger.info("------- Started Scheduler -----------------");
-
-		// wait long enough so that the scheduler as an opportunity to
-		// run the job!
-		try {
-			logger.info("------- Waiting 65 seconds... -------------");
-			// wait 65 seconds to show job
-			Thread.sleep(65L * 1000L);
-			// executing...
-		} catch (final Exception e) {
-			//
-		}
-
-		// shut down the scheduler
-		logger.info("------- Shutting Down ---------------------");
-		scheduler.shutdown(true);
-		logger.info("------- Shutdown Complete -----------------");
-
-		// display some stats about the schedule that just ran
-		final SchedulerMetaData metaData = scheduler.getMetaData();
-		logger.info("Executed " + metaData.getNumberOfJobsExecuted() + " jobs.");
+		dynamicSchedulerManager.registerJob(dj6);
 	}
 
 }

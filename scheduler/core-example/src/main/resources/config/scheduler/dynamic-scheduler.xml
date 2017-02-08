@@ -53,8 +53,8 @@
           class="com.yueny.demo.dynamic.scheduler.job.core.listener.QuartzJobListener"/>
           
 	<!--dynamic scheduler factory -->
-    <bean id="schedulerManager" name="schedulerManager" 
-    	class="com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerFactory">
+    <bean id="dynamicSchedulerManager" name="dynamicSchedulerManager" 
+    	class="com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerManager">
         <property name="scheduler" ref="quartzScheduler"/>
         <property name="listener" ref="quartzJobListener"/>
     </bean>

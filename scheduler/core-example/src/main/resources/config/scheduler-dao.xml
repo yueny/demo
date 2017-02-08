@@ -8,7 +8,7 @@
 			http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 	
 	<mybatis:scan annotation="org.springframework.stereotype.Repository" 
-		base-package="com.yueny.demo.dynamic.scheduler.dao"
+		base-package="com.yueny.demo.dynamic.scheduler.job.dao"
 		factory-ref="sqlSessionFactory"/>
 	
 	<bean id="dataSourceChecker" class="com.yueny.superclub.util.storage.db.DataSourceChecker"

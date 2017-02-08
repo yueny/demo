@@ -48,18 +48,6 @@
     
     <!-- FreeMarker视图解析 如返回userinfo。。在这里配置后缀名ftl和视图解析器。  -->  
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="defaultContentType" value="application/json"></property>
-		<property name="ignoreAcceptHeader" value="true"></property>
-		<property name="mediaTypes">
-			<map>
-				<entry key="html" value="text/html" />  
-                <entry key="json" value="application/json" />  
-                <entry key="xml" value="application/xml" />  
-                <entry key="excel" value="application/excel" />  
-                <entry key="pdf" value="application/pdf" /> 
-			</map>
-		</property>
-		
 		<property name="order" value="0"/>
 		<property name="viewResolvers">
 			<list>

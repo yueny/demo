@@ -26,7 +26,6 @@
     <bean id="firstConsoleTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="firstConsoleJobDetail"/>
         <property name="cronExpression" value="0/5 * * * * ?"/>
-        
         <property name="timeZone">
             <value>GMT+8:00</value>
         </property>
