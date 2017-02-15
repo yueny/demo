@@ -1,20 +1,22 @@
 package com.yueny.demo.dynamic.scheduler.job.core.enums;
 
+import com.yueny.superclub.api.enums.core.IEnumType;
+
 import lombok.Getter;
 
 /**
  * quartz 任务 状态
- * 
+ *
  * <p>
  * 主要匹配 TriggerState 多一个任务过期状态
- * 
+ *
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2017年2月7日 下午1:26:53
  * @see org.quartz.Trigger.TriggerState
  *
  */
-public enum QuartzTaskStatus {
+public enum JobStatusType implements IEnumType {
 
 	/**
 	 * 阻塞
@@ -57,7 +59,7 @@ public enum QuartzTaskStatus {
 	@Getter
 	private int weight;
 
-	QuartzTaskStatus(final int weight) {
+	JobStatusType(final int weight) {
 		this.weight = weight;
 	}
 }

@@ -21,8 +21,7 @@ public class QuartzJobListener implements JobListener {
 
 	@Override
 	public void jobExecutionVetoed(final JobExecutionContext context) {
-		System.out.println(context.getJobDetail().getKey() + ":C");
-		// quartzJobsBiz.taskExpired(context.getJobDetail().getKey().getName());
+		// .
 	}
 
 	@Override
@@ -32,7 +31,8 @@ public class QuartzJobListener implements JobListener {
 
 	@Override
 	public void jobWasExecuted(final JobExecutionContext context, final JobExecutionException jobException) {
-		// .
+		System.out.println(context.getJobDetail().getKey() + ":C");
+		// quartzJobsBiz.taskExpired(context.getJobDetail().getKey().getName());
 	}
 
 }

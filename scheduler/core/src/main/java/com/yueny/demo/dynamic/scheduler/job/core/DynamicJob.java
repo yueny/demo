@@ -64,7 +64,7 @@ public class DynamicJob extends BaseJob {
 	}
 
 	/**
-	 * cron 表达式
+	 * cron 表达式/执行时间
 	 */
 	@Getter
 	private final String cronExpression;

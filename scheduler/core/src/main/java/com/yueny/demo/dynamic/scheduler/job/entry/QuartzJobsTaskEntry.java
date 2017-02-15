@@ -5,8 +5,8 @@ import java.io.Serializable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import com.yueny.demo.dynamic.scheduler.job.core.enums.QuartzCycleType;
-import com.yueny.demo.dynamic.scheduler.job.core.enums.QuartzTaskStatus;
+import com.yueny.demo.dynamic.scheduler.job.core.enums.ExpCycleType;
+import com.yueny.demo.dynamic.scheduler.job.core.enums.JobStatusType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -52,17 +52,17 @@ public class QuartzJobsTaskEntry implements Serializable {
 
 	/**
 	 * 任务状态
-	 * {@link com.yueny.demo.dynamic.scheduler.job.core.enums.QuartzTaskStatus}
+	 * {@link com.yueny.demo.dynamic.scheduler.job.core.enums.JobStatusType}
 	 */
 	@Enumerated(EnumType.STRING)
-	private QuartzTaskStatus status;
+	private JobStatusType status;
 
 	/**
 	 * 执行周期类型
-	 * {@link com.yueny.demo.dynamic.scheduler.job.core.enums.QuartzCycleType}
+	 * {@link com.yueny.demo.dynamic.scheduler.job.core.enums.ExpCycleType}
 	 */
 	@Enumerated(EnumType.STRING)
-	private QuartzCycleType type;
+	private ExpCycleType type;
 
 	/**
 	 * 维护人

@@ -84,7 +84,7 @@ public class DynamicInvokJob extends BaseJob implements Serializable {
 	}
 
 	/**
-	 * cron 表达式
+	 * cron 表达式/执行时间
 	 */
 	@Getter
 	private final String cronExpression;

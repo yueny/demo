@@ -1,7 +1,7 @@
 package com.yueny.demo.dynamic.scheduler.job.bo;
 
-import com.yueny.demo.dynamic.scheduler.job.core.enums.QuartzCycleType;
-import com.yueny.demo.dynamic.scheduler.job.core.enums.QuartzTaskStatus;
+import com.yueny.demo.dynamic.scheduler.job.core.enums.ExpCycleType;
+import com.yueny.demo.dynamic.scheduler.job.core.enums.JobStatusType;
 import com.yueny.superclub.api.pojo.instance.AbstractBo;
 
 import lombok.EqualsAndHashCode;
@@ -67,11 +67,11 @@ public class QuartzJobsTaskBo extends AbstractBo {
 	/**
 	 * 系统本身 任务状态
 	 */
-	private QuartzTaskStatus status;
+	private JobStatusType status;
 	/**
 	 * 执行周期
 	 */
-	private QuartzCycleType type;
+	private ExpCycleType type;
 
 	/**
 	 * 维护人
@@ -81,11 +81,11 @@ public class QuartzJobsTaskBo extends AbstractBo {
 	/**
 	 * 系统本身 任务状态 权重
 	 *
-	 * @see QuartzTaskStatus weight
+	 * @see JobStatusType weight
 	 */
 	private int weight;
 
-	public void setStatus(final QuartzTaskStatus status) {
+	public void setStatus(final JobStatusType status) {
 		this.status = status;
 		this.weight = status.getWeight();
 	}
