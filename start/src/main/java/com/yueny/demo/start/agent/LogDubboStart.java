@@ -9,6 +9,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.common.util.concurrent.AbstractIdleService;
 
+/**
+ * @author yueny09 <deep_blue_yang@163.com>
+ *
+ * @DATE 2017年3月10日 下午8:41:40
+ *
+ */
 public class LogDubboStart extends AbstractIdleService {
 	public static LogDubboStart bootstrap = null;
 
