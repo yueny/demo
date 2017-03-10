@@ -17,8 +17,6 @@ import com.yueny.superclub.util.strategy.IStrategy;
  * @since
  */
 public interface IQuartzCycleHandler extends IStrategy<ExpCycleType> {
-	public static String JOB_DATA_KEY = "data";
-
 	/**
 	 * 添加任务
 	 *

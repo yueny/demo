@@ -7,7 +7,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 
 import com.yueny.demo.dynamic.scheduler.job.core.enums.JobStatusType;
-import com.yueny.superclub.api.pojo.instance.AbstractBo;
+import com.yueny.rapid.lang.mask.pojo.instance.AbstractMaskBo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +20,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class TriggerInfo extends AbstractBo {
+public class TriggerInfo extends AbstractMaskBo {
 	/**
 	 *
 	 */

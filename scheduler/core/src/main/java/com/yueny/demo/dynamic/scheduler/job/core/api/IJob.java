@@ -9,6 +9,8 @@ import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 
+import com.yueny.demo.dynamic.scheduler.job.core.enums.JobDataKeyType;
+
 /**
  * @author yueny09 <deep_blue_yang@163.com>
  *
@@ -16,6 +18,13 @@ import org.quartz.TriggerKey;
  * @since
  */
 public interface IJob {
+	/**
+	 * Transfer data to job In job use context.getMergedJobDataMap().get(key)
+	 * <br>
+	 * 传参数给 执行的 job 在job中 通过 context.getMergedJobDataMap().get(key) 获取值
+	 */
+	IJob addJobData(final JobDataKeyType key, final Object value);
+
 	/**
 	 * Transfer data to job In job use context.getMergedJobDataMap().get(key)
 	 * <br>

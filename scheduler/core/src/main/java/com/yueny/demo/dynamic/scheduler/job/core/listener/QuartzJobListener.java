@@ -32,6 +32,11 @@ public class QuartzJobListener implements JobListener {
 	@Override
 	public void jobWasExecuted(final JobExecutionContext context, final JobExecutionException jobException) {
 		System.out.println(context.getJobDetail().getKey() + ":C");
+		// job.addJobData(JobDataKeyType.JOB_DATA_KEY, jobData);
+
+		final String listenerxxx = (String) context.getMergedJobDataMap().get("listenerxxx");
+		System.out.println(listenerxxx);
+
 		// quartzJobsBiz.taskExpired(context.getJobDetail().getKey().getName());
 	}
 

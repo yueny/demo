@@ -17,6 +17,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerKey;
 
 import com.yueny.demo.dynamic.scheduler.job.core.api.IJob;
+import com.yueny.demo.dynamic.scheduler.job.core.enums.JobDataKeyType;
 import com.yueny.demo.dynamic.scheduler.job.core.factory.DynamicSchedulerManager;
 import com.yueny.rapid.lang.date.DateUtil;
 
@@ -44,6 +45,18 @@ public abstract class BaseJob implements IJob {
 	public BaseJob(final String jobName, final String jobGroup) {
 		this.jobName = jobName;
 		this.jobGroup = jobGroup;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.yueny.demo.dynamic.scheduler.job.core.api.IJob#addJobData(com.yueny.
+	 * demo.dynamic.scheduler.job.core.enums.JobDataKeyType, java.lang.Object)
+	 */
+	@Override
+	public IJob addJobData(final JobDataKeyType key, final Object value) {
+		return addJobData(key.getKey(), value);
 	}
 
 	/*

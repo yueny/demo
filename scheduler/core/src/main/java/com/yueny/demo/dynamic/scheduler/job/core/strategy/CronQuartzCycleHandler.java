@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.yueny.demo.dynamic.scheduler.job.core.DynamicJob;
 import com.yueny.demo.dynamic.scheduler.job.core.api.IJobData;
 import com.yueny.demo.dynamic.scheduler.job.core.enums.ExpCycleType;
+import com.yueny.demo.dynamic.scheduler.job.core.enums.JobDataKeyType;
 
 /**
  * cron表达式
@@ -18,7 +19,7 @@ import com.yueny.demo.dynamic.scheduler.job.core.enums.ExpCycleType;
 public class CronQuartzCycleHandler extends AbstractQuartzCycleHandler {
 	@Override
 	public boolean addJob(DynamicJob job, IJobData jobData) {
-		job.addJobData(JOB_DATA_KEY, jobData);
+		job.addJobData(JobDataKeyType.JOB_DATA_KEY, jobData);
 		return getSchedulerManager().registerJob(job);
 	}
 

@@ -1,6 +1,6 @@
 package com.yueny.demo.dynamic.scheduler.job.core.model;
 
-import com.yueny.superclub.api.pojo.instance.AbstractBo;
+import com.yueny.rapid.lang.mask.pojo.instance.AbstractMaskBo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,13 +15,14 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class QuartzCycleBo extends AbstractBo {
+public class QuartzCycleBo extends AbstractMaskBo {
 	/**
-	 *
+	 * 任务执行周期key
 	 */
-	private static final long serialVersionUID = -1297803106905708828L;
+	private String code;
 
-	private int code;
-
-	private String value;
+	/**
+	 * 任务执行周期描述
+	 */
+	private String desc;
 }

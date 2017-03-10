@@ -2,7 +2,7 @@ package com.yueny.demo.dynamic.scheduler.job.bo;
 
 import com.yueny.demo.dynamic.scheduler.job.core.enums.ExpCycleType;
 import com.yueny.demo.dynamic.scheduler.job.core.enums.JobStatusType;
-import com.yueny.superclub.api.pojo.instance.AbstractBo;
+import com.yueny.rapid.lang.mask.pojo.instance.AbstractMaskBo;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,12 +15,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false, of = { "serialVersionUID" })
-public class QuartzJobsTaskBo extends AbstractBo {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -1586102203484369286L;
+final @EqualsAndHashCode(callSuper = false, of = { "serialVersionUID" }) public class QuartzJobsTaskBo
+		extends AbstractMaskBo {
 
 	/**
 	 * 任务配置id

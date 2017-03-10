@@ -1,13 +1,13 @@
 package com.yueny.demo.dynamic.scheduler.job.core.factory;
 
 import static org.quartz.TriggerBuilder.newTrigger;
+import static org.quartz.impl.matchers.EverythingMatcher.allJobs;
 
 import java.util.Date;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
-import org.quartz.JobListener;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -19,6 +19,7 @@ import com.yueny.demo.dynamic.scheduler.job.core.DynamicInvokJob;
 import com.yueny.demo.dynamic.scheduler.job.core.DynamicJob;
 import com.yueny.demo.dynamic.scheduler.job.core.api.IJob;
 import com.yueny.demo.dynamic.scheduler.job.core.enums.JobStatusType;
+import com.yueny.demo.dynamic.scheduler.job.core.listener.QuartzJobListener;
 import com.yueny.demo.dynamic.scheduler.job.core.model.TriggerInfo;
 import com.yueny.rapid.lang.date.DateUtil;
 
@@ -44,8 +45,7 @@ public class DynamicSchedulerManager implements InitializingBean {
 	public static final String DEFAULT_GROUP = "DEFAULT";
 	public static final String UNKNOWN = "N/A";
 
-	@Setter
-	private JobListener listener;
+	private QuartzJobListener listener;
 	@Setter
 	private Scheduler scheduler;
 
@@ -56,6 +56,10 @@ public class DynamicSchedulerManager implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(scheduler, "scheduler is null");
+		if (listener == null) {
+			listener = new QuartzJobListener();
+		}
+
 		log.info("Initial DynamicSchedulerFactory successful, scheduler instance: {}", scheduler);
 	}
 
@@ -214,10 +218,13 @@ public class DynamicSchedulerManager implements InitializingBean {
 			}
 
 			final Trigger cronTrigger = ijob.getTrigger();
-
 			final JobDetail jobDetail = ijob.getJobDetail();
-			final Date ft = scheduler.scheduleJob(jobDetail, cronTrigger);
 
+			// TODO
+			ijob.addJobData("listenerxxx", "listener");
+			scheduler.getListenerManager().addJobListener(listener, allJobs());
+
+			final Date ft = scheduler.scheduleJob(jobDetail, cronTrigger);
 			log.info("Register IJob {} has been scheduled to run at [{}] and repeat based on expression:{}."
 					+ ijob.getCronExpression(), ijob, ft);
 			return true;
@@ -322,6 +329,14 @@ public class DynamicSchedulerManager implements InitializingBean {
 			log.info("Failed resume exist DynamicJob {}, because not fount triggerKey [{}]", existJob, triggerKey);
 		}
 		return result;
+	}
+
+	/**
+	 * @param listener
+	 *            the listener to set
+	 */
+	public void setListener(QuartzJobListener listener) {
+		this.listener = listener;
 	}
 
 	/**
