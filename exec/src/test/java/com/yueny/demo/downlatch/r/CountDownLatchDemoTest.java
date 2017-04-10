@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Lists;
-import com.yueny.demo.BaseTest;
-import com.yueny.demo.downlatch.CountDownLatchDemo;
+import com.yueny.demo.BaseSpringTxTest;
+import com.yueny.demo.downlatch.CountDownLatchDemoService;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -15,9 +15,9 @@ import com.yueny.demo.downlatch.CountDownLatchDemo;
  * @DATE 2016年3月22日 下午1:24:52
  *
  */
-public class CountDownLatchDemoTest extends BaseTest {
+public class CountDownLatchDemoTest extends BaseSpringTxTest {
 	@Autowired
-	private CountDownLatchDemo countDownLatchDemo;
+	private CountDownLatchDemoService countDownLatchDemo;
 
 	@Test
 	public void testMethodRun() {

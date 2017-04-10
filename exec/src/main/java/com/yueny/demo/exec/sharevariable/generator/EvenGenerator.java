@@ -1,6 +1,6 @@
 package com.yueny.demo.exec.sharevariable.generator;
 
-import com.yueny.demo.annotion.UnSafe;
+import com.yueny.demo.common.annotion.UnSafe;
 import com.yueny.demo.exec.sharevariable.EventChecker;
 
 @UnSafe

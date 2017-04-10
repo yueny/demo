@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="rocketmq-consumer:war exploded">
+    <output-path>$PROJECT_DIR$/spi/target/rocketmq-consumer-0.0.1-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="rocketmq-consumer" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="D:\workspace\Java\pratice\pra\dubbo\spi\target/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="rocketmq-consumer/web/Web" />
+    </root>
+  </artifact>
+</component>

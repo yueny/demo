@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+需把xsd存放在classpath下，一般都放在META-INF目录下.
+
+<schema>:  是每一个 XML Schema 的根元素.
+xmlns： 指出默认的命名空间
+xmlns:xsd: 显示 schema 中用到的元素和数据类型来自命名空间 "http://www.w3.org/2001/XMLSchema"。
+同时它还规定了来自命名空间 "http://www.w3.org/2001/XMLSchema" 的元素和数据类型应该使用前缀 xsd。
+targetNamespace： 显示被此 schema 定义的元素 (note, to, from, heading, body) 来自命名空间。
+ -->
+<xsd:schema   
+    xmlns="http://blog.codealy.com/schema/lock"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:tool="http://www.springframework.org/schema/tool"
+    targetNamespace="http://blog.codealy.com/schema/lock"  
+    elementFormDefault="qualified"   
+    attributeFormDefault="unqualified">
+    
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
+	<xsd:import namespace="http://www.springframework.org/schema/tool"/>
+    
+    <!-- <xsd:element name="lock">对应着配置项节点的名称，因此在应用中会用lock作为节点名来引用这个配置 -->
+    <!--
+    xsd 常用的内建数据类型
+    xs:string
+    xs:decimal
+    xs:integer
+    xs:boolean
+    xs:date
+    xs:time
+    xs:positiveInteger
+    -->
+    <xsd:element name="lock">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <!-- 对应着配置项lock的两个属性名，因此在应用中可以配置key和group两个属性，string类型  -->
+                    <xsd:attribute name="name" type="xsd:string"/>
+                    <xsd:attribute name="key" type="xsd:string" use="required"/>
+                    <xsd:attribute name="group" type="xsd:string"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

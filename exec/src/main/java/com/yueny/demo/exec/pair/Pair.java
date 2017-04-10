@@ -1,6 +1,6 @@
 package com.yueny.demo.exec.pair;
 
-import com.yueny.demo.annotion.UnSafe;
+import com.yueny.demo.common.annotion.UnSafe;
 
 @UnSafe
 public class Pair {

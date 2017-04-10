@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.yueny.demo.annotion.Safe;
+import com.yueny.demo.common.annotion.Safe;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>

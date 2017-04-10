@@ -3,7 +3,7 @@ package com.yueny.demo.exec.sharevariable.generator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.yueny.demo.annotion.Safe;
+import com.yueny.demo.common.annotion.Safe;
 import com.yueny.demo.exec.sharevariable.EventChecker;
 
 @Safe

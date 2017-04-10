@@ -3,7 +3,7 @@ package com.yueny.demo.exec.atom;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.yueny.demo.annotion.UnSafe;
+import com.yueny.demo.common.annotion.UnSafe;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>

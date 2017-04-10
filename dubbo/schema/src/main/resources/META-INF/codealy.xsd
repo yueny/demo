@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+需把xsd存放在classpath下，一般都放在META-INF目录下.
+
+<schema>:  是每一个 XML Schema 的根元素.
+xmlns： 指出默认的命名空间
+xmlns:xsd: 显示 schema 中用到的元素和数据类型来自命名空间 "http://www.w3.org/2001/XMLSchema"。
+同时它还规定了来自命名空间 "http://www.w3.org/2001/XMLSchema" 的元素和数据类型应该使用前缀 xsd。
+targetNamespace： 显示被此 schema 定义的元素 (note, to, from, heading, body) 来自命名空间。
+ -->
+<xsd:schema   
+    xmlns="http://blog.codealy.com/schema/codealy"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:tool="http://www.springframework.org/schema/tool"
+    targetNamespace="http://blog.codealy.com/schema/codealy"  
+    elementFormDefault="qualified"   
+    attributeFormDefault="unqualified">
+    
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
+	<xsd:import namespace="http://www.springframework.org/schema/tool"/>
+    
+    <!-- <xsd:element name="lock">对应着配置项节点的名称，因此在应用中会用lock作为节点名来引用这个配置 -->
+    <!--
+    xsd 常用的内建数据类型
+    xs:string
+    xs:decimal
+    xs:integer
+    xs:boolean
+    xs:date
+    xs:time
+    xs:positiveInteger
+    -->
+	<!--
+	<xsd:complexType name="abstractMethodType">
+		<xsd:attribute name="actives" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[ The max active requests. ]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	-->
+    <xsd:complexType name="abstractMethodType">
+		<xsd:complexContent>
+			<xsd:extension base="beans:identifiedType">
+				<xsd:attribute name="actives" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ The max active requests. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="abstractInterfaceType">
+		<xsd:complexContent>
+			<xsd:extension base="abstractMethodType">
+				<!--
+				<xsd:attribute name="id" type="xsd:ID">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ The unique identifier for a bean. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				-->
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="abstractServiceType">
+		<xsd:complexContent>
+			<xsd:extension base="abstractInterfaceType">
+				<xsd:attribute name="executes" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ The service allow execute requests. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="group" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ The service group. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:anyAttribute namespace="##other" processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="parameterType">
+		<xsd:attribute name="key" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[ The parameter key. ]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="value" type="xsd:string" use="required">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[ The parameter value. ]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="hide" type="xsd:boolean" use="optional">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[ Hide parameter. ]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="lockType">
+		<xsd:complexContent>
+			<xsd:extension base="abstractServiceType">
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="parameter" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:choice>
+
+				<xsd:attribute name="key" type="xsd:string" use="required">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ The service host. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="name" type="xsd:string" use="optional">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ The service port. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:anyAttribute namespace="##other" processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="kapoType">
+		<xsd:complexContent>
+			<xsd:extension base="abstractServiceType">
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<xsd:element ref="parameter" minOccurs="0" maxOccurs="unbounded" />
+					<xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded" />
+				</xsd:choice>
+
+				<xsd:attribute name="interface" type="xsd:token" use="required">
+					<xsd:annotation>
+						<xsd:documentation><![CDATA[ The service host. ]]></xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:anyAttribute namespace="##other" processContents="lax" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="parameter" type="parameterType">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[ The service url parameter ]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:element name="kapo" type="kapoType">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[ Export service default config ]]></xsd:documentation>
+		</xsd:annotation>
+    </xsd:element>
+    
+    <xsd:element name="lock" type="lockType">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[ Export service default config ]]></xsd:documentation>
+		</xsd:annotation>
+    </xsd:element>
+
+</xsd:schema>

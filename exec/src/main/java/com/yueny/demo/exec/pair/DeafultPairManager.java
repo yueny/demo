@@ -1,6 +1,6 @@
 package com.yueny.demo.exec.pair;
 
-import com.yueny.demo.annotion.Safe;
+import com.yueny.demo.common.annotion.Safe;
 
 /**
  * Synchronize the entire method

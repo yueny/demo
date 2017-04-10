@@ -2,7 +2,7 @@ package com.yueny.demo.exec.sharevariable.generator;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.yueny.demo.annotion.Safe;
+import com.yueny.demo.common.annotion.Safe;
 import com.yueny.demo.exec.sharevariable.EventChecker;
 
 @Safe

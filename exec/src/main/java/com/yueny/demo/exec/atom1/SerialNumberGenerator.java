@@ -1,6 +1,6 @@
 package com.yueny.demo.exec.atom1;
 
-import com.yueny.demo.annotion.UnSafe;
+import com.yueny.demo.common.annotion.UnSafe;
 
 @UnSafe
 public class SerialNumberGenerator {
