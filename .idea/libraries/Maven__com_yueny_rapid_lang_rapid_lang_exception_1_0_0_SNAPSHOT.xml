@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.yueny.rapid.lang:rapid-lang-exception:1.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yueny/rapid/lang/rapid-lang-exception/1.0.0-SNAPSHOT/rapid-lang-exception-1.0.0-20170210.084556-83.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yueny/rapid/lang/rapid-lang-exception/1.0.0-SNAPSHOT/rapid-lang-exception-1.0.0-20170210.084556-83-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/yueny/rapid/lang/rapid-lang-exception/1.0.0-SNAPSHOT/rapid-lang-exception-1.0.0-20170210.084556-83-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

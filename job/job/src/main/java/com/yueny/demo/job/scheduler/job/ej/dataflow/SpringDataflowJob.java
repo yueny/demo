@@ -27,7 +27,7 @@ import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.yueny.demo.job.bo.ModifyDemoBo;
 import com.yueny.demo.job.service.IDataPrecipitationService;
-import com.yueny.superclub.util.common.enums.YesNoType;
+import com.yueny.rapid.lang.util.enums.YesNoType;
 
 /**
  * 数据流分布式作业

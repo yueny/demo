@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="lamdba:war">
+    <output-path>$PROJECT_DIR$/lamdba/target</output-path>
+    <root id="archive" name="lamdba-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="lamdba:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/annotations/annotations.iml" filepath="$PROJECT_DIR$/annotations/annotations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aspect/aspect.iml" filepath="$PROJECT_DIR$/aspect/aspect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dubbo/dubbo.iml" filepath="$PROJECT_DIR$/dubbo/dubbo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dubbo/api/dubbo-api.iml" filepath="$PROJECT_DIR$/dubbo/api/dubbo-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dubbo/schema/dubbo-schema.iml" filepath="$PROJECT_DIR$/dubbo/schema/dubbo-schema.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exec/exec.iml" filepath="$PROJECT_DIR$/exec/exec.iml" />
+      <module fileurl="file://$PROJECT_DIR$/frequence/frequence.iml" filepath="$PROJECT_DIR$/frequence/frequence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hadoop/hadoop/hadoop.iml" filepath="$PROJECT_DIR$/hadoop/hadoop/hadoop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hadoop/hadoop-parent.iml" filepath="$PROJECT_DIR$/hadoop/hadoop-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hystrix/hystrix.iml" filepath="$PROJECT_DIR$/hystrix/hystrix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javaRemoteSSH/javaRemoteSSH.iml" filepath="$PROJECT_DIR$/javaRemoteSSH/javaRemoteSSH.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jms/jms.iml" filepath="$PROJECT_DIR$/jms/jms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jms/consumer/jms-consumer.iml" filepath="$PROJECT_DIR$/jms/consumer/jms-consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jms/provider/jms-provider.iml" filepath="$PROJECT_DIR$/jms/provider/jms-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/job/job.iml" filepath="$PROJECT_DIR$/job/job.iml" />
+      <module fileurl="file://$PROJECT_DIR$/job/job/job_spring.iml" filepath="$PROJECT_DIR$/job/job/job_spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lamdba/lamdba.iml" filepath="$PROJECT_DIR$/lamdba/lamdba.iml" />
+      <module fileurl="file://$PROJECT_DIR$/metrics/metrics.iml" filepath="$PROJECT_DIR$/metrics/metrics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pagehelper/pagehelper.iml" filepath="$PROJECT_DIR$/pagehelper/pagehelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pra.iml" filepath="$PROJECT_DIR$/pra.iml" />
+      <module fileurl="file://$PROJECT_DIR$/randCode/rand-code.iml" filepath="$PROJECT_DIR$/randCode/rand-code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/redis/redis.iml" filepath="$PROJECT_DIR$/redis/redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rocketMQ/rocketmq.iml" filepath="$PROJECT_DIR$/rocketMQ/rocketmq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rocketMQ/api/rocketmq-api.iml" filepath="$PROJECT_DIR$/rocketMQ/api/rocketmq-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dubbo/spi/rocketmq-consumer (1).iml" filepath="$PROJECT_DIR$/dubbo/spi/rocketmq-consumer (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/rocketMQ/consumer/rocketmq-consumer (2).iml" filepath="$PROJECT_DIR$/rocketMQ/consumer/rocketmq-consumer (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/rocketMQ/provider/rocketmq-provider.iml" filepath="$PROJECT_DIR$/rocketMQ/provider/rocketmq-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springBatch/springBatch.iml" filepath="$PROJECT_DIR$/springBatch/springBatch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/start/start.iml" filepath="$PROJECT_DIR$/start/start.iml" />
+      <module fileurl="file://$PROJECT_DIR$/task/task.iml" filepath="$PROJECT_DIR$/task/task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zookeeper/zookeeper.iml" filepath="$PROJECT_DIR$/zookeeper/zookeeper.iml" />
+    </modules>
+  </component>
+</project>

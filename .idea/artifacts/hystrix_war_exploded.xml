@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="hystrix:war exploded">
+    <output-path>$PROJECT_DIR$/hystrix/target/pra-0.0.1-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="hystrix" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="D:\workspace\Java\pratice\pra\hystrix\target/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="hystrix/web/Web" />
+    </root>
+  </artifact>
+</component>

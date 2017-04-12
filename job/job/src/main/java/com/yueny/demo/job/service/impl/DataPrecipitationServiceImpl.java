@@ -13,7 +13,7 @@ import com.yueny.demo.job.dao.IDataPrecipitationDao;
 import com.yueny.demo.job.entry.ModifyDemoEntry;
 import com.yueny.demo.job.service.BaseSevice;
 import com.yueny.demo.job.service.IDataPrecipitationService;
-import com.yueny.superclub.util.common.enums.YesNoType;
+import com.yueny.rapid.lang.util.enums.YesNoType;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>

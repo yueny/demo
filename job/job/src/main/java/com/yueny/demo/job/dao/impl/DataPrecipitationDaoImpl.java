@@ -12,7 +12,7 @@ import com.yueny.kapo.core.condition.builder.QueryBuilder;
 import com.yueny.kapo.core.condition.builder.UpdateBuilder;
 import com.yueny.kapo.core.condition.column.operand.enums.BasicSqlOperand;
 import com.yueny.kapo.core.dao.biz.origin.AbstractOrginDao;
-import com.yueny.superclub.util.common.enums.YesNoType;
+import com.yueny.rapid.lang.util.enums.YesNoType;
 
 /**
  * 数据落地服务

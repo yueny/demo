@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="rand-code:war">
+    <output-path>$PROJECT_DIR$/randCode/target</output-path>
+    <root id="archive" name="pic.war">
+      <element id="artifact" artifact-name="rand-code:war exploded" />
+    </root>
+  </artifact>
+</component>

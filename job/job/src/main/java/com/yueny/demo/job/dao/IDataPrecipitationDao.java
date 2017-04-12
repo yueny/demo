@@ -5,9 +5,10 @@ import java.util.List;
 import com.yueny.demo.job.entry.ModifyDemoEntry;
 import com.yueny.kapo.api.IClearTableDao;
 import com.yueny.kapo.api.IDeleteTableDao;
+import com.yueny.kapo.api.IMultipleTableDao;
 import com.yueny.kapo.api.IWholeTableQueryDao;
 import com.yueny.kapo.core.dao.biz.origin.IOriginDao;
-import com.yueny.superclub.util.common.enums.YesNoType;
+import com.yueny.rapid.lang.util.enums.YesNoType;
 
 /**
  * 数据落地服务
@@ -17,8 +18,8 @@ import com.yueny.superclub.util.common.enums.YesNoType;
  * @DATE 2016年8月10日 下午4:25:18
  *
  */
-public interface IDataPrecipitationDao
-		extends IOriginDao<ModifyDemoEntry>, IWholeTableQueryDao<ModifyDemoEntry>, IClearTableDao, IDeleteTableDao {
+public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWholeTableQueryDao<ModifyDemoEntry>,
+		IClearTableDao, IDeleteTableDao, IMultipleTableDao<ModifyDemoEntry> {
 	/**
 	 * 根据分片项查询未处理的数据主键<br>
 	 * select id from modify_demo where mod(ID, 5)=0;<br>
