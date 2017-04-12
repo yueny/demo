@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutorCompletionService;
 import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -97,10 +96,8 @@ public class SpringDataBatchWithModifyJob extends SuperScheduler {
 		}
 
 		final long end = SystemClock.now();
-		logger.info("Spring Update Batch id: {} 总耗时:{}秒, 更新数目:{}条.", batchId, (end - start) / 1000, updateResult.size());
-
-		Assert.assertEquals(ids.size(), sum(updateResult));
-		Assert.assertEquals(tasks.size(), updateResult.size());
+		logger.info("Spring Update Batch id: {} 总耗时:{}秒, 更新数目:{}条.", batchId, (end - start) / 1000,
+				updateResult.size());
 	}
 
 	private List<Long> fetchData(final List<Long> ids) {

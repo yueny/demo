@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b8d84446-243b-4e8f-ab4d-32cade1d01ce" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/job/job/pom.xml" afterPath="$PROJECT_DIR$/job/job/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/job/job/src/main/java/com/yueny/demo/job/scheduler/job/spring/SpringDataBatchWithModifyJob.java" afterPath="$PROJECT_DIR$/job/job/src/main/java/com/yueny/demo/job/scheduler/job/spring/SpringDataBatchWithModifyJob.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="pra.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -324,12 +325,12 @@
       <created>1492002599166</created>
       <option name="number" value="Default" />
       <updated>1492002599166</updated>
-      <workItem from="1492002601150" duration="631000" />
+      <workItem from="1492002601150" duration="1120000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="631000" />
+    <option name="totallyTimeSpent" value="1120000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
