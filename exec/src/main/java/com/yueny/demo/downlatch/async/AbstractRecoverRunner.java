@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import com.yueny.demo.downlatch.bo.RecoverResult;
 import com.yueny.demo.downlatch.holder.TransResultHolder;
 
+import lombok.Getter;
+
 /**
  * @author yueny09 <deep_blue_yang@163.com>
  *
@@ -17,19 +19,19 @@ import com.yueny.demo.downlatch.holder.TransResultHolder;
  *
  */
 public abstract class AbstractRecoverRunner implements Runnable {
-	private static Logger logger = LoggerFactory
-			.getLogger(AbstractRecoverRunner.class);
+	private static Logger logger = LoggerFactory.getLogger(AbstractRecoverRunner.class);
 
-	protected CountDownLatch countDownLatch;
-
-	protected List<String> transIdList;
+	private CountDownLatch latch;
 
 	private TransResultHolder resultHolder;
+	@Getter
+	private List<String> transIdList;
 
-	public void init(final List<String> transIdList,
-			final TransResultHolder resultHolder,
+	public abstract List<RecoverResult> execute();
+
+	public void init(final List<String> transIdList, final TransResultHolder resultHolder,
 			final CountDownLatch countDownLatch) {
-		this.countDownLatch = countDownLatch;
+		this.latch = countDownLatch;
 		this.transIdList = transIdList;
 		this.resultHolder = resultHolder;
 	}
@@ -44,16 +46,18 @@ public abstract class AbstractRecoverRunner implements Runnable {
 			results = this.execute();
 		} catch (final Exception e) {
 			logger.error("Exception: ", e);
-			results = proFail(e.getMessage());
+			results = proAllFail(e.getMessage());
 		} finally {
-			countDownLatch.countDown();
+			logger.info("发现有一个倒计时门闩关闭了...");
+			latch.countDown();
 		}
+
 		resultHolder.addResults(results);
 	}
 
-	private List<RecoverResult> proFail(final String errorMsg) {
+	private List<RecoverResult> proAllFail(final String errorMsg) {
 		final List<RecoverResult> results = new ArrayList<RecoverResult>();
-		for (final String transId : transIdList) {
+		for (final String transId : getTransIdList()) {
 			final RecoverResult result = new RecoverResult();
 			result.setTransId(transId);
 			result.setReason(errorMsg);
@@ -62,7 +66,5 @@ public abstract class AbstractRecoverRunner implements Runnable {
 		}
 		return results;
 	}
-
-	public abstract List<RecoverResult> execute();
 
 }

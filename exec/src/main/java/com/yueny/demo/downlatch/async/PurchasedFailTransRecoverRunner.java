@@ -1,22 +1,29 @@
 package com.yueny.demo.downlatch.async;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.yueny.demo.downlatch.bo.RecoverResult;
 
 public class PurchasedFailTransRecoverRunner extends AbstractRecoverRunner {
 
 	@Override
 	public List<RecoverResult> execute() {
-		final List<RecoverResult> lists = Lists.newArrayListWithCapacity(10);
-		for (int i = 0; i < 10; i++) {
-			final RecoverResult r = new RecoverResult();
-			r.setTransId(String.valueOf(i * i));
-			r.setReason("OK");
-			r.setSucc(i % 2 == 0);
+		final List<RecoverResult> lists = new ArrayList<RecoverResult>(getTransIdList().size());
 
-			lists.add(r);
+		for (int i = 0; i < getTransIdList().size(); i++) {
+			final RecoverResult result = new RecoverResult();
+			result.setTransId(getTransIdList().get(i));
+
+			if (i % 2 == 0) {
+				result.setReason("OK");
+				result.setSucc(true);
+			} else {
+				result.setReason("FAIL");
+				result.setSucc(false);
+			}
+
+			lists.add(result);
 		}
 		return lists;
 	}

@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
 
-@ContextConfiguration(locations = { "classpath*:config/all-test.xml" }, initializers = { TestApplicationContextInitializer.class })
+@ContextConfiguration(locations = { "classpath*:config/all-test.xml" })
 @ActiveProfiles("dev")
 public class BaseSpringTxTest extends AbstractTransactionalJUnit4SpringContextTests {
 	// AbstractTransactionalTestNGSpringContextTests {
