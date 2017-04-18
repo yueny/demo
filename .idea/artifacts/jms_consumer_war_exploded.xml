@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="jms-consumer:war exploded">
-    <output-path>$PROJECT_DIR$/jms/consumer/target/pra-0.0.1-SNAPSHOT</output-path>
+    <output-path>$PROJECT_DIR$/jms/consumer/target/jms-consumer-0.0.1-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

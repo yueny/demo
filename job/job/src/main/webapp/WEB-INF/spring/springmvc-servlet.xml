@@ -52,13 +52,12 @@
         <property name="requestContextAttribute" value="request"/>
     </bean>
 
-	<!-- 
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
-			<bean class="com.yueny.demo.metrics.intercepter.MetricIntercepter"/>
+			 <mvc:exclude-mapping path="/assets/**" /> 
+			<bean class="com.yueny.rapid.data.log.trace.web.filter.mdc.WebLogMdcHandlerInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	 -->
 	
 </beans>

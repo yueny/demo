@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.task;
+package com.yueny.demo.job.scheduler.runner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * @DATE 2016年11月16日 下午4:14:44
  *
  */
-public abstract class SuperTask {
+public abstract class BaseTask {
 	/**
 	 * 日志记录器
 	 */

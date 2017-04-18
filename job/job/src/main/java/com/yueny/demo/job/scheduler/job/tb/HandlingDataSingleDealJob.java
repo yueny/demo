@@ -16,7 +16,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import com.google.common.collect.Lists;
 import com.taobao.pamirs.schedule.IScheduleTaskDealSingle;
 import com.taobao.pamirs.schedule.TaskItemDefine;
-import com.yueny.demo.job.scheduler.SuperScheduler;
+import com.yueny.demo.job.scheduler.BaseSuperScheduler;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.util.UuidUtil;
 import com.yueny.rapid.lang.util.time.SystemClock;
@@ -31,7 +31,7 @@ import com.yueny.rapid.lang.util.time.SystemClock;
  *
  */
 // @Service
-public class HandlingDataSingleDealJob extends SuperScheduler implements IScheduleTaskDealSingle<Long> {
+public class HandlingDataSingleDealJob extends BaseSuperScheduler implements IScheduleTaskDealSingle<Long> {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
 	@Resource(name = "threadPoolTaskExecutor")

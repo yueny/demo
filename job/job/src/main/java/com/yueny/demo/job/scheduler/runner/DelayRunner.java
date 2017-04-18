@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.task;
+package com.yueny.demo.job.scheduler.runner;
 
 import java.util.Date;
 import java.util.concurrent.Delayed;
@@ -10,13 +10,13 @@ import java.util.concurrent.TimeUnit;
  * @DATE 2016年10月27日 上午11:58:55
  *
  */
-public class DelayTask extends SuperTask implements Runnable, Delayed {
+public class DelayRunner extends BaseTask implements Runnable, Delayed {
 	/**
 	 * 任务延时执行时间,默认1秒
 	 */
 	private long executeTime = 1000L;
 
-	public DelayTask() {
+	public DelayRunner() {
 		// .
 	}
 
@@ -26,14 +26,14 @@ public class DelayTask extends SuperTask implements Runnable, Delayed {
 	 * @param delaySeconds
 	 *            延迟秒数
 	 */
-	public DelayTask(final Date lastExecuteTime, final Long delaySeconds) {
+	public DelayRunner(final Date lastExecuteTime, final Long delaySeconds) {
 		super();
 		this.executeTime = getExecuteTime(lastExecuteTime, delaySeconds);
 	}
 
 	@Override
 	public int compareTo(final Delayed o) {
-		final DelayTask task = (DelayTask) o;
+		final DelayRunner task = (DelayRunner) o;
 		return executeTime > task.executeTime ? 1 : (executeTime < task.executeTime ? -1 : 0);
 	}
 

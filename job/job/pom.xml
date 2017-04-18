@@ -34,10 +34,16 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.yueny.rapid.data</groupId>
+			<artifactId>rapid-data-log-core</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.yueny.rapid.util</groupId>
 			<artifactId>rapid-util-exec</artifactId>
 			<version>${rapid.laster.veision}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.yueny.rapid.util</groupId>
 			<artifactId>rapid-util-crypt</artifactId>

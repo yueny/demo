@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * @DATE 2016年10月31日 下午4:19:26
  *
  */
-public abstract class SuperScheduler implements IScheduler {
+public abstract class BaseSuperScheduler implements IScheduler {
 	/**
 	 * 日志记录器
 	 */

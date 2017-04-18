@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.taobao.pamirs.schedule.IScheduleTaskDealMulti;
 import com.taobao.pamirs.schedule.TaskItemDefine;
-import com.yueny.demo.job.scheduler.SuperScheduler;
+import com.yueny.demo.job.scheduler.BaseSuperScheduler;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.util.time.SystemClock;
 
@@ -27,7 +27,7 @@ import com.yueny.rapid.lang.util.time.SystemClock;
  * @DATE 2016年11月21日 下午10:01:26
  */
 @Service
-public class HandlingDataMultiDealJob extends SuperScheduler implements IScheduleTaskDealMulti<Long> {
+public class HandlingDataMultiDealJob extends BaseSuperScheduler implements IScheduleTaskDealMulti<Long> {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
 	@Resource(name = "threadPoolTaskExecutor")

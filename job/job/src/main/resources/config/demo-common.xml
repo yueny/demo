@@ -20,6 +20,7 @@
     </context:component-scan>
     
 	<context:component-scan base-package="com.yueny.kapo.core"/>
+	<context:component-scan base-package="com.yueny.demo.job.scheduler.job.example"/>
 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	

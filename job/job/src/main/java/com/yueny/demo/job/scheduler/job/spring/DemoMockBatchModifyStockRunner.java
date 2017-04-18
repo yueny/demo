@@ -11,7 +11,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import com.google.common.collect.Lists;
 import com.yueny.demo.job.bo.ModifyDemoBo;
-import com.yueny.demo.job.scheduler.task.SuperTask;
+import com.yueny.demo.job.scheduler.runner.BaseTask;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.json.JsonUtil;
 import com.yueny.rapid.lang.util.UuidUtil;
@@ -19,12 +19,14 @@ import com.yueny.rapid.lang.util.time.SystemClock;
 import com.yueny.superclub.util.crypt.util.TripleDesEncryptUtil;
 
 /**
+ * 进行数据库更新操作的任务
+ * 
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2016年11月16日 下午1:39:13
  *
  */
-public class DemoMockBatchModifyStockTask extends SuperTask implements Callable<List<Long>>, Serializable {
+public class DemoMockBatchModifyStockRunner extends BaseTask implements Callable<List<Long>>, Serializable {
 	private static Random rn = new Random();
 	/**
 	 *
@@ -44,7 +46,7 @@ public class DemoMockBatchModifyStockTask extends SuperTask implements Callable<
 	 */
 	private final String taskId;
 
-	public DemoMockBatchModifyStockTask(final String batchId, final List<Long> ids,
+	public DemoMockBatchModifyStockRunner(final String batchId, final List<Long> ids,
 			final IDataPrecipitationService dataPrecip) {
 		this.batchId = batchId;
 		this.taskData = ids;

@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.yueny.demo.job.bo.ModifyDemoBo;
-import com.yueny.demo.job.scheduler.task.SuperTask;
+import com.yueny.demo.job.scheduler.runner.BaseTask;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.json.JsonUtil;
 import com.yueny.rapid.lang.util.UuidUtil;
@@ -24,7 +24,7 @@ import com.yueny.superclub.util.crypt.util.TripleDesEncryptUtil;
  * @DATE 2016年11月16日 下午1:39:13
  *
  */
-public class HandlingDataSingleDealTask extends SuperTask implements Callable<Integer>, Serializable {
+public class HandlingDataSingleDealTask extends BaseTask implements Callable<Integer>, Serializable {
 	private static Random rn = new Random();
 	/**
 	 *

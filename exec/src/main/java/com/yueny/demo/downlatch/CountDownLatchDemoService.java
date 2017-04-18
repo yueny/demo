@@ -1,6 +1,5 @@
 package com.yueny.demo.downlatch;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -11,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
+import com.yueny.demo.common.annotion.ListUtil;
 import com.yueny.demo.downlatch.async.PurchasedFailTransRecoverRunner;
 import com.yueny.demo.downlatch.bo.RecoverResult;
 import com.yueny.demo.downlatch.holder.TransResultHolder;
@@ -43,7 +42,7 @@ public class CountDownLatchDemoService {
 		}
 
 		// 分解任务
-		final List<List<String>> parTransIdList = partition(transIdList, 5);
+		final List<List<String>> parTransIdList = ListUtil.partition(transIdList, 5);
 
 		// 创建倒计时门闩
 		final CountDownLatch latch = new CountDownLatch(parTransIdList.size());
@@ -79,25 +78,6 @@ public class CountDownLatchDemoService {
 		}
 
 		printResults(resultHolder, message, start);
-	}
-
-	private <T> List<List<T>> partition(final List<T> baseList, final Integer partitionSize) {
-		Assert.notEmpty(baseList);
-		Assert.isTrue(partitionSize != null && partitionSize > 0, "partionLimit is illegal.");
-		final int totalCount = baseList.size();
-		final int partitionCount = totalCount % partitionSize > 0 ? totalCount / partitionSize + 1
-				: totalCount / partitionSize;
-		final List<List<T>> partitionList = new ArrayList<List<T>>();
-		for (int index = 1; index <= partitionCount; index++) {
-			if (index < partitionCount) {
-				final List<T> subList = baseList.subList((index - 1) * partitionSize, partitionSize * index);
-				partitionList.add(subList);
-			} else {
-				final List<T> subList = baseList.subList((index - 1) * partitionSize, totalCount);
-				partitionList.add(subList);
-			}
-		}
-		return partitionList;
 	}
 
 	/**

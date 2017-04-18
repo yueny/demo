@@ -12,24 +12,23 @@ import javax.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.yueny.demo.job.scheduler.SuperScheduler;
+import com.yueny.demo.job.scheduler.BaseSuperScheduler;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.util.UuidUtil;
 import com.yueny.rapid.lang.util.collect.CollectionUtil;
 import com.yueny.rapid.lang.util.time.SystemClock;
 
 /**
- * 简单的模拟交易动作, 取全表数据进行随机状态变更
+ * 简单的模拟交易动作, 取全表数据进行随机状态变更<br>
+ * task-spring.xml配置
  *
  * @author <a href="mailto:yueny09@126.com"> 袁洋 2014年12月9日 下午4:52:34
  *
  * @category tag
  */
-@Service
-public class SpringDataBatchWithModifyJob extends SuperScheduler {
+public class SpringDataBatchWithModifyJob extends BaseSuperScheduler {
 	private static volatile boolean complete = false;
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
@@ -61,9 +60,9 @@ public class SpringDataBatchWithModifyJob extends SuperScheduler {
 		// split(lists, 1);
 
 		// 执行任务列表
-		final List<DemoMockBatchModifyStockTask> tasks = new ArrayList<>();
+		final List<DemoMockBatchModifyStockRunner> tasks = new ArrayList<>();
 		lists.stream().forEach(ls -> {
-			tasks.add(new DemoMockBatchModifyStockTask(batchId, fetchData(ls), dataPrecipitationService));
+			tasks.add(new DemoMockBatchModifyStockRunner(batchId, fetchData(ls), dataPrecipitationService));
 		});
 
 		if (CollectionUtils.isEmpty(tasks)) {
