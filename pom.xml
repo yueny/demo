@@ -49,6 +49,8 @@
 		<module>start</module>
 		<module>task</module>
 		<module>zookeeper</module>
+		<!-- 微服务 -->
+		<module>micros</module>
   </modules>
 	
 </project>
