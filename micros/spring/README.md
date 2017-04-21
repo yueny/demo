@@ -1,12 +1,13 @@
 ## Getting Started
 > Build locally with JDK8 and Maven installed.
 
-git clone xxx
+* git clone xxx
 
-cd xxx/demo
+* cd xxx/demo
 
-mvn clean install
+* mvn clean install
 
-cd target
+* cd target
 
-java -jar demo-x.x.x.jar
+# 命令启动应用程序
+* java -jar micros_simple-0.0.1.jar

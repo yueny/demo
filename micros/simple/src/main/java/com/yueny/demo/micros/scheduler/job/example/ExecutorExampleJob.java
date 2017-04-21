@@ -8,8 +8,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -20,7 +22,6 @@ import com.yueny.demo.micros.scheduler.job.example.runner.DemoMockBatchModifySto
 import com.yueny.rapid.lang.util.UuidUtil;
 import com.yueny.rapid.lang.util.collect.CollectionUtil;
 import com.yueny.rapid.lang.util.time.SystemClock;
-import com.yueny.superclub.util.exec.async.factory.ExecutorServiceObjectFactory;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,12 +35,18 @@ import lombok.extern.slf4j.Slf4j;
 public class ExecutorExampleJob {
 	private static ScheduledExecutorService executor = MoreExecutors
 			.listeningDecorator(MoreExecutors.getExitingScheduledExecutorService(new ScheduledThreadPoolExecutor(1)));
-	private static final ExecutorService executorService = ExecutorServiceObjectFactory
-			.getExecutorServiceObject("executor-asyn-example").createExecutorService();
+	// private static final ExecutorService executorService =
+	// ExecutorServiceObjectFactory
+	// .getExecutorServiceObject("executor-asyn-example").createExecutorService();
+	private static ExecutorService executorService = MoreExecutors
+			.listeningDecorator(MoreExecutors.getExitingExecutorService(new ThreadPoolExecutor(
+					Runtime.getRuntime().availableProcessors() * 2, Runtime.getRuntime().availableProcessors() * 2, 5L,
+					TimeUnit.MINUTES, new LinkedBlockingQueue<>())));
 
 	public void init() {
 		executor.scheduleWithFixedDelay(() -> {
 			try {
+				log.info("ExecutorExampleJob...");
 				processData();
 			} catch (final Exception e) {
 				log.error("超时，下次继续.");

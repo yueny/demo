@@ -31,7 +31,7 @@ public class ExecutorExampleJob extends BaseSuperScheduler {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
 
-	final ExecutorService executorService = ExecutorServiceObjectFactory
+	private   ExecutorService executorService = ExecutorServiceObjectFactory
 			.getExecutorServiceObject("executor-asyn-example").createExecutorService();
 
 	/**

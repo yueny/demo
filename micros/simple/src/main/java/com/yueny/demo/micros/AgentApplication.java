@@ -19,6 +19,7 @@ public class AgentApplication extends AbstractIdleService {
 	public static void main(final String[] args) throws IOException {
 		final AgentApplication bootstrap = new AgentApplication();
 		bootstrap.startAsync();
+		log.info("start...");
 
 		try {
 			final Object lock = new Object();
@@ -53,6 +54,8 @@ public class AgentApplication extends AbstractIdleService {
 	@Override
 	protected void startUp() throws Exception {
 		// Start the service.
+		log.info("Start the service...");
+
 		try {
 			final ExecutorExampleJob job = new ExecutorExampleJob();
 			job.init();

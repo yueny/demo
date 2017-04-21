@@ -122,7 +122,7 @@
 		</testResources>
 		
 	    <plugins>
-			<!-- 第一种实现方式
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -154,33 +154,21 @@
 					</execution>
 				</executions>
 			</plugin>
-			  -->
-			<!-- 或者 -->
+			-->
+			<!--
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.0.0</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.4.0</version>
 				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.yueny.demo.micros.AgentApplication</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
+					<executable>java</executable>
+					<arguments>
+						<argument>-jar</argument>
+						<argument>target/${project.build.finalName}.jar</argument>
+					</arguments>
 				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
-
+			-->
 
 			<plugin>
 			    <groupId>org.projectlombok</groupId>

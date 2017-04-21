@@ -9,4 +9,5 @@
 
 * cd target
 
-* java -jar micros_simple-0.0.1-SNAPSHOT.jar
+# 命令启动应用程序
+* java -jar micros_simple-0.0.1.jar

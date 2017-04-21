@@ -9,7 +9,7 @@
 	
 	<groupId>com.yueny.demo.micros</groupId>
 	<artifactId>micros_spring</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	
 	<properties>
 		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
