@@ -18,7 +18,9 @@
 	  	
 	<modules>
 		<module>simple</module>
+		<module>simple-boot</module>
 		<module>spring</module>
+		<module>spring-boot</module>
 	</modules>
 	
 </project>
