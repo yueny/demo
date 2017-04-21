@@ -30,7 +30,7 @@
 		<module>aspect</module>
 		<module>dubbo</module>
 		<module>exec</module>
-		<module>file-reader</module>
+		<module>fileReader</module>
 		<module>frequence</module>
 		<module>hadoop</module>
 		<module>hystrix</module>
@@ -43,8 +43,6 @@
 		<module>randCode</module>
 		<module>redis</module>
 		<module>rocketMQ</module>
-		<module>scheduler</module>
-		<module>sharding</module>		
 		<module>springBatch</module>
 		<module>start</module>
 		<module>task</module>
