@@ -1,16 +1,19 @@
 package com.yueny.demo.micros.boot.controller;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@EnableAutoConfiguration
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@Slf4j
 public class SampleController {
 	@RequestMapping("/")
+	// @GetMapping("/")
 	@ResponseBody
-	String home() {
+	public String home() {
+		log.info("被访问了~！");
 		return "Hello World!";
 	}
 }

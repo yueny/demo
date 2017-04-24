@@ -16,6 +16,12 @@
 	</properties>
 	
 	<dependencies>
+		<dependency>
+			<groupId>com.yueny.demo</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<!-- kapo-jpa -->
 		<dependency>
 			<groupId>com.yueny.kapo</groupId>
@@ -238,6 +244,55 @@
 		</testResources>
 		
 	    <plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib</classpathPrefix>
+							<mainClass>com.yueny.demo.micros.AgentApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- jetty -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.2.v20150730</version>
+				<configuration>
+					<httpConnector>
+						<port>8090</port>
+					</httpConnector>
+					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<systemProperties>
+						<systemProperty>
+							<name>org.eclipse.jetty.LEVEL</name>
+							<value>DEBUG</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+			</plugin>
 			<plugin>
 			    <groupId>org.projectlombok</groupId>
 			    <artifactId>lombok-maven-plugin</artifactId>

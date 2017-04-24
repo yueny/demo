@@ -6,13 +6,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.yueny.demo.micros.example.service.IDataPrecipitationService;
+import com.yueny.demo.common.example.service.IDataPrecipitationService;
 import com.yueny.demo.micros.scheduler.BaseSuperScheduler;
 import com.yueny.demo.micros.scheduler.job.example.runner.DemoMockBatchModifyStockRunner;
 import com.yueny.rapid.lang.util.UuidUtil;
@@ -31,8 +33,13 @@ public class ExecutorExampleJob extends BaseSuperScheduler {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
 
-	private   ExecutorService executorService = ExecutorServiceObjectFactory
+	private final ExecutorService executorService = ExecutorServiceObjectFactory
 			.getExecutorServiceObject("executor-asyn-example").createExecutorService();
+
+	@PostConstruct
+	public void doSomething() {
+		logger.info("ExecutorExampleJob doSomething...");
+	}
 
 	/**
 	 *

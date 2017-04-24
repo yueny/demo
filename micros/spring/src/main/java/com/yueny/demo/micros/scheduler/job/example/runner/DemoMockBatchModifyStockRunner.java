@@ -10,13 +10,14 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.google.common.collect.Lists;
-import com.yueny.demo.micros.example.bo.ModifyDemoBo;
-import com.yueny.demo.micros.example.service.IDataPrecipitationService;
-import com.yueny.demo.micros.scheduler.BaseSuperScheduler;
+import com.yueny.demo.common.example.bo.ModifyDemoBo;
+import com.yueny.demo.common.example.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.json.JsonUtil;
 import com.yueny.rapid.lang.util.UuidUtil;
 import com.yueny.rapid.lang.util.time.SystemClock;
 import com.yueny.superclub.util.crypt.util.TripleDesEncryptUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 进行数据库更新操作的任务
@@ -26,7 +27,8 @@ import com.yueny.superclub.util.crypt.util.TripleDesEncryptUtil;
  * @DATE 2016年11月16日 下午1:39:13
  *
  */
-public class DemoMockBatchModifyStockRunner extends BaseSuperScheduler implements Callable<List<Long>>, Serializable {
+@Slf4j
+public class DemoMockBatchModifyStockRunner implements Callable<List<Long>>, Serializable {
 	private static Random rn = new Random();
 	/**
 	 *
@@ -92,7 +94,7 @@ public class DemoMockBatchModifyStockRunner extends BaseSuperScheduler implement
 		}
 
 		final long end = SystemClock.now();
-		logger.debug("批次:{}子进程:{} 耗时:{}秒, 返回:{}, 总数据:{}条.", batchId, taskId, (end - start) / 1000, updateIds,
+		log.info("批次:{}子进程:{} 耗时:{}秒, 返回:{}, 总数据:{}条.", batchId, taskId, (end - start) / 1000, updateIds,
 				taskData.size());
 
 		return updateIds;

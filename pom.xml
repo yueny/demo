@@ -26,6 +26,8 @@
 	</build>
 	
 	<modules>
+		<module>common</module>
+		
 		<module>annotations</module>
 		<module>aspect</module>
 		<module>dubbo</module>
