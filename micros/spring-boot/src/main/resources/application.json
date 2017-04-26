@@ -1,0 +1,7 @@
+{
+   "database": {
+      "style": {
+         "config": "MY_SQL"
+      }
+   }
+}

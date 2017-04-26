@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -28,9 +29,13 @@ import lombok.extern.slf4j.Slf4j;
 public class ExecutorExampleJob {
 	private static ScheduledExecutorService executor = MoreExecutors
 			.listeningDecorator(MoreExecutors.getExitingScheduledExecutorService(new ScheduledThreadPoolExecutor(1)));
+	@Value("${database.style.config}")
+	private String style;
 
 	@PostConstruct
 	public void doSomething() {
+		System.out.println(style);
+
 		executor.scheduleWithFixedDelay(() -> {
 			try {
 				init();

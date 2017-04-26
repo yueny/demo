@@ -2,10 +2,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
+		<groupId>com.yueny.demo</groupId>
+		<artifactId>micros</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<!-- 
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.3.RELEASE</version>
 	</parent>
+	 -->
 	
 	<groupId>com.yueny.demo.micros</groupId>
 	<artifactId>micros_simple_boot</artifactId>
@@ -20,6 +27,27 @@
 
 		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
 	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<!-- 使用 scope=import 依赖，获取到spring-boot依赖管理 -->
+	        <dependency>
+	            <!-- Import dependency management from Spring Boot -->
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-dependencies</artifactId>
+	            <version>1.5.3.RELEASE</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+	        
+	        <!-- 解决 yueny-dependencies和spring-boot-dependencies 的依赖冲突 -->
+	        <dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-server</artifactId>
+				<version>9.4.4.v20170414</version>
+			</dependency>
+	    </dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<!-- Compile -->

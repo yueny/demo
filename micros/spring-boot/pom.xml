@@ -31,9 +31,25 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <!-- 
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+				  <groupId>org.springframework.boot</groupId>
+				  <artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+         -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<!-- Test -->
 		<dependency>
@@ -52,29 +68,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.yueny.demo</groupId>
-			<artifactId>common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>com.yueny.rapid</groupId>
-			<artifactId>api</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.yueny.rapid.data</groupId>
-			<artifactId>rapid-data-log-core</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.util</groupId>
-			<artifactId>rapid-util-exec</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-
 		<!-- Project Lombok -->
 		<dependency>
 	        <groupId>org.projectlombok</groupId>
@@ -108,7 +101,41 @@
 			<artifactId>logback-ext-spring</artifactId>
 			<version>0.1.1</version>
 		</dependency>
-
+		
+		<!-- test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>com.yueny.demo</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.yueny.rapid</groupId>
+			<artifactId>api</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.data</groupId>
+			<artifactId>rapid-data-log-core</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.util</groupId>
+			<artifactId>rapid-util-exec</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-dozer</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		
 		<!-- common -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -119,13 +146,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
-		</dependency>
-		
-		<!-- test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	
@@ -144,7 +164,87 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
 			</plugin>
+			<!-- 编译级别 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <ajdtVersion>none</ajdtVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>build-helper-maven-plugin</artifactId>
+                 <executions>
+                    <execution>
+                    	<id>add-resource</id>
+                    	<phase>validate</phase>
+					    <goals>
+					    	<goal>add-resource</goal>
+					    </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>profile/${env}</directory>
+                                    <targetPath>/</targetPath>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                 </executions>
+             </plugin>
 	    </plugins>
 	</build>
+	
+	<profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env>local</env>
+            </properties>
+        </profile>
 
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+        </profile>
+        
+		<profile>
+            <id>qa</id>
+			<properties>
+            	<env>qa</env>
+			</properties>
+        </profile>
+        
+        <profile>
+            <id>pre</id>
+            <properties>
+            	<env>pre</env>
+            </properties>
+        </profile>
+        
+        <profile>
+            <id>prod</id>
+            <properties>
+            	<env>prod</env>
+            </properties>
+        </profile>
+	</profiles>
+	
 </project>

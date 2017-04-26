@@ -1,0 +1,38 @@
+# Server settings (ServerProperties)
+# 在yaml中缩进不要使用TAB，否则会解析错误
+# 使用.yml时，属性名的值和冒号中间必须有空格. spring会从classpath下的/config目录或者classpath的根目录查找application.properties或application.yml。
+# /config优先于classpath根目录
+
+# 服务器配置
+server:
+   port: 8090
+   sessionTimeout: 45
+   contextPath: /
+
+#database:
+#   style: 
+#      config: MY_SQL
+
+spring: 
+   # 数据库配置
+   datasource:
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/TEST?useUnicode=true&amp;characterEncoding=utf-8
+        username: root
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+        name: test
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+
