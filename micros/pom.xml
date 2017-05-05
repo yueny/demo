@@ -17,6 +17,7 @@
 	</properties>
 	  	
 	<modules>
+		<module>tomcat</module>
 		<module>simple</module>
 		<module>simple-boot</module>
 		<module>spring</module>

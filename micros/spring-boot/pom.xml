@@ -13,6 +13,8 @@
 	
 	<properties>
 		<java.version>1.8</java.version>
+		<spring.version>4.3.3.RELEASE</spring.version>
+		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
@@ -27,31 +29,40 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        
+        <!-- spring boot提供的对应用系统的自省和监控的集成功能，可以对应用系统进行配置查看、相关功能统计等 -->
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- 
-        <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-				  <groupId>org.springframework.boot</groupId>
-				  <artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-         -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jetty</artifactId>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		<!--mybatis springboot
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+         -->
+		<!-- 热部署
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+         -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -96,12 +107,23 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.logback-extensions</groupId>
-			<artifactId>logback-ext-spring</artifactId>
-			<version>0.1.1</version>
-		</dependency>
 		
+		<!-- Task
+		<dependency> 
+			<groupId>org.quartz-scheduler</groupId>
+    		<artifactId>quartz</artifactId>
+    		<version>2.2.1</version>
+		</dependency>
+		<dependency>
+	            <groupId>org.quartz-scheduler</groupId>
+	            <artifactId>quartz</artifactId>
+        </dependency>
+        <dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz-jobs</artifactId>
+		</dependency>
+		 -->
+		 
 		<!-- test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -109,12 +131,18 @@
 			<scope>test</scope>
 		</dependency>
 		
-		
+		<!-- example -->
 		<dependency>
 			<groupId>com.yueny.demo</groupId>
 			<artifactId>common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+	        <groupId>com.yueny.demo.dynamic</groupId>
+			<artifactId>scheduler-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+	    </dependency>
+	    
 		<dependency>
 		    <groupId>com.yueny.rapid</groupId>
 			<artifactId>api</artifactId>
@@ -134,6 +162,30 @@
 			<groupId>com.yueny.rapid.lang</groupId>
 			<artifactId>rapid-lang-dozer</artifactId>
 			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.yueny.rapid.service</groupId>
+			<artifactId>rapid-service-rest</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		
+		<!-- 
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		 -->
+		<dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
 		</dependency>
 		
 		<!-- common -->

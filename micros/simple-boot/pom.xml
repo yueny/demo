@@ -13,7 +13,14 @@
 		<version>1.5.3.RELEASE</version>
 	</parent>
 	 -->
-	
+	<!-- 
+	<parent>
+    	<groupId>com.yueny.base</groupId>
+		<artifactId>parent_boot</artifactId>
+		<version>1.1.2-SNAPSHOT</version>
+	</parent>
+	 -->
+	 
 	<groupId>com.yueny.demo.micros</groupId>
 	<artifactId>micros_simple_boot</artifactId>
 	<packaging>jar</packaging>
@@ -128,19 +135,16 @@
 		<dependency>
 			<groupId>org.logback-extensions</groupId>
 			<artifactId>logback-ext-spring</artifactId>
-			<version>0.1.1</version>
 		</dependency>
 
 		<!-- common -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>15.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
 		</dependency>
 		
 		<!-- test -->

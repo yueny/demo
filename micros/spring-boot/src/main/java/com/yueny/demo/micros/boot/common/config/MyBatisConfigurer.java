@@ -25,9 +25,10 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
  */
 @Configuration
 @EnableTransactionManagement // 支持注解事务
-public class MyBatisConfig implements TransactionManagementConfigurer {
+// @ImportResource("classpath:applicationContext-mybatis.xml")
+public class MyBatisConfigurer implements TransactionManagementConfigurer {
 	@Autowired
-	DataSource dataSource;
+	private DataSource dataSource;
 
 	@Bean
 	@Override
@@ -63,6 +64,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+
 	}
 
 	@Bean

@@ -1,4 +1,4 @@
-package com.yueny.demo.micros.boot.scheduler.job.example;
+package com.yueny.demo.micros.boot.scheduler.example.java;
 
 import java.util.List;
 import java.util.Random;
@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -25,8 +24,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-@Service
-public class ExecutorExampleJob {
+// @Service
+public class ExecutorExampleJavaJob {
 	private static ScheduledExecutorService executor = MoreExecutors
 			.listeningDecorator(MoreExecutors.getExitingScheduledExecutorService(new ScheduledThreadPoolExecutor(1)));
 	@Value("${database.style.config}")
@@ -40,13 +39,13 @@ public class ExecutorExampleJob {
 			try {
 				init();
 			} catch (final Exception e) {
-				log.error("【ExecutorExampleJob任务】 超过超时，下次继续.");
+				log.error("【ExecutorExampleJavaJob任务】 超过超时，下次继续.");
 			}
 		}, 0, /* N second */2 * 500L, TimeUnit.MILLISECONDS);
 	}
 
 	public void init() {
-		log.info("ExecutorExampleJob...");
+		log.info("ExecutorExampleJavaJob...");
 
 		final String batchId = UuidUtil.getSimpleUuid();
 		processData(batchId);

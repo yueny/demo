@@ -16,9 +16,11 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-// 这个配置一定要注意@AutoConfigureAfter(MyBatisConfig.class)，必须有这个配置，否则会有异常。
-// 原因就是这个类执行的比较早，由于sqlSessionFactory还不存在，后续执行出错
-@AutoConfigureAfter(MyBatisConfig.class)
+/*
+ * 这个配置一定要注意@AutoConfigureAfter(MyBatisConfig.class)，必须有这个配置，否则会有异常。
+ * 原因就是这个类执行的比较早，由于sqlSessionFactory还不存在，后续执行出错
+ */
+@AutoConfigureAfter(MyBatisConfigurer.class)
 public class MyBatisMapperScannerConfig {
 	/**
 	 * annotationClazz

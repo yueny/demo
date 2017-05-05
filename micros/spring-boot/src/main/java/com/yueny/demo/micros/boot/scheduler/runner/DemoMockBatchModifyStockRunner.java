@@ -1,4 +1,4 @@
-package com.yueny.demo.micros.boot.scheduler.job.example.runner;
+package com.yueny.demo.micros.boot.scheduler.runner;
 
 import java.io.Serializable;
 import java.util.Collections;

@@ -8,6 +8,7 @@ import java.util.Date;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
+import org.quartz.ObjectAlreadyExistsException;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -181,66 +182,6 @@ public class DynamicSchedulerManager implements InitializingBean {
 	 *
 	 * @param invokJob
 	 *            DynamicInvokJob
-	 * @param isRecove
-	 *            如果任务存在，是否更新执行
-	 * @return True is register successful
-	 * @throws org.quartz.SchedulerException
-	 */
-	private boolean registerIJob(final IJob ijob, final boolean isRecove) {
-		try {
-			if (existJob(ijob)) {
-				final TriggerKey triggerKey = ijob.getTriggerKey();
-				// 获取trigger，即在spring配置文件中定义的 bean id="myTrigger"
-				Trigger trigger = scheduler.getTrigger(triggerKey);
-				if (!isRecove) {
-					throw new SchedulerException(
-							"Already exist trigger [" + trigger + "] by key [" + triggerKey + "] in Scheduler");
-				}
-
-				if (trigger instanceof CronTrigger) {
-					final CronTrigger cronTrigger = (CronTrigger) trigger;
-					// Trigger已存在，更新任务（时间表达式） 表达式调度构建器
-					final CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder
-							.cronSchedule(ijob.getCronExpression());
-
-					// 按新的cronExpression表达式重新构建trigger
-					// TODO 更新 JobData
-					trigger = cronTrigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(cronScheduleBuilder)
-							.build();
-				} else {
-					final Date startTime = DateUtil.parse(ijob.getCronExpression());
-					trigger = newTrigger().withIdentity(triggerKey).startAt(startTime).build();
-				}
-
-				// 按新的trigger重新设置job执行
-				scheduler.rescheduleJob(triggerKey, trigger);
-				return true;
-			}
-
-			final Trigger cronTrigger = ijob.getTrigger();
-			final JobDetail jobDetail = ijob.getJobDetail();
-
-			// TODO
-			ijob.addJobData("listenerxxx", "listener");
-			scheduler.getListenerManager().addJobListener(listener, allJobs());
-
-			final Date ft = scheduler.scheduleJob(jobDetail, cronTrigger);
-			log.info("Register IJob {} has been scheduled to run at [{}] and repeat based on expression:{}."
-					+ ijob.getCronExpression(), ijob, ft);
-			return true;
-		} catch (final SchedulerException e) {
-			e.printStackTrace();
-			log.error("任务添加异常", e);
-		}
-		return false;
-	}
-
-	/**
-	 * 注册一个job 1.检查是否有相同的 scheduler(根据 trigger key) ,若有则抛出异常 2.调用
-	 * {@link #scheduler} 的 scheduleJob 加入
-	 *
-	 * @param invokJob
-	 *            DynamicInvokJob
 	 * @return True is register successful
 	 * @throws org.quartz.SchedulerException
 	 */
@@ -335,7 +276,7 @@ public class DynamicSchedulerManager implements InitializingBean {
 	 * @param listener
 	 *            the listener to set
 	 */
-	public void setListener(QuartzJobListener listener) {
+	public void setListener(final QuartzJobListener listener) {
 		this.listener = listener;
 	}
 
@@ -374,10 +315,76 @@ public class DynamicSchedulerManager implements InitializingBean {
 				result = registerJob(job);
 				log.debug("<{}> Register  [{}] result: {}", job, result);
 			}
+
+		} catch (final ObjectAlreadyExistsException e) {
+			log.error("<{}> startJob [" + job + "] failed", e);
 		} catch (final SchedulerException e) {
 			log.error("<{}> startJob [" + job + "] failed", e);
 		}
 		return result;
+	}
+
+	/**
+	 * 注册一个job 1.检查是否有相同的 scheduler(根据 trigger key) ,若有则抛出异常 2.调用
+	 * {@link #scheduler} 的 scheduleJob 加入
+	 *
+	 * @param invokJob
+	 *            DynamicInvokJob
+	 * @param isRecove
+	 *            如果任务存在，是否更新执行
+	 * @return True is register successful
+	 * @throws org.quartz.SchedulerException
+	 */
+	private boolean registerIJob(final IJob ijob, final boolean isRecove) {
+		try {
+			if (existJob(ijob)) {
+				final TriggerKey triggerKey = ijob.getTriggerKey();
+				// 获取trigger，即在spring配置文件中定义的 bean id="myTrigger"
+				Trigger trigger = scheduler.getTrigger(triggerKey);
+				if (!isRecove) {
+					throw new SchedulerException(
+							"Already exist trigger [" + trigger + "] by key [" + triggerKey + "] in Scheduler");
+				}
+
+				if (trigger instanceof CronTrigger) {
+					final CronTrigger cronTrigger = (CronTrigger) trigger;
+					// Trigger已存在，更新任务（时间表达式） 表达式调度构建器
+					final CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder
+							.cronSchedule(ijob.getCronExpression());
+
+					// 按新的cronExpression表达式重新构建trigger
+					// TODO 更新 JobData
+					trigger = cronTrigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(cronScheduleBuilder)
+							.build();
+				} else {
+					final Date startTime = DateUtil.parse(ijob.getCronExpression());
+					trigger = newTrigger().withIdentity(triggerKey).startAt(startTime).build();
+				}
+
+				// 按新的trigger重新设置job执行
+				scheduler.rescheduleJob(triggerKey, trigger);
+				return true;
+			}
+
+			final Trigger cronTrigger = ijob.getTrigger();
+			final JobDetail jobDetail = ijob.getJobDetail();
+
+			// TODO
+			ijob.addJobData("listenerxxx", "listener");
+			scheduler.getListenerManager().addJobListener(listener, allJobs());
+
+			final Date ft = scheduler.scheduleJob(jobDetail, cronTrigger);
+			log.info("Register IJob {} has been scheduled to run at [{}] and repeat based on expression:{}."
+					+ ijob.getCronExpression(), ijob, ft);
+			return true;
+
+		} catch (final ObjectAlreadyExistsException e) {
+			log.error("<{}> registerIJob failed", e);
+		} catch (final SchedulerException e) {
+			e.printStackTrace();
+			log.error("任务添加异常", e);
+		}
+		return false;
 	}
 
 }

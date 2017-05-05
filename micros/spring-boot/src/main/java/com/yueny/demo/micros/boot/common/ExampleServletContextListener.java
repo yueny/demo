@@ -5,17 +5,20 @@ import javax.servlet.ServletContextListener;
 
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class ExampleServletContextListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(final ServletContextEvent sce) {
-		System.out.println("*** contextDestroyed");
+		log.info("*** contextDestroyed");
 	}
 
 	@Override
 	public void contextInitialized(final ServletContextEvent sce) {
-		System.out.println("*** contextInitialized");
+		log.info("*** contextInitialized");
 	}
 
 }

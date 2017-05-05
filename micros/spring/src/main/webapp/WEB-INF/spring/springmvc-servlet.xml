@@ -17,21 +17,48 @@
     <context:component-scan base-package="com.yueny.demo.metrics.controller"/>
     
     <mvc:annotation-driven>
-    	 <!-- 解决spring mvc直接返回 @ResponseBody String 的乱码问题-->
 		<mvc:message-converters register-defaults="true">
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-                <property name="supportedMediaTypes">
-                    <list>
-                        <value>text/plain;charset=UTF-8</value>
-                        <value>text/html;charset=UTF-8</value>
-                    </list>
-                </property>
-            </bean>
-			
+			<!-- can read and write byte arrays from the HTTP request and response -->
 			<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+			
+			<ref bean="stringHttpMessageConverter"/>
+			
 			<bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+			
+			<!-- can read and write form data from the HTTP request and response -->
+			<bean class="com.yueny.rapid.lang.json.CustomAllEncompassingFormHttpMessageConverter">
+				<constructor-arg name="charset" value="UTF-8" />
+			</bean>
+			
+			<ref bean="mappingJackson2HttpMessageConverter"/>
+			<ref bean="fastJsonHttpMessageConverter"/>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	
+	<!-- StringHttpMessageConverter编码为UTF-8，防止乱码.
+				can read and write Strings from the HTTP request and response -->
+	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+	    <constructor-arg value="UTF-8" index="0"/>
+        <property name="writeAcceptCharset" value="false"/>
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+                <value>text/html;charset=UTF-8</value>
+            </list>
+        </property>
+	</bean>
+	<bean id="mappingJackson2HttpMessageConverter" class="com.yueny.rapid.lang.json.CustomMappingJackson2HttpMessageConverter">
+		<constructor-arg name="charset" value="UTF-8" />
+	</bean>
+    <!-- json转换器.避免IE执行AJAX时,返回JSON出现下载文件 -->
+	<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+		    <list>
+		        <value>application/json;charset=UTF-8</value>
+		        <value>text/html;charset=UTF-8</value>
+		    </list>
+		</property>
+	</bean>
 	
 	<!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource 
 	requests to the container's default Servlet -->
