@@ -389,6 +389,33 @@ public class HttpUtils {
 	}
 
 	/**
+	 * 发送 GET 请求（HTTP），带参数
+	 *
+	 * @param url
+	 *            请求地址
+	 * @param data
+	 *            参数
+	 * @return T 返回值
+	 */
+	public static <T> T get(final String url, final Object data, final TypeToken<T> classType) {
+		final Map<String, Object> params = convertRequest(data);
+		final String result = doGet(url, params);
+		return convertResp(result, classType);
+	}
+
+	/**
+	 * 发送 GET 请求（HTTP）,不带参数
+	 *
+	 * @param url
+	 *            地址
+	 * @return T 返回值
+	 */
+	public static <T> T get(final String url, final TypeToken<T> classType) {
+		final String result = doGet(url);
+		return convertResp(result, classType);
+	}
+
+	/**
 	 * 发送 post 请求（HTTP）,不带参数
 	 *
 	 * @param url
@@ -416,12 +443,39 @@ public class HttpUtils {
 	}
 
 	/**
+	 * 发送 POST 请求（HTTP），带参数
+	 *
+	 * @param url
+	 *            请求地址
+	 * @param data
+	 *            请求参数
+	 * @return T 返回值
+	 */
+	public static <T> T post(final String url, final Object data, final TypeToken<T> classType) {
+		final String result = doPost(url, JSONObject.toJSONString(data));
+		return convertResp(result, classType);
+	}
+
+	/**
+	 * 发送 post 请求（HTTP）,不带参数
+	 *
+	 * @param url
+	 *            请求地址
+	 * @return T 返回值
+	 */
+	public static <T> T post(final String url, final TypeToken<T> classType) {
+		final String result = doPost(url);
+		return convertResp(result, classType);
+	}
+
+	/**
 	 * 请求参数转换
 	 *
 	 * @param data
 	 *            请求参数
 	 * @return Map<String, Object>
 	 */
+	@Deprecated
 	private static Map<String, Object> convertRequest(final Object data) {
 		final Map<String, Object> param = new HashMap();
 		try {

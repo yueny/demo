@@ -1,10 +1,12 @@
-package com.yueny.demo.micros.boot.common.config;
+package com.yueny.demo.micros.boot.spring.context.config.adapter;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.yueny.rapid.lang.json.CustomAllEncompassingFormHttpMessageConverter;
+import com.yueny.superclub.service.rest.context.ServiceContextInterceptor;
 
 /**
  * HttpMessageConverter
@@ -24,24 +27,23 @@ import com.yueny.rapid.lang.json.CustomAllEncompassingFormHttpMessageConverter;
  * @DATE 2017年4月28日 下午11:39:23
  *
  */
-// @Configuration
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
+@Configuration
+public class ExtendInterceptorConfigurerAdapter extends WebMvcConfigurerAdapter {
+	/**
+	 * 环境
+	 */
+	@Value("${app.system.code}")
+	private String systemCode;
+
 	@Override
 	public void addInterceptors(final InterceptorRegistry registry) {
 		// 多个拦截器组成一个拦截器链
 		// addPathPatterns 用于添加拦截规则
 		// excludePathPatterns 用户排除拦截
 
-		// final ServiceContextInterceptor i = new ServiceContextInterceptor();
-		// registry.addInterceptor(i);
-
-		// <mvc:interceptor>
-		// <mvc:mapping path="/**"/>
-		// <mvc:exclude-mapping path="/content/**" />
-		// <bean
-		// class="com.yueny.superclub.service.rest.context.ServiceContextInterceptor"
-		// p:systemCode="${app.system.code}"/>
-		// </mvc:interceptor>
+		final ServiceContextInterceptor interceptor = new ServiceContextInterceptor();
+		// interceptor.setSystemCode(systemCode);
+		registry.addInterceptor(interceptor).addPathPatterns("/**").excludePathPatterns("/content/**");
 	}
 
 	/*

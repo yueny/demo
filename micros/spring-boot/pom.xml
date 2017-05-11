@@ -124,13 +124,6 @@
 		</dependency>
 		 -->
 		 
-		<!-- test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
 		<!-- example -->
 		<dependency>
 			<groupId>com.yueny.demo</groupId>
@@ -199,6 +192,20 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
 		</dependency>
+		
+		<!-- 观察者模式  -->
+		<dependency>
+		    <groupId>io.reactivex.rxjava2</groupId>
+		    <artifactId>rxjava</artifactId>
+		    <version>2.1.0</version>
+		</dependency>
+		
+		<!-- test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	
 	<build>
@@ -237,6 +244,7 @@
             <plugin>
                  <groupId>org.codehaus.mojo</groupId>
                  <artifactId>build-helper-maven-plugin</artifactId>
+                 <version>1.8</version>
                  <executions>
                     <execution>
                     	<id>add-resource</id>
@@ -246,9 +254,14 @@
 					    </goals>
                         <configuration>
                             <resources>
+                            	<resource>
+                                    <directory>profile/${env}/config</directory>
+                                    <targetPath>config</targetPath>
+                                    <filtering>true</filtering>
+                                </resource>
                                 <resource>
-                                    <directory>profile/${env}</directory>
-                                    <targetPath>/</targetPath>
+                                    <directory>profile/${env}/properties</directory>
+                                    <targetPath>properties</targetPath>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>

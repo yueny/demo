@@ -13,3 +13,6 @@
 * java -jar -Dserver.port=8090 target/micros_spring_boot-1.5.3.RELEASE.jar
 # 
 * java -jar -Dserver.port=8090 -Dspring.config.location=classpath:/application.yml,classpath:/properties/default.yml target/micros_spring_boot-1.5.3.RELEASE.jar
+
+## RxJava
+# 四个基本概念：Observable (可观察者，即被观察者)、 Observer (观察者)、 subscribe (订阅)、事件。实质上就是观察者模式的基本概念。被观察者通过subscribe()方法与观察者实现订阅关系，之后一有事件发出就通知观察者。

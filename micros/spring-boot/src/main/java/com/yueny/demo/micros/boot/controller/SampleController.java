@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yueny.demo.common.example.service.IDataPrecipitationService;
 import com.yueny.demo.micros.boot.api.request.JobForMatcherRequest;
 import com.yueny.rapid.data.resp.pojo.response.NormalResponse;
+import com.yueny.rapid.lang.json.JsonUtil;
 
+import io.reactivex.Observable;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -22,20 +24,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @Slf4j
-public class SampleController {
+public class SampleController extends BaseController {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
-	// @Value("${app.profile.env}")
-	private String env;
 
 	/*
 	 * 提供路由信息，负责URL到Controller中的具体函数的映射。
 	 */
-
 	@RequestMapping("/")
 	// @GetMapping("/")
 	public int home() {
-		log.info("{} 被访问了~！", env);
+		log.info("{} 被访问了~！", getEnv());
 		return dataPrecipitationService.queryAll().size();
 	}
 
@@ -44,6 +43,8 @@ public class SampleController {
 			final BindingResult bindingResult) {
 		final NormalResponse<Boolean> reps = new NormalResponse<Boolean>();
 		reps.setData(true);
+
+		respWrite(JsonUtil.toJson(reps));
 
 		log.info("/post/data 被访问了~, resp:{}.", reps);
 		return reps;
@@ -57,5 +58,9 @@ public class SampleController {
 
 		log.info("/post/submit 被访问了~, resp:{}.", reps);
 		return reps;
+	}
+
+	private void he() {
+		final Observable<String> observer = Observable.just("Hello");
 	}
 }

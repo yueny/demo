@@ -7,7 +7,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -35,20 +39,25 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @ImportResource(locations = { "classpath:/config/spring-dozer.xml" })
 @EnableTransactionManagement
-/// *
-// * 配置文件
-// */
-// @PropertySource({ "classpath*:/properties/app.properties" })
+@EnableScheduling
+/**
+ * 配置文件
+ */
+@PropertySource({ "classpath:/properties/global.properties", "classpath:/properties/app.properties" })
+@Slf4j
 /// *
 // * @Import注解可以用来导入其他配置类
 // */
 // @Import
-// @EntityScan
 public class AgentApplication extends SpringBootServletInitializer implements DisposableBean {
 	private static Class<AgentApplication> applicationClass = AgentApplication.class;
 
 	public static void main(final String[] args) {
-		SpringApplication.run(AgentApplication.class, args);
+		try {
+			SpringApplication.run(AgentApplication.class, args);
+		} catch (final Exception e) {
+			log.error("服务启动异常:", e);
+		}
 	}
 
 	/*

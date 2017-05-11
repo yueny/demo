@@ -1,4 +1,4 @@
-package com.yueny.demo.micros.boot.common.factory.autowired;
+package com.yueny.demo.micros.boot.spring.factory.autowired;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.BeansException;

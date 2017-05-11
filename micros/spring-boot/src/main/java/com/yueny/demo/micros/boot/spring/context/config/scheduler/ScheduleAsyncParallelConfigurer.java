@@ -1,4 +1,4 @@
-package com.yueny.demo.micros.boot.common.config;
+package com.yueny.demo.micros.boot.spring.context.config.scheduler;
 
 import java.util.concurrent.Executor;
 

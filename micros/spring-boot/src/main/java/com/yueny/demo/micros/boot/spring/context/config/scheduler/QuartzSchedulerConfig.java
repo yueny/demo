@@ -1,4 +1,4 @@
-package com.yueny.demo.micros.boot.common.config;
+package com.yueny.demo.micros.boot.spring.context.config.scheduler;
 
 import javax.sql.DataSource;
 
@@ -13,7 +13,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.yueny.demo.dynamic.scheduler.job.core.listener.QuartzJobListener;
-import com.yueny.demo.micros.boot.common.factory.autowired.AutowiringSpringBeanJobFactory;
+import com.yueny.demo.micros.boot.spring.factory.autowired.AutowiringSpringBeanJobFactory;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
