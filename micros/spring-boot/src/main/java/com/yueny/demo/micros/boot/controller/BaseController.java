@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.yueny.rapid.lang.json.JsonUtil;
@@ -28,6 +29,10 @@ import lombok.Getter;
  * @since 1.0.0
  */
 public abstract class BaseController {
+	/**
+	 * 存放当前线程的Model对象
+	 */
+	private final static ThreadLocal<Model> httpModelThreadLocal = new ThreadLocal<>();
 	/**
 	 * 存放当前线程的HttpServletRequest对象
 	 */
@@ -47,6 +52,27 @@ public abstract class BaseController {
 	 * Logger
 	 */
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+	/**
+	 * Add the supplied attribute under the supplied name.
+	 * 
+	 * @param attributeName
+	 *            the name of the model attribute (never {@code null})
+	 * @param attributeValue
+	 *            the model attribute value (can be {@code null})
+	 */
+	protected Model addAttribute(final String attributeName, final Object attributeValue) {
+		return getModel().addAttribute(attributeName, attributeValue);
+	}
+
+	/**
+	 * 获取当前线程的Model对象
+	 *
+	 * @return 当前线程的Model对象
+	 */
+	protected Model getModel() {
+		return httpModelThreadLocal.get();
+	}
 
 	/**
 	 * 获取当前线程的HttpServletRequest对象
@@ -107,9 +133,10 @@ public abstract class BaseController {
 	 * 使用@ModelAttribute注解标识的方法会在每个控制器中的方法访问之前先调用
 	 */
 	@ModelAttribute
-	protected void setThreadLocal(final HttpServletRequest request, final ServletResponse response) {
+	protected void setThreadLocal(final HttpServletRequest request, final ServletResponse response, final Model model) {
 		httpServletRequestThreadLocal.set(request);
 		httpServletResponseThreadLocal.set(response);
+		httpModelThreadLocal.set(model);
 	}
 
 }

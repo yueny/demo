@@ -30,6 +30,14 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
 	@Autowired
 	private DataSource dataSource;
 
+	// @Bean(name = "transactionManager")
+	// public DataSourceTransactionManager transactionManager(
+	// @Qualifier("dataSource") final DataSource dataSource) {
+	// final DataSourceTransactionManager transactionManager = new
+	// DataSourceTransactionManager();
+	// transactionManager.setDataSource(dataSource);
+	// return transactionManager;
+	// }
 	@Bean
 	@Override
 	public PlatformTransactionManager annotationDrivenTransactionManager() {

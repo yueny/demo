@@ -33,7 +33,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
-        
         <!-- spring boot提供的对应用系统的自省和监控的集成功能，可以对应用系统进行配置查看、相关功能统计等 -->
 		<dependency>
             <groupId>org.springframework.boot</groupId>
@@ -43,9 +42,22 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+		<!-- 
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		 -->
+		<!-- spring boot web支持：mvc,aop... -->
+	    <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-web</artifactId>
+		    <exclusions>
+		      <exclusion>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-starter-tomcat</artifactId>
+		      </exclusion>
+		    </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -63,6 +75,11 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
          -->
+        <!-- 引入freeMarker的依赖包. -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-freemarker</artifactId>
+	    </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -209,19 +226,20 @@
 	</dependencies>
 	
 	<build>
+		<finalName>micros_spring_boot</finalName>
+		
 	    <plugins>
 	    	<plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
             </plugin>
 			<plugin>
 			    <groupId>org.projectlombok</groupId>
 			    <artifactId>lombok-maven-plugin</artifactId>
 			    <version>1.16.6.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
 			</plugin>
 			<!-- 编译级别 -->
             <plugin>

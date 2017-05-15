@@ -7,7 +7,12 @@
 server:
    port: 8090
    sessionTimeout: 45
+   # 默认是/,直接通过http://ip:port/就可以访问，如果要修改为http://ip:port/path/访问，需要server.context-path=/path
    contextPath: /
+   #server.tomcat.protocol-header=x-forwarded-proto # ssl forward headers
+   #server.tomcat.remote-ip-header=x-forwarded-for
+   #server.tomcat.max-threads = 0 # number of threads in protocol handler
+   #server.tomcat.uri-encoding = UTF-8 # character encoding to use for URLdecoding
 
 spring: 
    aop: 
@@ -55,19 +60,14 @@ spring:
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
    mvc:
+      # 设定静态文件路径，js,css等
+      #static-path-pattern: /static/**
       view:
          # 指定mvc视图的前缀
          prefix: /
          # 指定mvc视图的后缀
          suffix: .ftl
-   # freemarker
-   freemarker:
-      #是否允许mvc使用freemarker
-      enabled: true
-      # 设定freemarker模板的前缀
-      prefix: /
-      suffix: .ftl
-      
+   
 # url/shutdown
 endpoints:
    shutdown:

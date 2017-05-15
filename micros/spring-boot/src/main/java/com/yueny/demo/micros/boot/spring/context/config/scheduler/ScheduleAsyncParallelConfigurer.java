@@ -52,6 +52,24 @@ public class ScheduleAsyncParallelConfigurer implements AsyncConfigurer, Schedul
 		scheduler.setThreadNamePrefix("asyncTask-");
 		scheduler.setAwaitTerminationSeconds(60);
 		scheduler.setWaitForTasksToCompleteOnShutdown(true);
+
+		// 钩子线程里只处理善后，目标是尽可能快的退出且不保证有脏数据。如果钩子线程里做过多事情，或者发生阻塞，那么可能出现kill失效，程序不能退出的情况，这是需要强制退出
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				// We'd like to log progress and failures that may arise in
+				// the
+				// following code, but unfortunately the behavior of logging
+				// is undefined in shutdown hooks.
+				// This is because the logging code installs a shutdown hook
+				// of its
+				// own. See Cleaner class inside {@link LogManager}.
+				scheduler.shutdown();
+				scheduler.setAwaitTerminationSeconds(120);
+				System.out.println("scheduler task completed.");
+			}
+		});
+
 		return scheduler;
 	}
 

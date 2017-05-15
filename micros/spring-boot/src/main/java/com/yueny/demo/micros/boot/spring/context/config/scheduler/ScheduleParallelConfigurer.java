@@ -1,12 +1,15 @@
 package com.yueny.demo.micros.boot.spring.context.config.scheduler;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+
+import com.google.common.util.concurrent.MoreExecutors;
+import com.yueny.demo.micros.boot.spring.context.config.scheduler.factory.NamedThreadFactory;
 
 /**
  * 并行任务基础配置
@@ -29,8 +32,19 @@ public class ScheduleParallelConfigurer implements SchedulingConfigurer {
 	}
 
 	@Bean(destroyMethod = "shutdown")
-	public Executor taskExecutor() {
-		return Executors.newScheduledThreadPool(100);
+	public ExecutorService taskExecutor() {
+		final int threadSize = Runtime.getRuntime().availableProcessors() * 2;// 100
+
+		final ScheduledThreadPoolExecutor threadPoolExecutor = new ScheduledThreadPoolExecutor(threadSize,
+				/*
+				 * new BasicThreadFactory.Builder().namingPattern(
+				 * Joiner.on("-").join(namingPattern, "%s")).build()
+				 */
+				new NamedThreadFactory("executor", true));
+
+		threadPoolExecutor.allowCoreThreadTimeOut(true);
+
+		return MoreExecutors.listeningDecorator(MoreExecutors.getExitingScheduledExecutorService(threadPoolExecutor));
 	}
 
 }

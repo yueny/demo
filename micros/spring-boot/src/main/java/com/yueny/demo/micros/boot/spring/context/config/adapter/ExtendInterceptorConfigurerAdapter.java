@@ -4,6 +4,9 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +17,7 @@ import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.yueny.rapid.lang.json.CustomAllEncompassingFormHttpMessageConverter;
@@ -44,6 +48,16 @@ public class ExtendInterceptorConfigurerAdapter extends WebMvcConfigurerAdapter 
 		final ServiceContextInterceptor interceptor = new ServiceContextInterceptor();
 		// interceptor.setSystemCode(systemCode);
 		registry.addInterceptor(interceptor).addPathPatterns("/**").excludePathPatterns("/content/**");
+
+		registry.addInterceptor(new HandlerInterceptorAdapter() {
+			@Override
+			public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response,
+					final Object handler) throws Exception {
+				System.out.println("interceptor====" + request.getContextPath() + " || " + request.getServletPath());
+				return true;
+			}
+		}).addPathPatterns("/**");
+
 	}
 
 	/*
