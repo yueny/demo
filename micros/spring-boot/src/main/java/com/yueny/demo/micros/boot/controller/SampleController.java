@@ -1,5 +1,7 @@
 package com.yueny.demo.micros.boot.controller;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
@@ -13,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yueny.demo.micros.boot.api.request.JobForMatcherRequest;
 import com.yueny.rapid.data.resp.pojo.response.NormalResponse;
 import com.yueny.rapid.lang.json.JsonUtil;
+import com.yueny.superclub.util.sla.jvm.SlaRateLimit;
+import com.yueny.superclub.util.sla.jvm.config.enums.SlaRateLimitReturnType;
+import com.yueny.superclub.util.sla.jvm.config.enums.SlaRateLimitType;
+import com.yueny.superclub.util.sla.whole.SlaRateWholeLimit;
 
 import io.reactivex.Observable;
 
@@ -23,12 +29,25 @@ import io.reactivex.Observable;
 @RestController
 public class SampleController extends BaseController {
 	@RequestMapping("/service/{key}")
-	public String key(@PathVariable final String key) {
+	// @SlaRateLimit(threshold = 1, type = SlaRateLimitType.WEB, returnType =
+	// SlaRateLimitReturnType.JSON)
+	@SlaRateWholeLimit(threshold = 1, returnType = SlaRateLimitReturnType.JSON)
+	public NormalResponse<String> key(@PathVariable final String key) {
 		logger.info("{}/{} 被访问了~！", key, getEnv());
-		return key;
+
+		try {
+			TimeUnit.MILLISECONDS.sleep(1000);
+		} catch (final InterruptedException e) {
+			System.out.println("sleep Interrupted!");
+		}
+
+		final NormalResponse<String> reps = new NormalResponse<>();
+		reps.setData(key + "被访问了~！");
+		return reps;
 	}
 
 	@RequestMapping(value = "/post/data", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@SlaRateLimit(threshold = 1, type = SlaRateLimitType.SAL, returnType = SlaRateLimitReturnType.AUTO)
 	public NormalResponse<Boolean> matcherData(@RequestBody @Valid final JobForMatcherRequest req,
 			final BindingResult bindingResult) {
 		final NormalResponse<Boolean> reps = new NormalResponse<Boolean>();

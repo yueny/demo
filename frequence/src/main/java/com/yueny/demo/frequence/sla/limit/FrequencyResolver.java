@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.web.method.HandlerMethod;
 
-import com.yueny.demo.frequence.sla.config.annotation.Frequency;
+import com.yueny.superclub.util.sla.frequency.Frequency;
 
 /**
  * FrequencyResolver

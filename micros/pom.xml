@@ -22,6 +22,7 @@
 		<module>simple-boot</module>
 		<module>spring</module>
 		<module>spring-boot</module>
+		<module>spring-cloud</module>
 	</modules>
-	
+
 </project>

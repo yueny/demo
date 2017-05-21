@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -42,12 +44,6 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-		<!-- 
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		 -->
 		<!-- spring boot web支持：mvc,aop... -->
 	    <dependency>
 		    <groupId>org.springframework.boot</groupId>
@@ -125,22 +121,6 @@
 			<artifactId>logback-core</artifactId>
 		</dependency>
 		
-		<!-- Task
-		<dependency> 
-			<groupId>org.quartz-scheduler</groupId>
-    		<artifactId>quartz</artifactId>
-    		<version>2.2.1</version>
-		</dependency>
-		<dependency>
-	            <groupId>org.quartz-scheduler</groupId>
-	            <artifactId>quartz</artifactId>
-        </dependency>
-        <dependency>
-		    <groupId>org.quartz-scheduler</groupId>
-		    <artifactId>quartz-jobs</artifactId>
-		</dependency>
-		 -->
-		 
 		<!-- example -->
 		<dependency>
 			<groupId>com.yueny.demo</groupId>
@@ -174,11 +154,32 @@
 			<version>${rapid.laster.veision}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-mask</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
 		    <groupId>com.yueny.rapid.service</groupId>
 			<artifactId>rapid-service-rest</artifactId>
 			<version>${rapid.laster.veision}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.util</groupId>
+			<artifactId>rapid-util-sla</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-lua</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
 		
+		<dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.3</version>
+        </dependency>
+        
 		<!-- 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

@@ -87,9 +87,21 @@
 		<appender-ref ref="SERVICE" />
 		<appender-ref ref="ERROR" />
 	</logger>
+	<logger name="com.yueny.superclub.util.sla" level="${LEVEL}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="CONSOLE_ERROR" />
+		<appender-ref ref="SERVICE" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.springframework.web" level="${LEVEL}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="CONSOLE_ERROR" />
+		<appender-ref ref="SERVICE" />
+		<appender-ref ref="ERROR" />
+	</logger>
 	
 	<!-- Loggers : Root Logger -->
-	<root level="${LEVEL}">
+	<root level="ROOT">
 		<appender-ref ref="ERROR" />
 		<appender-ref ref="DEFAULT" />
 	</root>

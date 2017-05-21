@@ -28,7 +28,7 @@ public class LogsExampleSpringJob {
 	 *            fixedRate以特定频率执行任务， 单位 毫秒milliseconds；<br>
 	 *            fixedRateString以string的形式配置执行频率。
 	 */
-	@Scheduled(fixedRate = 1000)
+	@Scheduled(fixedRate = 5000)
 	public void doSomething() {
 		// 间隔5分钟,执行任务
 		try {

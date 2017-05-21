@@ -2,7 +2,7 @@ package com.yueny.demo.frequence.sla.config.parser;
 
 import java.lang.reflect.Method;
 
-import com.yueny.demo.frequence.sla.config.annotation.Frequency;
+import com.yueny.superclub.util.sla.frequency.Frequency;
 
 /**
  * Frequency注解解析器

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
@@ -18,6 +19,10 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  */
 // @Configuration
 public class WrapperConfig {
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertyConfig() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
 
 	@Bean(name = "mapper")
 	public DozerBeanMapperFactoryBean mapper() {

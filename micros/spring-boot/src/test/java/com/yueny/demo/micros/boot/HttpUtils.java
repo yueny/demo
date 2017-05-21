@@ -27,6 +27,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContextBuilder;
 import org.apache.http.conn.ssl.TrustStrategy;
@@ -43,11 +44,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.yueny.rapid.lang.util.StringUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class HttpUtils {
 	private static PoolingHttpClientConnectionManager connectionManager;
-	private static final int MAX_TIMEOUT = 7000;
+	private static final int MAX_TIMEOUT = 160000;
 	private static RequestConfig requestConfig;
 
 	static {
@@ -60,7 +63,7 @@ public class HttpUtils {
 		connectionManager.setDefaultMaxPerRoute(connectionManager.getMaxTotal());
 
 		final RequestConfig configBuilder = RequestConfig.custom()
-				// 设置读取超时
+				// 设置读取超时 milliseconds
 				.setSocketTimeout(MAX_TIMEOUT)
 				// 设置连接超时
 				.setConnectTimeout(MAX_TIMEOUT)
@@ -109,13 +112,13 @@ public class HttpUtils {
 		String result = null;
 		final CloseableHttpClient httpclient = HttpClients.custom().setConnectionManager(connectionManager)
 				.setDefaultRequestConfig(requestConfig).build();
+		CloseableHttpResponse response = null;
 		try {
-			final HttpGet httpPost = new HttpGet(apiUrl);
-			CloseableHttpResponse response = null;
+			final HttpGet httpPost = assemblyHttpGet(apiUrl);
+
 			try {
 				response = httpclient.execute(httpPost);
 				final int statusCode = response.getStatusLine().getStatusCode();
-				System.out.println("执行状态码 : " + statusCode);
 
 				final HttpEntity entity = response.getEntity();
 				if (entity != null) {
@@ -123,7 +126,7 @@ public class HttpUtils {
 					result = IOUtils.toString(instream, "UTF-8");
 				}
 			} catch (final IOException e) {
-				e.printStackTrace();
+				log.error("请求异常：", e);
 			} finally {
 				if (response != null) {
 					response.close();
@@ -132,13 +135,21 @@ public class HttpUtils {
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			if (httpclient != null) {
+			if (response != null) {
 				try {
-					httpclient.close();
+					EntityUtils.consume(response.getEntity());
 				} catch (final IOException e) {
-					e.printStackTrace();
+					log.error("请求异常：", e);
 				}
 			}
+
+			// if (httpclient != null) {
+			// try {
+			// httpclient.close();
+			// } catch (final IOException e) {
+			// log.error("请求异常：", e);
+			// }
+			// }
 		}
 		return result;
 	}
@@ -166,7 +177,8 @@ public class HttpUtils {
 	@Deprecated
 	public static String doPost(final String url, final Map<String, Object> params) {
 		String result = null;
-		final HttpPost httpPost = new HttpPost(url);
+		final HttpPost httpPost = assemblyHttpPost(url);
+
 		CloseableHttpResponse response = null;
 
 		try {
@@ -186,13 +198,13 @@ public class HttpUtils {
 				result = EntityUtils.toString(response.getEntity(), "UTF-8");
 			}
 		} catch (final IOException e) {
-			e.printStackTrace();
+			log.error("请求异常：", e);
 		} finally {
 			if (response != null) {
 				try {
 					EntityUtils.consume(response.getEntity());
 				} catch (final IOException e) {
-					e.printStackTrace();
+					log.error("请求异常：", e);
 				}
 			}
 		}
@@ -222,43 +234,43 @@ public class HttpUtils {
 	 * @return String 返回值(字符串)
 	 */
 	public static String doPost(final String url, final String json) {
-		String result = null;
-		final HttpPost httpPost = new HttpPost(url);
-		CloseableHttpResponse response = null;
+		if (log.isDebugEnabled()) {
+			log.debug("{}的请求参数为：{}。", url, json);
+		}
 
+		String result = null;
+		final HttpPost httpPost = assemblyHttpPost(url);
+
+		CloseableHttpResponse response = null;
 		try {
 			httpPost.setConfig(requestConfig);
 
-			if (StringUtil.isNotEmpty(json)) {
+			if (StringUtils.isNotEmpty(json)) {
 				final StringEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
 				httpPost.setEntity(entity);
 			}
-			// final List<NameValuePair> pairList = new
-			// ArrayList<>(params.size());
-			// for (final Map.Entry<String, Object> entry : params.entrySet()) {
-			// final NameValuePair pair = new BasicNameValuePair(entry.getKey(),
-			// entry.getValue().toString());
-			// pairList.add(pair);
-			// }
-			// httpPost.setEntity(new UrlEncodedFormEntity(pairList,
-			// Charset.forName("UTF-8")));
 
 			final CloseableHttpClient httpClient = getHttpClient();
 			response = httpClient.execute(httpPost);
-			System.out.println(response.toString());
+			if (log.isDebugEnabled()) {
+				log.debug("{}的响应结果为：{}。", url, response);
+			}
 
 			if (response.getStatusLine().getStatusCode() == 200) {
 				result = EntityUtils.toString(response.getEntity(), "UTF-8");
+			} else {
+				// 此处为异常，暂不区分处理
+				result = EntityUtils.toString(response.getEntity(), "UTF-8");
 			}
 		} catch (final IOException e) {
-			e.printStackTrace();
+			log.error("请求异常：", e);
 		} finally {
 			if (response != null) {
 				try {
 					EntityUtils.consume(response.getEntity());
 					// response.getEntity().getContent().close();
 				} catch (final IOException e) {
-					e.printStackTrace();
+					log.error("请求异常：", e);
 				}
 			}
 		}
@@ -278,10 +290,10 @@ public class HttpUtils {
 	public static String doPostSSL(final String url, final Map<String, Object> params) {
 		final CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
 				.setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig).build();
-		final HttpPost httpPost = new HttpPost(url);
+		final HttpPost httpPost = assemblyHttpPost(url);
+
 		CloseableHttpResponse response = null;
 		String httpStr = null;
-
 		try {
 			httpPost.setConfig(requestConfig);
 			final List<NameValuePair> pairList = new ArrayList<>(params.size());
@@ -301,13 +313,13 @@ public class HttpUtils {
 			}
 			httpStr = EntityUtils.toString(entity, "utf-8");
 		} catch (final Exception e) {
-			e.printStackTrace();
+			log.error("请求异常：", e);
 		} finally {
 			if (response != null) {
 				try {
 					EntityUtils.consume(response.getEntity());
 				} catch (final IOException e) {
-					e.printStackTrace();
+					log.error("请求异常：", e);
 				}
 			}
 		}
@@ -327,7 +339,7 @@ public class HttpUtils {
 	public static String doPostSSL(final String apiUrl, final Object json) {
 		final CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
 				.setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig).build();
-		final HttpPost httpPost = new HttpPost(apiUrl);
+		final HttpPost httpPost = assemblyHttpPost(apiUrl);
 		CloseableHttpResponse response = null;
 		String httpStr = null;
 
@@ -348,13 +360,13 @@ public class HttpUtils {
 			}
 			httpStr = EntityUtils.toString(entity, "utf-8");
 		} catch (final Exception e) {
-			e.printStackTrace();
+			log.error("请求异常：", e);
 		} finally {
 			if (response != null) {
 				try {
 					EntityUtils.consume(response.getEntity());
 				} catch (final IOException e) {
-					e.printStackTrace();
+					log.error("请求异常：", e);
 				}
 			}
 		}
@@ -437,8 +449,7 @@ public class HttpUtils {
 	 * @return T 返回值
 	 */
 	public static <T> T post(final String url, final Object data, final Class<T> classType) {
-		// final Map<String, Object> params = convertRequest(data);
-		final String result = doPost(url, JSONObject.toJSONString(data));
+		final String result = doPost(url, data == null ? "" : JSONObject.toJSONString(data));
 		return convertResp(result, classType);
 	}
 
@@ -452,7 +463,7 @@ public class HttpUtils {
 	 * @return T 返回值
 	 */
 	public static <T> T post(final String url, final Object data, final TypeToken<T> classType) {
-		final String result = doPost(url, JSONObject.toJSONString(data));
+		final String result = doPost(url, data == null ? "" : JSONObject.toJSONString(data));
 		return convertResp(result, classType);
 	}
 
@@ -469,6 +480,35 @@ public class HttpUtils {
 	}
 
 	/**
+	 * 获取HttpGet
+	 */
+	private static HttpGet assemblyHttpGet(final String url) {
+		final HttpGet httpGet = new HttpGet(url);
+		assemblyRequest(httpGet);
+
+		return httpGet;
+	}
+
+	/**
+	 * 获取HttpPost
+	 */
+	private static HttpPost assemblyHttpPost(final String url) {
+		final HttpPost httpPost = new HttpPost(url);
+		assemblyRequest(httpPost);
+
+		return httpPost;
+	}
+
+	/**
+	 * 请求头处理
+	 */
+	private static <T extends HttpRequestBase> T assemblyRequest(final T httpRequest) {
+		httpRequest.addHeader("FLAG_MERCHANT_ID", "app.merchantId");
+
+		return httpRequest;
+	}
+
+	/**
 	 * 请求参数转换
 	 *
 	 * @param data
@@ -477,7 +517,7 @@ public class HttpUtils {
 	 */
 	@Deprecated
 	private static Map<String, Object> convertRequest(final Object data) {
-		final Map<String, Object> param = new HashMap();
+		final Map<String, Object> param = new HashMap<String, Object>();
 		try {
 			final Field[] fields = data.getClass().getDeclaredFields();
 			for (final Field f : fields) {
@@ -486,8 +526,8 @@ public class HttpUtils {
 				param.put(name, f.get(data));
 			}
 		} catch (final Exception e) {
-			e.printStackTrace();
-			return new HashMap();
+			log.error("请求异常：", e);
+			return new HashMap<String, Object>();
 		}
 
 		return param;
@@ -520,17 +560,23 @@ public class HttpUtils {
 	 *            class 对象
 	 * @return T
 	 */
+	@SuppressWarnings("unchecked")
 	private static <T> T convertResp(final String result, final TypeToken<T> classType) {
 		if (result == null || "".equals(result.trim())) {
 			return null;
 		}
 
-		if (StringUtils.startsWith(result, "{")) {
+		if (!StringUtils.startsWith(result, "{")) {
 			return (T) result;
 		}
 
 		final Gson gson = new GsonBuilder().enableComplexMapKeySerialization().serializeNulls()
 				.setDateFormat("yyyy-MM-dd HH:mm:ss:SSS").setPrettyPrinting().create();
+
+		if (log.isDebugEnabled()) {
+			log.debug("json result is：{}.", result);
+			System.out.println("json result is：" + result);
+		}
 
 		final T clazz = gson.fromJson(result, classType.getType());
 		return clazz;
@@ -573,17 +619,13 @@ public class HttpUtils {
 				}
 			});
 		} catch (final GeneralSecurityException e) {
-			e.printStackTrace();
+			log.error("请求异常：", e);
 		}
 		return sslsf;
 	}
 
 	private static CloseableHttpClient getHttpClient() {
-		// final CloseableHttpClient httpclient=
-		// HttpClients.createMinimal(connectionManager);
-		final CloseableHttpClient httpclient = HttpClients.custom().setConnectionManager(connectionManager)
-				// .setDefaultRequestConfig(requestConfig)
-				.build();
+		final CloseableHttpClient httpclient = HttpClients.custom().setConnectionManager(connectionManager).build();
 
 		return httpclient;
 	}
