@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.yueny.demo.job.scheduler;
+package com.yueny.demo.job.scheduler.base;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>

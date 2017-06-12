@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.job.tb.helper;
+package com.yueny.demo.job.scheduler.tbschedulejob.helper;
 
 import java.util.Properties;
 

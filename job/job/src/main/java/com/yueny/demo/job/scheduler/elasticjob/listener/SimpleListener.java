@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.job.ej.listener;
+package com.yueny.demo.job.scheduler.elasticjob.listener;
 
 import com.dangdang.ddframe.job.executor.ShardingContexts;
 import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;

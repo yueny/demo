@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.job.spring;
+package com.yueny.demo.job.scheduler.springjob.runner;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -11,7 +11,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import com.google.common.collect.Lists;
 import com.yueny.demo.job.bo.ModifyDemoBo;
-import com.yueny.demo.job.scheduler.runner.BaseTask;
+import com.yueny.demo.job.scheduler.base.BaseTask;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.json.JsonUtil;
 import com.yueny.rapid.lang.util.UuidUtil;

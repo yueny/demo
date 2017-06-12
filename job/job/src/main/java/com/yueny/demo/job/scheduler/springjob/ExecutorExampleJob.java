@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.job.example;
+package com.yueny.demo.job.scheduler.springjob;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.yueny.demo.job.scheduler.BaseSuperScheduler;
-import com.yueny.demo.job.scheduler.job.spring.DemoMockBatchModifyStockRunner;
+import com.yueny.demo.job.scheduler.base.BaseSuperScheduler;
+import com.yueny.demo.job.scheduler.springjob.runner.DemoMockBatchModifyStockRunner;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.util.UuidUtil;
 import com.yueny.rapid.lang.util.collect.CollectionUtil;

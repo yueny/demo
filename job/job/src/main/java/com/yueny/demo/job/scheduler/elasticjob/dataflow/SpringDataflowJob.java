@@ -15,7 +15,7 @@
  * </p>
  */
 
-package com.yueny.demo.job.scheduler.job.ej.dataflow;
+package com.yueny.demo.job.scheduler.elasticjob.dataflow;
 
 import java.util.Date;
 import java.util.List;

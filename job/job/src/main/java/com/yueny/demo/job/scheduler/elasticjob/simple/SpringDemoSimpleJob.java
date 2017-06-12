@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.job.ej;
+package com.yueny.demo.job.scheduler.elasticjob.simple;
 
 import java.util.Date;
 

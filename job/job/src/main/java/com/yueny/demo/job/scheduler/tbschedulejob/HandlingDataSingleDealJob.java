@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.job.tb;
+package com.yueny.demo.job.scheduler.tbschedulejob;
 
 import java.util.Comparator;
 import java.util.List;
@@ -16,7 +16,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import com.google.common.collect.Lists;
 import com.taobao.pamirs.schedule.IScheduleTaskDealSingle;
 import com.taobao.pamirs.schedule.TaskItemDefine;
-import com.yueny.demo.job.scheduler.BaseSuperScheduler;
+import com.yueny.demo.job.scheduler.base.BaseSuperScheduler;
+import com.yueny.demo.job.scheduler.tbschedulejob.runner.HandlingDataSingleDealTaskRunner;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.util.UuidUtil;
 import com.yueny.rapid.lang.util.time.SystemClock;
@@ -53,8 +54,8 @@ public class HandlingDataSingleDealJob extends BaseSuperScheduler implements ISc
 		final long start = SystemClock.now();
 
 		// 执行任务列表
-		final List<HandlingDataSingleDealTask> tasks = Lists.newArrayList();
-		tasks.add(new HandlingDataSingleDealTask(Lists.newArrayList(id), dataPrecipitationService));
+		final List<HandlingDataSingleDealTaskRunner> tasks = Lists.newArrayList();
+		tasks.add(new HandlingDataSingleDealTaskRunner(Lists.newArrayList(id), dataPrecipitationService));
 
 		// 等待所有任务完成后的结果
 		final CompletionService<Integer> cs = new ExecutorCompletionService<Integer>(taskExecutor);

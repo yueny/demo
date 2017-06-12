@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
+import com.yueny.demo.job.scheduler.base.BaseTask;
+
 /**
  * @author yueny09 <deep_blue_yang@163.com>
  *

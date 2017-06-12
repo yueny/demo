@@ -1,15 +1,17 @@
-package com.yueny.demo.job.scheduler.job.tb;
+package com.yueny.demo.job.scheduler.tbschedulejob.runner;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections4.CollectionUtils;
 
+import com.google.common.collect.Lists;
 import com.yueny.demo.job.bo.ModifyDemoBo;
-import com.yueny.demo.job.scheduler.runner.BaseTask;
+import com.yueny.demo.job.scheduler.base.BaseTask;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.json.JsonUtil;
 import com.yueny.rapid.lang.util.UuidUtil;
@@ -24,8 +26,7 @@ import com.yueny.superclub.util.crypt.util.TripleDesEncryptUtil;
  * @DATE 2016年11月16日 下午1:39:13
  *
  */
-public class HandlingDataSingleDealTask extends BaseTask implements Callable<Integer>, Serializable {
-	private static Random rn = new Random();
+public class HandlingDataMultiDealTaskRunner extends BaseTask implements Callable<List<Long>>, Serializable {
 	/**
 	 *
 	 */
@@ -40,19 +41,25 @@ public class HandlingDataSingleDealTask extends BaseTask implements Callable<Int
 	 */
 	private final List<Long> ts;
 
-	public HandlingDataSingleDealTask(final List<Long> ts, final IDataPrecipitationService dataPrecip) {
+	public HandlingDataMultiDealTaskRunner(final List<Long> ts, final IDataPrecipitationService dataPrecip) {
 		this.ts = ts;
 		this.dataPrecipitationService = dataPrecip;
 		taskId = UuidUtil.getSimpleUuid();
 	}
 
+	public HandlingDataMultiDealTaskRunner(final Long[] ts, final IDataPrecipitationService dataPrecip) {
+		this.ts = Arrays.asList(ts);
+		this.dataPrecipitationService = dataPrecip;
+		taskId = UuidUtil.getSimpleUuid();
+	}
+
 	@Override
-	public Integer call() throws Exception {
+	public List<Long> call() throws Exception {
 		if (CollectionUtils.isEmpty(ts)) {
-			return 0;
+			return Collections.emptyList();
 		}
 
-		int current = 0;
+		final List<Long> updateIds = Lists.newArrayList();
 		final long start = SystemClock.now();
 		for (final Long id : ts) {
 			final ModifyDemoBo demoBo = dataPrecipitationService.findById(id);
@@ -65,16 +72,22 @@ public class HandlingDataSingleDealTask extends BaseTask implements Callable<Int
 			} catch (final InterruptedException e) {
 				e.printStackTrace();
 			}
+
+			if (id % 10 == 0) {
+				// 模拟结果可疑的数据
+				continue;
+			}
+
 			demoBo.setType("Y");
 			dataPrecipitationService.update(demoBo);
 
-			current++;
+			updateIds.add(id);
 		}
 
 		final long end = SystemClock.now();
-		logger.debug("任务号:{} 耗时:{}秒, 返回:{}, 总数据:{}条.", taskId, (end - start) / 1000, current, ts.size());
+		logger.debug("任务号:{} 耗时:{}秒, 处理数据列表:{}.", taskId, (end - start) / 1000, updateIds);
 
-		return current;
+		return updateIds;
 	}
 
 }

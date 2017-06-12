@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.job.tb;
+package com.yueny.demo.job.scheduler.tbschedulejob;
 
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +17,8 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.taobao.pamirs.schedule.IScheduleTaskDealMulti;
 import com.taobao.pamirs.schedule.TaskItemDefine;
-import com.yueny.demo.job.scheduler.BaseSuperScheduler;
+import com.yueny.demo.job.scheduler.base.BaseSuperScheduler;
+import com.yueny.demo.job.scheduler.tbschedulejob.runner.HandlingDataMultiDealTaskRunner;
 import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.util.time.SystemClock;
 
@@ -40,8 +41,8 @@ public class HandlingDataMultiDealJob extends BaseSuperScheduler implements ISch
 		final long start = SystemClock.now();
 
 		// 执行任务列表
-		final List<HandlingDataMultiDealTask> tasks = Lists.newArrayList();
-		tasks.add(new HandlingDataMultiDealTask(ids, dataPrecipitationService));
+		final List<HandlingDataMultiDealTaskRunner> tasks = Lists.newArrayList();
+		tasks.add(new HandlingDataMultiDealTaskRunner(ids, dataPrecipitationService));
 
 		// 等待所有任务完成后的结果
 		final CompletionService<List<Long>> cs = new ExecutorCompletionService<>(taskExecutor);
