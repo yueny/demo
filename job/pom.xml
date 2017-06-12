@@ -42,7 +42,9 @@
 	</build>
 	
 	<modules>
-		<module>job</module>
+		<module>springjob</module>
+		<module>elasticjob</module>
+		<module>tbschedulejob</module>
   </modules>
 	
 </project>
