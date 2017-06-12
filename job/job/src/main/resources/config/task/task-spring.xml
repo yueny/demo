@@ -33,8 +33,8 @@
     </bean>
 	
 	<!--  -->
-    <bean id="springDataBatchWithModifyJob" class="com.yueny.demo.job.scheduler.job.spring.SpringDataBatchWithModifyJob"/>
-    <task:scheduled-tasks scheduler="scheduler">
+    <bean id="springDataBatchWithModifyJob" class="com.yueny.demo.job.scheduler.springjob.SpringDataBatchWithModifyJob"/>
+    <task:scheduled-tasks>
         <task:scheduled ref="springDataBatchWithModifyJob" method="${demoBatch.method.expression}"
                         cron="${demoBatch.cron.expression}" />
     </task:scheduled-tasks>
