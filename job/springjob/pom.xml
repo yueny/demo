@@ -5,6 +5,7 @@
 		<groupId>com.yueny.demo</groupId>
 		<artifactId>job</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath/>
 	</parent>
 	
 	<groupId>com.yueny.demo.job</groupId>
@@ -75,26 +76,12 @@
 			<artifactId>rapid-lang-dozer</artifactId>
 			<version>${rapid.laster.veision}</version>
 		</dependency>
-		
-		<!-- ej -->
 		<dependency>
-		    <groupId>com.dangdang</groupId>
-		    <artifactId>elastic-job-lite-core</artifactId>
-		    <version>2.0.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.dangdang</groupId>
-		    <artifactId>elastic-job-lite-spring</artifactId>
-		    <version>2.0.0</version>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-lua</artifactId>
+			<version>${rapid.laster.veision}</version>
 		</dependency>
 		
-		<!-- tb -->
-		<dependency>
-		    <groupId>com.taobao.pamirs.schedule</groupId>
-		    <artifactId>tbschedule</artifactId>
-		    <version>3.3.3.2</version>
-		</dependency>
-
 	    <!-- cache -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -199,21 +186,6 @@
 		</testResources>
 		
 	    <plugins>
-			 <plugin>
-                 <artifactId>maven-assembly-plugin</artifactId>
-                 <configuration>
-                     <descriptor>assembly/assembly.xml</descriptor>
-                 </configuration>
-                 <executions>
-                     <execution>
-                         <id>make-assembly</id>
-                         <phase>package</phase>
-                         <goals>
-                             <goal>single</goal>
-                         </goals>
-                     </execution>
-                 </executions>
-             </plugin>
              <plugin>
 			    <groupId>org.projectlombok</groupId>
 			    <artifactId>lombok-maven-plugin</artifactId>

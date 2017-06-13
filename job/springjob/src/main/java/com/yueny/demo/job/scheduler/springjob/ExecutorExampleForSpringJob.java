@@ -27,7 +27,7 @@ import com.yueny.superclub.util.exec.async.factory.ExecutorServiceObjectFactory;
  *
  */
 @Service
-public class ExecutorExampleJob extends BaseSuperScheduler {
+public class ExecutorExampleForSpringJob extends BaseSuperScheduler {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
 

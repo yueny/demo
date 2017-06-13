@@ -19,7 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @ComponentScan(basePackages = { "com.yueny.demo.job", "com.yueny.demo.spring" })
-@ImportResource(locations = { "classpath*:/config/demo-*.xml", "classpath:/config/spring-dozer.xml" })
+@ImportResource(locations = { "classpath*:/config/demo-*.xml" })
 @PropertySource({ "classpath:/properties/application.properties", "classpath:/properties/redis.properties",
 		"classpath:/properties/db.properties", "classpath:/properties/job-spring.properties" })
 public class JobAgentBootstrap {

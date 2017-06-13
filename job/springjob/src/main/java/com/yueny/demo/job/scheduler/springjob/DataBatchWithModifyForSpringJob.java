@@ -29,7 +29,7 @@ import com.yueny.rapid.lang.util.time.SystemClock;
  *
  * @category tag
  */
-public class SpringDataBatchWithModifyJob extends BaseSuperScheduler {
+public class DataBatchWithModifyForSpringJob extends BaseSuperScheduler {
 	private static volatile boolean complete = false;
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
