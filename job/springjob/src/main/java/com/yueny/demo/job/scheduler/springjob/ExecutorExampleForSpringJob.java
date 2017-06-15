@@ -37,7 +37,7 @@ public class ExecutorExampleForSpringJob extends BaseSuperScheduler {
 	/**
 	 *
 	 */
-	@Scheduled(cron = "0/5 * * * * ?")
+	@Scheduled(cron = "0/15 * * * * ?")
 	public void processData() {
 		final long start = SystemClock.now();
 		final String batchId = UuidUtil.getSimpleUuid();

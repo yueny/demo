@@ -52,6 +52,12 @@ public class DataPrecipitationServiceImpl extends BaseSevice implements IDataPre
 		return dataPrecipitationDao.insertList(entrys);
 	}
 
+	@Override
+	public List<Long> quertIdsBySharding(final int taskItemsharding, final Integer taskItemValue,
+			final Integer fetchDataNum) {
+		return dataPrecipitationDao.quertIdsBySharding(taskItemsharding, taskItemValue, fetchDataNum);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *

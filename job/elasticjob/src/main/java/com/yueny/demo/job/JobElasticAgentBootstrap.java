@@ -21,16 +21,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages = { "com.yueny.demo.job", "com.yueny.demo.spring" })
 @ImportResource(locations = { "classpath*:/config/demo-*.xml" })
 @PropertySource({ "classpath:/properties/application.properties", "classpath:/properties/redis.properties",
-		"classpath:/properties/db.properties", "classpath:/properties/job-spring.properties" })
-public class JobAgentBootstrap {
+		"classpath:/properties/db.properties", "classpath:/properties/job-ej.properties" })
+public class JobElasticAgentBootstrap {
 	/**
 	 * 日志记录器
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(JobAgentBootstrap.class);
+	private static final Logger logger = LoggerFactory.getLogger(JobElasticAgentBootstrap.class);
 
 	public static void main(final String[] args) {
 		try {
-			SpringApplication.run(JobAgentBootstrap.class, args);
+			SpringApplication.run(JobElasticAgentBootstrap.class, args);
 		} catch (final Exception e) {
 			logger.error("服务启动异常:", e);
 			e.printStackTrace();

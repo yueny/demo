@@ -38,23 +38,31 @@ public class ExecutorExampleForSpringFragmJob extends BaseSuperScheduler {
 	 */
 	@Scheduled(cron = "0/8 * * * * ?")
 	public void processData() {
-		final long start = SystemClock.now();
+		if (redisLock.tryLock(assembleLockKey("_PRECIPITATION_RUN"), 1)) {
+			try {
+				final long start = SystemClock.now();
 
-		// 得到服务器中待批量处理数据的主键信息, limit 50
-		final List<Long> ids = dataPrecipitationService.queryAllIds();
+				// 得到服务器中待批量处理数据的主键信息, limit 50
+				final List<Long> ids = dataPrecipitationService.queryAllIds();
 
-		if (CollectionUtils.isEmpty(ids)) {
-			return;
+				if (CollectionUtils.isEmpty(ids)) {
+					return;
+				}
+
+				try {
+					TimeUnit.MILLISECONDS.sleep(1000);
+				} catch (final InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				final long end = SystemClock.now();
+				logger.info("ExecutorExampleForSpringFragmJob end:  总耗时:{}秒.", (end - start) / 1000);
+			} finally {
+				redisLock.unlock(assembleLockKey("_PRECIPITATION_RUN"));
+			}
+		} else {
+			logger.info("未获得同步锁,跳过!");
 		}
-
-		try {
-			TimeUnit.MILLISECONDS.sleep(1000);
-		} catch (final InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		final long end = SystemClock.now();
-		logger.info("ExecutorExampleForSpringFragmJob end:  总耗时:{}秒.", (end - start) / 1000);
 	}
 
 }

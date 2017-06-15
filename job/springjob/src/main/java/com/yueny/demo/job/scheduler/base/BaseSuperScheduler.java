@@ -13,7 +13,24 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseSuperScheduler implements IScheduler {
 	/**
+	 * 分布式锁的key的前缀
+	 */
+	protected static final String CACHE_PREFIX = "com_job_scheduler_";
+
+	/**
 	 * 日志记录器
 	 */
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+	/**
+	 * 组装锁的key
+	 *
+	 * @param lockKey
+	 *            执行'executeLock'时的锁的键值
+	 * @return 锁的key
+	 */
+	protected final String assembleLockKey(final String lockKey) {
+		return CACHE_PREFIX + lockKey;
+	}
+
 }

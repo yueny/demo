@@ -1,15 +1,11 @@
-## metrics-spring
-https://github.com/ryantenney/metrics-spring
+## 简单的boot配置
+# 涉及spring注入, jetty(tomcat端口配置)
+# 不涉及数据库，缓存等配置
+* mvn clean package -Dmaven.test.skip=true -U
 
-这个库为Spring增加了Metric库， 提供基于XML或者注解方式。
-    可以使用注解创建metric和代理类。 
-    @Timed, 
-    @Metered, 
-    @ExceptionMetered, 
-    @Counted
-    为注解了 @Gauge 和 @CachedGauge的bean注册Gauge
-    为@Metric注解的字段自动装配
-    注册HealthCheck
-    通过XML配置产生报表
-    通过XML注册metric和metric组
+# 命令启动应用程序
+#  不指定加载，使用默认的配置文件路径
+* java -jar target/micros_job_spring-0.0.1-SNAPSHOT.jar
 
+# 指定服务对外端口号
+* java -jar -Dserver.port=8090 target/micros_job_spring-0.0.1-SNAPSHOT.jar

@@ -17,12 +17,13 @@ public class SimpleDistributeListener extends AbstractDistributeOnceElasticJobLi
 
 	@Override
 	public void doAfterJobExecutedAtLastCompleted(final ShardingContexts shardingContexts) {
-		System.out.println(
-				"doAfterJobExecutedAtLastCompleted:" + startedTimeoutMilliseconds + "," + completedTimeoutMilliseconds);
+		System.out.println("SimpleDistributeListener doAfterJobExecutedAtLastCompleted:" + startedTimeoutMilliseconds
+				+ "," + completedTimeoutMilliseconds);
 	}
 
 	@Override
 	public void doBeforeJobExecutedAtLastStarted(final ShardingContexts shardingContexts) {
-		System.out.println("doBeforeJobExecutedAtLastStarted:" + shardingContexts);
+		System.out.println("SimpleDistributeListener doBeforeJobExecutedAtLastStarted:" + shardingContexts);
 	}
+
 }
