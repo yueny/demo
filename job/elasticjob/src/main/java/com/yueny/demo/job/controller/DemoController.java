@@ -25,7 +25,7 @@ public class DemoController {
 	/**
 	 *
 	 */
-	@RequestMapping(value = "/demo/bar", method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "welcome" }, method = RequestMethod.GET)
 	@ResponseBody
 	public List<ModifyDemoBo> bar() {
 		return dataPrecipitationService.queryAll();

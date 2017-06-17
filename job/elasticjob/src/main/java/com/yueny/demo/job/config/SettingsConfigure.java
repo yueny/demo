@@ -29,6 +29,8 @@ public class SettingsConfigure implements InitializingBean {
 
 					@Override
 					public void receiveConfigInfo(final String configInfo) {
+						log.info("DiamondManager receiveConfigInfo :{}.", configInfo);
+
 						// 配置变更异步通知
 						try {
 							final Properties properties = new Properties();

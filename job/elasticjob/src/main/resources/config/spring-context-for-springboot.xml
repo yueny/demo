@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<!-- 通过XDiamondConfigFactoryBean初始化一个XDiamondConfig -->
+	<bean id="xDiamondConfig" class="io.github.xdiamond.client.spring.XDiamondConfigFactoryBean">
+		<property name="serverHost" value="${xdiamond.server.host:localhost}" />
+		<property name="serverPort" value="8080" />
+		<property name="groupId" value="io.github.xdiamond" />
+		<property name="artifactId" value="xdiamond-client-example" />
+		<property name="version" value="0.0.1-SNAPSHOT" />
+		<property name="profile" value="${xdiamond.project.profile:dev}" />
+		
+		<!-- 以指数退避方式计算重连时间间隔 -->
+		<property name="bBackOffRetryInterval" value="true"></property>
+		<property name="retryIntervalSeconds" value="5"></property>
+		<property name="maxRetryIntervalSeconds" value="120"></property>
+		<!-- 默认会无限重试 -->
+		<property name="maxRetryTimes" value="5"></property>
+		
+	</bean>
+	
+	<!-- 通过PropertyPlaceholderConfigurer使用上XDiamondConfig获取到的配置 -->
+	<!-- 
+	<bean class="io.github.xdiamond.client.spring.PropertySourcesAdderBean">
+		<property name="properties">
+			<bean class="java.util.Properties" factory-bean="xDiamondConfig"
+				factory-method="getProperties">
+			</bean>
+		</property>
+	</bean>
+	 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties">
+			<bean class="java.util.Properties" factory-bean="xDiamondConfig" 
+				factory-method="getProperties">
+			</bean>
+		</property>
+	</bean>
+	
+</beans>

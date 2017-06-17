@@ -19,9 +19,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @ComponentScan(basePackages = { "com.yueny.demo.job", "com.yueny.demo.spring" })
-@ImportResource(locations = { "classpath*:/config/demo-*.xml" })
+@ImportResource(locations = { "classpath*:/config/demo-*.xml", "classpath:/config/spring-context-for-springboot.xml" })
 @PropertySource({ "classpath:/properties/application.properties", "classpath:/properties/redis.properties",
-		"classpath:/properties/db.properties", "classpath:/properties/job-ej.properties" })
+		"classpath:/properties/db.properties", "classpath:/properties/job-ej.properties",
+		"classpath:/diamond.properties" })
 public class JobElasticAgentBootstrap {
 	/**
 	 * 日志记录器
