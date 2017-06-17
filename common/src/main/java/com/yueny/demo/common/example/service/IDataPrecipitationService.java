@@ -36,6 +36,19 @@ public interface IDataPrecipitationService {
 	 *
 	 * @param taskItemsharding
 	 *            当前任务类型的任务队列数量
+	 * @param taskItemValue
+	 *            当前调度服务器，分配到的可处理队列
+	 * @param fetchDataNum
+	 *            每次获取数据的数量
+	 * @return
+	 */
+	List<Long> quertIdsBySharding(int taskItemsharding, Integer taskItemValue, Integer fetchDataNum);
+
+	/**
+	 * 根据分片项查询未处理的数据主键
+	 *
+	 * @param taskItemsharding
+	 *            当前任务类型的任务队列数量
 	 * @param taskItemValues
 	 *            当前调度服务器，分配到的可处理队列
 	 * @param fetchDataNum

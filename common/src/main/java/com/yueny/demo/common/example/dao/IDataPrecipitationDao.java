@@ -22,9 +22,25 @@ public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWho
 		IClearTableDao, IDeleteTableDao, IMultipleTableDao<ModifyDemoEntry> {
 	/**
 	 * 根据分片项查询未处理的数据主键<br>
-	 * select id from modify_demo where mod(ID, 5)=0;<br>
+	 * select id from modify_demo where mod(ID,
+	 * #{taskItemsharding})=${taskItemValues};<br>
+	 * eg: select id from modify_demo where mod(ID, 5)=0
+	 *
+	 * @param taskItemsharding
+	 *            当前任务类型的任务队列数量
+	 * @param taskItemValue
+	 *            当前调度服务器，分配到的可处理队列
+	 * @param fetchDataNum
+	 *            每次获取数据的数量
+	 * @return
+	 */
+	List<Long> quertIdsBySharding(int taskItemsharding, Integer taskItemValue, Integer fetchDataNum);
+
+	/**
+	 * 根据分片项查询未处理的数据主键<br>
 	 * select id from modify_demo where mod(ID, #{taskItemsharding}) in
-	 * ${taskItemValues} limit #{fetchDataNum}
+	 * ${taskItemValues} limit #{fetchDataNum}<br>
+	 * eg: select id from modify_demo where mod(ID, 5) in (1,2)
 	 *
 	 * @param taskItemsharding
 	 *            当前任务类型的任务队列数量

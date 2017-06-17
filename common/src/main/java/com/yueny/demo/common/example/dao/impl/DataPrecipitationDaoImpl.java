@@ -26,6 +26,15 @@ import com.yueny.rapid.lang.util.enums.YesNoType;
 @TableSeg(tableName = "MODIFY_DEMO")
 @Repository
 public class DataPrecipitationDaoImpl extends AbstractOrginDao<ModifyDemoEntry> implements IDataPrecipitationDao {
+	@Override
+	public List<Long> quertIdsBySharding(final int taskItemsharding, final Integer taskItemValue,
+			final Integer fetchDataNum) {
+		final QueryBuilder builder = QueryBuilder.builder().where("TYPE", "N")
+				.where("mod(ID, " + taskItemsharding + ")", taskItemValue).limit(fetchDataNum).build();
+
+		return super.queryEntryIdsByColumns(builder);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *

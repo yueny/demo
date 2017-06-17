@@ -28,6 +28,7 @@
 	<modules>
 		<module>common</module>
 		
+		<!--  
 		<module>annotations</module>
 		<module>aspect</module>
 		<module>dubbo</module>
@@ -38,7 +39,6 @@
 		<module>hystrix</module>
 		<module>javaRemoteSSH</module>
 		<module>jms</module>
-		<module>job</module>
 		<module>lamdba</module>
 		<module>metrics</module>
 		<module>pagehelper</module>
@@ -49,8 +49,12 @@
 		<module>start</module>
 		<module>task</module>
 		<module>zookeeper</module>
+		-->
 		<!-- 微服务 -->
 		<module>micros</module>
+		<!-- 
+		<module>job</module>
+		 -->
   </modules>
 	
 </project>
