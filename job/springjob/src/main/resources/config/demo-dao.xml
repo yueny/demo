@@ -8,7 +8,7 @@
 			http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 	
 	<mybatis:scan annotation="org.springframework.stereotype.Repository" 
-		base-package="com.yueny.kapo.core;com.yueny.demo.job.dao;"
+		base-package="com.yueny.kapo.core;"
 		factory-ref="sqlSessionFactory" 
 		marker-interface="com.yueny.kapo.api.biz.ISqlMapper"/>
 	
@@ -17,7 +17,6 @@
 		<property name="mapperLocations">
 			<list>
 				<value>classpath*:com/yueny/kapo/maps/singleTable-**-Mapping.xml</value>
-				<value>classpath*:com/yueny/demo/**/maps/*Mapping.xml</value>
 			</list>
 		</property>
 		<!--  mybatis的核心配置文件 -->

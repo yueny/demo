@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.google.common.collect.Lists;
+import com.yueny.demo.common.example.service.IDataPrecipitationService;
 import com.yueny.demo.job.scheduler.base.BaseSuperScheduler;
 import com.yueny.demo.job.scheduler.springjob.runner.DemoMockBatchModifyStockRunner;
-import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.util.UuidUtil;
 import com.yueny.rapid.lang.util.collect.CollectionUtil;
 import com.yueny.rapid.lang.util.time.SystemClock;

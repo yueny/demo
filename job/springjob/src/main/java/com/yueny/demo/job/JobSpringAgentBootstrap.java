@@ -18,7 +18,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication
 @EnableScheduling
-@ComponentScan(basePackages = { "com.yueny.demo.job", "com.yueny.demo.spring" })
+@ComponentScan(basePackages = { "com.yueny.demo.job", "com.yueny.demo.spring", "com.yueny.kapo.core",
+		"com.yueny.demo.common.example" })
 @ImportResource(locations = { "classpath*:/config/demo-*.xml" })
 @PropertySource({ "classpath:/properties/application.properties", "classpath:/properties/redis.properties",
 		"classpath:/properties/db.properties", "classpath:/properties/job-spring.properties" })

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.yueny.demo.common.example.service.IDataPrecipitationService;
 import com.yueny.demo.job.scheduler.base.BaseSuperScheduler;
-import com.yueny.demo.job.service.IDataPrecipitationService;
 import com.yueny.rapid.lang.lua.lock.IDistributedLock;
 import com.yueny.rapid.lang.util.time.SystemClock;
 import com.yueny.superclub.util.exec.async.factory.ExecutorServiceObjectFactory;
