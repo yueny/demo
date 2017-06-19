@@ -52,10 +52,17 @@ public class DataPrecipitationServiceImpl extends BaseSevice implements IDataPre
 		return dataPrecipitationDao.insertList(entrys);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.yueny.demo.job.service.IDataPrecipitationService#quertIdsBySharding(
+	 * int, java.lang.Integer, java.lang.Integer)
+	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskItemsharding, final Integer taskItemValue,
+	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer taskItemValue,
 			final Integer fetchDataNum) {
-		return dataPrecipitationDao.quertIdsBySharding(taskItemsharding, taskItemValue, fetchDataNum);
+		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, taskItemValue, fetchDataNum);
 	}
 
 	/*
@@ -66,9 +73,9 @@ public class DataPrecipitationServiceImpl extends BaseSevice implements IDataPre
 	 * int)
 	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskItemsharding, final List<Integer> taskItemValues,
+	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final List<Integer> taskItemValues,
 			final Integer fetchDataNum) {
-		return dataPrecipitationDao.quertIdsBySharding(taskItemsharding, taskItemValues, fetchDataNum);
+		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, taskItemValues, fetchDataNum);
 	}
 
 	/*

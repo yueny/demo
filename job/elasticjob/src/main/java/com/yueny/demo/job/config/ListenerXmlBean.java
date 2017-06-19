@@ -1,7 +1,5 @@
 package com.yueny.demo.job.config;
 
-import org.springframework.stereotype.Service;
-
 import io.github.xdiamond.client.annotation.AllKeyListener;
 import io.github.xdiamond.client.annotation.OneKeyListener;
 import io.github.xdiamond.client.event.ConfigEvent;
@@ -11,7 +9,8 @@ import io.github.xdiamond.client.event.ConfigEvent;
  * @author hengyunabc
  *
  */
-@Service
+// @Service
+@Deprecated
 public class ListenerXmlBean {
 
 	@AllKeyListener

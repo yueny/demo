@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+    <job name='com.yueny.demo.job.scheduler.elasticjob.spring.SpringDemoSimpleJob' 
+    	type='SIMPLE'>
+    	<cron>0/10 * * * * ?</cron>
+    	<shardingTotalCount>3</shardingTotalCount>
+    	<shardingItemParameters>0=Beijing,1=Shanghai,2=Guangzhou</shardingItemParameters>
+    </job>
+</jobs>

@@ -26,11 +26,17 @@ import com.yueny.rapid.lang.util.enums.YesNoType;
 @TableSeg(tableName = "MODIFY_DEMO")
 @Repository
 public class DataPrecipitationDaoImpl extends AbstractOrginDao<ModifyDemoEntry> implements IDataPrecipitationDao {
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see com.yueny.demo.job.dao.IDataPrecipitationDao#quertIdsBySharding(int,
+	 * java.lang.Integer, java.lang.Integer)
+	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskItemsharding, final Integer taskItemValue,
+	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer taskItemValue,
 			final Integer fetchDataNum) {
 		final QueryBuilder builder = QueryBuilder.builder().where("TYPE", "N")
-				.where("mod(ID, " + taskItemsharding + ")", taskItemValue).limit(fetchDataNum).build();
+				.where("mod(ID, " + taskTotalItemsharding + ")", taskItemValue).limit(fetchDataNum).build();
 
 		return super.queryEntryIdsByColumns(builder);
 	}
@@ -41,10 +47,10 @@ public class DataPrecipitationDaoImpl extends AbstractOrginDao<ModifyDemoEntry> 
 	 * @see com.yueny.demo.job.dao.IDataPrecipitationDao#quertIdsBySharding(int)
 	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskItemsharding, final List<Integer> taskItemValues,
+	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final List<Integer> taskItemValues,
 			final Integer fetchDataNum) {
 		final QueryBuilder builder = QueryBuilder.builder().where("TYPE", "N")
-				.where("mod(ID, " + taskItemsharding + ")", BasicSqlOperand.IN, taskItemValues).limit(fetchDataNum)
+				.where("mod(ID, " + taskTotalItemsharding + ")", BasicSqlOperand.IN, taskItemValues).limit(fetchDataNum)
 				.build();
 
 		return super.queryEntryIdsByColumns(builder);

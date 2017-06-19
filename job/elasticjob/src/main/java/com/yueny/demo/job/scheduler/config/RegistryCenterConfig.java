@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 
@@ -41,10 +42,15 @@ public class RegistryCenterConfig {
 	 * @return
 	 */
 	@Bean(initMethod = "init")
-	public ZookeeperRegistryCenter regCenter(@Value("${regCenter.server.lists}") final String serverList,
+	public CoordinatorRegistryCenter regCenter(@Value("${regCenter.server.lists}") final String serverList,
 			@Value("${regCenter.namespace}") final String namespace) {
 		final ZookeeperConfiguration zkc = new ZookeeperConfiguration(serverList, namespace);
-		return new ZookeeperRegistryCenter(zkc);
+
+		final CoordinatorRegistryCenter regCenter = new ZookeeperRegistryCenter(zkc);
+		// 初始化 ，由 @Bean(initMethod = "init") 完成
+		// regCenter.init();
+
+		return regCenter;
 	}
 
 }

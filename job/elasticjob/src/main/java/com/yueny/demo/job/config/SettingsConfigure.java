@@ -5,7 +5,6 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Service;
 
 import com.taobao.diamond.client.DiamondClients;
 import com.taobao.diamond.manager.DiamondManager;
@@ -13,7 +12,8 @@ import com.taobao.diamond.manager.ManagerListener;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
+//@Service
+@Deprecated
 @Slf4j
 public class SettingsConfigure implements InitializingBean {
 	@Override

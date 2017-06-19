@@ -13,6 +13,8 @@
 	
 	<properties>
 		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
+		
+		<elastic.job.veision>2.1.4</elastic.job.veision>
 	</properties>
 	
 	<dependencies>
@@ -59,12 +61,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>io.github.hengyunabc.xdiamond</groupId>
-			<artifactId>xdiamond-client</artifactId>
-			<version>1.0.4</version>
 		</dependency>
 		
 		<!-- kapo-jpa -->
@@ -115,17 +111,18 @@
 		<dependency>
 		    <groupId>com.dangdang</groupId>
 		    <artifactId>elastic-job-lite-core</artifactId>
-		    <version>2.1.3</version>
+		    <version>${elastic.job.veision}</version>
 		</dependency>
+		
 		<dependency>
 		    <groupId>com.dangdang</groupId>
 		    <artifactId>elastic-job-lite-spring</artifactId>
-		    <version>2.1.3</version>
+		    <version>${elastic.job.veision}</version>
 		</dependency>
 		<dependency>
             <groupId>com.dangdang</groupId>
             <artifactId>elastic-job-common-core</artifactId>
-            <version>2.1.3</version>
+            <version>${elastic.job.veision}</version>
         </dependency>
 	    
 	    <dependency>
@@ -133,7 +130,12 @@
             <artifactId>diamond-client</artifactId>
             <version>3.3-SNAPSHOT</version>
         </dependency>
-
+		<dependency>
+			<groupId>io.github.hengyunabc.xdiamond</groupId>
+			<artifactId>xdiamond-client</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		
 	    <!-- cache -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>

@@ -1,4 +1,4 @@
-package com.yueny.demo.job.scheduler.elasticjob.simple;
+package com.yueny.demo.job.scheduler.elasticjob.spring;
 
 import java.util.List;
 
@@ -40,19 +40,30 @@ public class SpringDemoSimpleJob implements SimpleJob {
 
 	@Override
 	public void execute(final ShardingContext shardingContext) {
-		// System.out.println(String.format("------Thread ID: %s, Date: %s,
-		// Sharding Context: %s, Action: %s",
-		// Thread.currentThread().getId(), new Date(), shardingContext, "simple
-		// job"));
+		// switch (shardingContext.getShardingItem()) {
+		// case 0:
+		// // do something by sharding item 0
+		// break;
+		// case 1:
+		// // do something by sharding item 1
+		// break;
+		// case 2:
+		// // do something by sharding item 2
+		// break;
+		// // case n: ...
+		// }
 
 		// List<String> result =
 		// Splitter.on("-").trimResults().splitToList(input);
+
+		// shardingContext.getShardingTotalCount() 该任务总的分片项
+		// shardingContext.getShardingItem() 当前分片项 0-N
+		// shardingContext.getShardingParameter() 当前分片项的分片参数
+
 		final List<Long> ids = dataPrecipitationService.quertIdsBySharding(shardingContext.getShardingTotalCount(),
 				shardingContext.getShardingItem(), 10);
 
-		log.info("Thread ID: {}, Sharding Context: {}.", Thread.currentThread().getId(), shardingContext);
-		System.out.println(
-				String.format("Thread ID: %s, Sharding Context: %s.", Thread.currentThread().getId(), shardingContext));
+		log.info("获取信息:{}， Thread ID: {}, Sharding Context: {}.", ids, Thread.currentThread().getId(), shardingContext);
 	}
 
 }
