@@ -14,6 +14,6 @@ public class SimpleListener implements ElasticJobListener {
 
 	@Override
 	public void beforeJobExecuted(final ShardingContexts shardingContexts) {
-		System.out.println("SimpleListener beforeJobExecuted:" + shardingContexts.getJobName());
+		System.out.println("SimpleListener beforeJobExecuted:" + shardingContexts);
 	}
 }

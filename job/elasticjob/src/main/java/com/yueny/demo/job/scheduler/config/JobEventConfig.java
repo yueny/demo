@@ -28,7 +28,6 @@ import com.dangdang.ddframe.job.event.rdb.JobEventRdbConfiguration;
 
 @Configuration
 public class JobEventConfig {
-
 	@Resource
 	private DataSource dataSource;
 

@@ -20,6 +20,8 @@ import lombok.Setter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JobBean extends AbstractMaskBo {
+	// monitorPort=9888
+
 	/**
 	 * 任务执行表达式(作业启动时间的cron表达式)
 	 */
@@ -28,12 +30,47 @@ public class JobBean extends AbstractMaskBo {
 	@Setter
 	private String cron;
 	/**
+	 * 作业描述信息
+	 */
+	@XmlAttribute(name = "description")
+	@Getter
+	@Setter
+	private String description;
+	/**
+	 * 作业是否启动时禁止
+	 */
+	@XmlAttribute(name = "disabled")
+	@Getter
+	@Setter
+	private boolean disabled = false;
+	/**
+	 * 是否开启失效转移
+	 */
+	@XmlAttribute(name = "failover")
+	@Getter
+	@Setter
+	private boolean failover = true;
+	/**
+	 * 监控作业执行时状态
+	 */
+	@XmlAttribute(name = "monitorExecution")
+	@Getter
+	@Setter
+	private boolean monitorExecution = true;
+	/**
 	 * Class Name 作业名称
 	 */
 	@XmlAttribute(name = "name", required = true)
 	@Getter
 	@Setter
 	private String name;
+	/**
+	 * 本地配置是否可覆盖注册中心配置
+	 */
+	@XmlAttribute(name = "overwrite")
+	@Getter
+	@Setter
+	private boolean overwrite = true;
 	/**
 	 * 设置分片序列号和个性化参数对照表.
 	 *

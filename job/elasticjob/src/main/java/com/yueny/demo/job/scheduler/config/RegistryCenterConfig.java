@@ -26,9 +26,27 @@ import com.dangdang.ddframe.job.reg.base.CoordinatorRegistryCenter;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperConfiguration;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 
+/**
+ * 代替
+ * 
+ * <pre>
+ * <reg:zookeeper id="regCenter" server-lists="${serverLists}" namespace="${namespace}" base-sleep-time-milliseconds="${baseSleepTimeMilliseconds}" max-sleep-time-milliseconds="${maxSleepTimeMilliseconds}" max-retries="${maxRetries}" />
+ * </pre>
+ *
+ * @author yueny09 <deep_blue_yang@163.com>
+ *
+ * @DATE 2017年6月20日 上午10:22:41
+ *
+ */
 @Configuration
 @ConditionalOnExpression("'${regCenter.server.lists}'.length() > 0")
 public class RegistryCenterConfig {
+	@Value("${regCenter.base.sleep.time.milliseconds}")
+	private int baseSleepTimeMilliseconds;
+	@Value("${regCenter.max.retries}")
+	private int maxRetries;
+	@Value("${regCenter.max.sleep.time.milliseconds}")
+	private int maxSleepTimeMilliseconds;
 
 	/**
 	 * 实现：<br>
@@ -45,6 +63,9 @@ public class RegistryCenterConfig {
 	public CoordinatorRegistryCenter regCenter(@Value("${regCenter.server.lists}") final String serverList,
 			@Value("${regCenter.namespace}") final String namespace) {
 		final ZookeeperConfiguration zkc = new ZookeeperConfiguration(serverList, namespace);
+		zkc.setBaseSleepTimeMilliseconds(baseSleepTimeMilliseconds);
+		zkc.setMaxSleepTimeMilliseconds(maxSleepTimeMilliseconds);
+		zkc.setMaxRetries(maxRetries);
 
 		final CoordinatorRegistryCenter regCenter = new ZookeeperRegistryCenter(zkc);
 		// 初始化 ，由 @Bean(initMethod = "init") 完成

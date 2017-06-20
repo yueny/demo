@@ -237,6 +237,35 @@
 		</testResources>
 		
 	    <plugins>
+	    	<plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>build-helper-maven-plugin</artifactId>
+                 <version>1.8</version>
+                 <executions>
+                    <execution>
+                    	<id>add-resource</id>
+                    	<phase>validate</phase>
+					    <goals>
+					    	<goal>add-resource</goal>
+					    </goals>
+                        <configuration>
+                            <resources>
+                            	<resource>
+                                    <directory>profile/${env}/config</directory>
+                                    <targetPath>config</targetPath>
+                                    <filtering>true</filtering>
+                                </resource>
+                                <resource>
+                                    <directory>profile/${env}/properties</directory>
+                                    <targetPath>properties</targetPath>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                 </executions>
+             </plugin>
+             
              <plugin>
 			    <groupId>org.projectlombok</groupId>
 			    <artifactId>lombok-maven-plugin</artifactId>
@@ -244,5 +273,24 @@
 			</plugin>
 	    </plugins>
 	</build>
+	
+	<profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env>dev</env>
+            </properties>
+        </profile>
+        
+        <profile>
+            <id>prod</id>
+            <properties>
+            	<env>prod</env>
+            </properties>
+        </profile>
+	</profiles>
 	
 </project>
