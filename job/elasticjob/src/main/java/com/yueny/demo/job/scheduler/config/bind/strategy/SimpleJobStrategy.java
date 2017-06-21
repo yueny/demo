@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
+import com.dangdang.ddframe.job.lite.api.listener.ElasticJobListener;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.yueny.demo.job.scheduler.config.bind.JobBean;
 import com.yueny.demo.job.scheduler.config.bind.JopType;
@@ -11,6 +12,8 @@ import com.yueny.demo.job.scheduler.elasticjob.listener.SimpleListener;
 
 @Service
 public class SimpleJobStrategy extends BaseJobStrategy {
+	private final ElasticJobListener jobListener = new SimpleListener();
+
 	@Override
 	public JopType getCondition() {
 		return JopType.SIMPLE;
@@ -39,7 +42,7 @@ public class SimpleJobStrategy extends BaseJobStrategy {
 
 			final SimpleJob job = getContext().getBean(clazzSimple);
 			jobScheduler = new SpringJobScheduler(job, getRegCenter(), getLiteJobConfiguration(clazzSimple, jobBean),
-					getJobEventConfiguration(), new SimpleListener());
+					getJobEventConfiguration(), jobListener);
 		}
 		return jobScheduler;
 	}

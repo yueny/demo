@@ -69,7 +69,7 @@ public abstract class BaseJobStrategy implements IJobStrategy, ApplicationContex
 			// 定义SIMPLE类型配置
 			jobTypeConfiguration = new SimpleJobConfiguration(coreConfig, jobClass.getCanonicalName());
 		} else if (jopType == JopType.DATAFLOW) {
-			jobTypeConfiguration = new DataflowJobConfiguration(coreConfig, jobClass.getCanonicalName(), false);
+			jobTypeConfiguration = new DataflowJobConfiguration(coreConfig, jobClass.getCanonicalName(), true);
 		}
 
 		// 定义Lite作业根配置
@@ -78,9 +78,16 @@ public abstract class BaseJobStrategy implements IJobStrategy, ApplicationContex
 				.overwrite(jobBean.isOverwrite())
 				// 作业是否启动时禁止
 				.disabled(jobBean.isDisabled())
-				// 监控作业执行时状态
+				/*
+				 * 监控作业执行时状态
+				 *
+				 * 开启monitorExecution才能实现分布式作业幂等性（即不会在多个作业服务器运行同一个分片）的功能，
+				 * 但monitorExecution对短时间内执行的作业（如每5秒一触发）性能影响较大，建议关闭并自行实现幂等性。
+				 */
 				.monitorExecution(jobBean.isMonitorExecution())
-				// 作业辅助监控端口
+				// 作业辅助监控端口，如 9888，便于dump命令作业
+				// eg: echo "dump" | nc <任意一台作业服务器IP> 9888
+				// eg: echo "dump" | nc <任意一台作业服务器IP> 9888 > job_debug.txt
 				// .monitorPort(monitorPort)
 				.build();
 	}

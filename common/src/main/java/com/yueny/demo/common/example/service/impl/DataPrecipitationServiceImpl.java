@@ -60,9 +60,15 @@ public class DataPrecipitationServiceImpl extends BaseSevice implements IDataPre
 	 * int, java.lang.Integer, java.lang.Integer)
 	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer taskItemValue,
+	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer shardingItem,
 			final Integer fetchDataNum) {
-		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, taskItemValue, fetchDataNum);
+		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, shardingItem, fetchDataNum);
+	}
+
+	@Override
+	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer shardingItem,
+			final Integer fetchDataNum, final YesNoType type) {
+		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, shardingItem, fetchDataNum, type);
 	}
 
 	/*
@@ -73,9 +79,9 @@ public class DataPrecipitationServiceImpl extends BaseSevice implements IDataPre
 	 * int)
 	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final List<Integer> taskItemValues,
+	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final List<Integer> shardingItems,
 			final Integer fetchDataNum) {
-		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, taskItemValues, fetchDataNum);
+		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, shardingItems, fetchDataNum);
 	}
 
 	/*

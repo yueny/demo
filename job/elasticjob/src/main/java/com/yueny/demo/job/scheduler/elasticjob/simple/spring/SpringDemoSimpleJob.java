@@ -1,13 +1,14 @@
-package com.yueny.demo.job.scheduler.elasticjob.spring;
+package com.yueny.demo.job.scheduler.elasticjob.simple.spring;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import com.yueny.demo.job.service.IDataPrecipitationService;
+import com.yueny.demo.common.example.service.IDataPrecipitationService;
+import com.yueny.demo.job.scheduler.base.IScheduler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,9 +33,9 @@ import lombok.extern.slf4j.Slf4j;
  * @DATE 2017年6月13日 下午4:21:05
  *
  */
-@Component
+@Service
 @Slf4j
-public class SpringDemoSimpleJob implements SimpleJob {
+public class SpringDemoSimpleJob implements SimpleJob, IScheduler {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
 

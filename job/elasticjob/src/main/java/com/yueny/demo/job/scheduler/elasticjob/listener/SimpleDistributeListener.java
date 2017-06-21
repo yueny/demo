@@ -3,6 +3,9 @@ package com.yueny.demo.job.scheduler.elasticjob.listener;
 import com.dangdang.ddframe.job.executor.ShardingContexts;
 import com.dangdang.ddframe.job.lite.api.listener.AbstractDistributeOnceElasticJobListener;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class SimpleDistributeListener extends AbstractDistributeOnceElasticJobListener {
 
 	private final long completedTimeoutMilliseconds;
@@ -17,13 +20,13 @@ public class SimpleDistributeListener extends AbstractDistributeOnceElasticJobLi
 
 	@Override
 	public void doAfterJobExecutedAtLastCompleted(final ShardingContexts shardingContexts) {
-		System.out.println("SimpleDistributeListener doAfterJobExecutedAtLastCompleted:" + startedTimeoutMilliseconds
-				+ "," + completedTimeoutMilliseconds);
+		log.info("SimpleDistributeListener doAfterJobExecutedAtLastCompleted:{},{}.", startedTimeoutMilliseconds,
+				completedTimeoutMilliseconds);
 	}
 
 	@Override
 	public void doBeforeJobExecutedAtLastStarted(final ShardingContexts shardingContexts) {
-		System.out.println("SimpleDistributeListener doBeforeJobExecutedAtLastStarted:" + shardingContexts);
+		log.info("SimpleDistributeListener doBeforeJobExecutedAtLastStarted:{}.", shardingContexts);
 	}
 
 }

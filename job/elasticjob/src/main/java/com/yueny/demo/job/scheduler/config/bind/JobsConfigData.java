@@ -23,7 +23,13 @@ import lombok.Setter;
 public class JobsConfigData extends AbstractMaskBo {
 
 	/**
-	 * 单个任务配置
+	 * dataflow任务配置
+	 */
+	@XmlElement(name = "dataflowjob", required = true)
+	@Setter
+	private List<JobBean> dataFlowJob;
+	/**
+	 * simple任务配置
 	 */
 	@XmlElement(name = "job", required = true)
 	@Setter

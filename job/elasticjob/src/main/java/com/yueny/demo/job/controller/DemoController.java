@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yueny.demo.job.bo.ModifyDemoBo;
-import com.yueny.demo.job.service.IDataPrecipitationService;
+import com.yueny.demo.common.example.bo.ModifyDemoBo;
+import com.yueny.demo.common.example.service.IDataPrecipitationService;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>

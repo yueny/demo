@@ -26,7 +26,7 @@ import com.yueny.demo.job.scheduler.config.bind.strategy.IJobStrategy;
  *
  */
 @Configuration
-public class JobConfig implements InitializingBean, ApplicationContextAware {
+public class JobConfigLoader implements InitializingBean, ApplicationContextAware {
 	private final Map<JopType, IJobStrategy> container = new HashMap<JopType, IJobStrategy>();
 	private ApplicationContext context;
 	@Resource

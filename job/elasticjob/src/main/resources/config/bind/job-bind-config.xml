@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jobs>
-    <job name='com.yueny.demo.job.scheduler.elasticjob.spring.SpringDemoSimpleJob' 
+    <job name='com.yueny.demo.job.scheduler.elasticjob.simple.spring.SpringDemoSimpleJob' 
     	type='SIMPLE'>
     	<cron>0/10 * * * * ?</cron>
     	<shardingTotalCount>3</shardingTotalCount>
@@ -11,4 +11,17 @@
     	<disabled>false</disabled>
     	<description>spring的简单SimpleJob</description>
     </job>
+    
+    <dataflowjob name='com.miz.alchemist.micros.job.scheduler.task.statistics.StatisticsDayByUserJobScheduler' 
+    	type='DATAFLOW'>
+    	<cron>0/5 * * * * ?</cron>
+    	<shardingTotalCount>2</shardingTotalCount>
+    	<shardingItemParameters>0=A,1=B</shardingItemParameters>
+    	<failover>true</failover>
+    	<monitorExecution>true</monitorExecution>
+    	<overwrite>true</overwrite>
+    	<disabled>false</disabled>
+    	<description>spring的流式处理Job</description>
+    </dataflowjob>
+    
 </jobs>

@@ -28,13 +28,32 @@ public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWho
 	 *
 	 * @param taskTotalItemsharding
 	 *            当前任务类型的任务队列数量
-	 * @param taskItemValue
-	 *            当前分片项 0-N，分配到的可处理队列
+	 * @param shardingItem
+	 *            当前分片项 0-N，运行在本作业服务器的分片序列号
 	 * @param fetchDataNum
 	 *            每次获取数据的数量
 	 * @return
 	 */
-	List<Long> quertIdsBySharding(int taskTotalItemsharding, Integer taskItemValue, Integer fetchDataNum);
+	List<Long> quertIdsBySharding(int taskTotalItemsharding, Integer shardingItem, Integer fetchDataNum);
+
+	/**
+	 * 根据分片项查询未处理的数据主键<br>
+	 * select id from modify_demo where mod(ID,
+	 * #{taskItemsharding})=${taskItemValues};<br>
+	 * eg: select id from modify_demo where mod(ID, 5)=0
+	 *
+	 * @param taskTotalItemsharding
+	 *            当前任务类型的任务队列数量
+	 * @param shardingItem
+	 *            当前分片项 0-N，运行在本作业服务器的分片序列号
+	 * @param fetchDataNum
+	 *            每次获取数据的数量
+	 * @param type
+	 *            状态
+	 * @return
+	 */
+	List<Long> quertIdsBySharding(int taskTotalItemsharding, Integer shardingItem, Integer fetchDataNum,
+			final YesNoType type);
 
 	/**
 	 * 根据分片项查询未处理的数据主键<br>
@@ -44,13 +63,13 @@ public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWho
 	 *
 	 * @param taskTotalItemsharding
 	 *            当前任务类型的任务队列数量
-	 * @param taskItemValues
-	 *            当前分片项 0-N，分配到的可处理队列
+	 * @param shardingItems
+	 *            当前分片项 0-N，运行在本作业服务器的分片序列号
 	 * @param fetchDataNum
 	 *            每次获取数据的数量
 	 * @return
 	 */
-	List<Long> quertIdsBySharding(int taskTotalItemsharding, List<Integer> taskItemValues, Integer fetchDataNum);
+	List<Long> quertIdsBySharding(int taskTotalItemsharding, List<Integer> shardingItems, Integer fetchDataNum);
 
 	/**
 	 * 查询全表的数据实体主键列表<br>
