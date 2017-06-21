@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
@@ -47,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
  * @DATE 2016年11月16日 下午9:27:12
  *
  */
-@Service
+// @Service
 @Slf4j
 public class SpringDataflowJob implements DataflowJob<Long>, IScheduler {
 	private static Random rn = new Random();
