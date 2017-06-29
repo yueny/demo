@@ -6,6 +6,11 @@ usage() {
     exit 1
 }
 
+pushd `dirname $0`/.. > /dev/null
+BASE=`pwd`
+popd > /dev/null
+cd $BASE
+
 # 默认值设置
 name=""
 
@@ -34,4 +39,5 @@ then
 else
     echo 关闭服务中 $PID ${name}
     kill $PID
+    # curl -X POST http://123.57.163.175:9091/shutdown
 fi

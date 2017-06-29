@@ -1,3 +1,8 @@
+server: 
+   port: 9091
+   sessionTimeout: 45
+   contextPath: /
+
 spring:
    aop: 
       proxy-target-class: true
@@ -6,9 +11,9 @@ spring:
 endpoints:
    shutdown:
       # 启用shutdown
-      enabled: true
-      # 禁用密码验证
-      sensitive: true
+      enabled: false
+      # 禁用密码验证 false | 启用密码  true
+      sensitive: false
       # 指定shutdown endpoint的路径
       # path: /custompath
 #security:
