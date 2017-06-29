@@ -1,17 +1,18 @@
-package com.yueny.demo.job.scheduler.config.bind;
+package com.yueny.demo.job.scheduler.config.bind.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import com.yueny.demo.job.scheduler.config.bind.JopType;
 import com.yueny.rapid.lang.mask.pojo.instance.AbstractMaskBo;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 执行任务对象
+ * 执行流式任务对象
  *
  * @author yueny09 <deep_blue_yang@163.com>
  *
@@ -19,9 +20,7 @@ import lombok.Setter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class JobBean extends AbstractMaskBo {
-	// monitorPort=9888
-
+public class DataflowJobBean extends AbstractMaskBo implements IDataflowJobBean {
 	/**
 	 * 任务执行表达式(作业启动时间的cron表达式)
 	 */
@@ -50,6 +49,14 @@ public class JobBean extends AbstractMaskBo {
 	@Getter
 	@Setter
 	private boolean failover = true;
+	// monitorPort=9888
+	/**
+	 * maxTimeDiffSeconds， 默认-1
+	 */
+	@XmlElement(name = "maxTimeDiffSeconds")
+	@Getter
+	@Setter
+	private int maxTimeDiffSeconds = -1;
 	/**
 	 * 监控作业执行时状态
 	 */
@@ -96,11 +103,16 @@ public class JobBean extends AbstractMaskBo {
 	@Setter
 	private int shardingTotalCount = 1;
 	/**
-	 * JopType
+	 * 是否为流式处理作业，默认为 false
 	 */
-	@XmlAttribute(name = "type", required = true)
+	@XmlAttribute(name = "streamingProcess")
 	@Getter
 	@Setter
-	private JopType type;
+	private boolean streamingProcess = false;
+	/**
+	 * JopType
+	 */
+	@Getter
+	private final JopType type = JopType.DATAFLOW;
 
 }

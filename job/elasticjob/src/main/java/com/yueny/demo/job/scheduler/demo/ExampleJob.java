@@ -1,7 +1,6 @@
-package com.yueny.demo.job.scheduler;
+package com.yueny.demo.job.scheduler.demo;
 
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 import com.yueny.demo.job.scheduler.base.BaseSuperScheduler;
 
@@ -11,8 +10,7 @@ import com.yueny.demo.job.scheduler.base.BaseSuperScheduler;
  * @DATE 2017年4月18日 下午6:26:57
  *
  */
-@Service
-// @Configuration
+// @Component
 public class ExampleJob extends BaseSuperScheduler {
 	// @Value("${aaaa:0}")
 	// private String aaaa;

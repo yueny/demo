@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yueny.demo.common.example.bo.ModifyDemoBo;
 import com.yueny.demo.common.example.service.IDataPrecipitationService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author yueny09 <deep_blue_yang@163.com>
  *
@@ -18,6 +20,7 @@ import com.yueny.demo.common.example.service.IDataPrecipitationService;
  *
  */
 @Controller
+@Slf4j
 public class DemoController {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
@@ -28,7 +31,18 @@ public class DemoController {
 	@RequestMapping(value = { "/", "welcome" }, method = RequestMethod.GET)
 	@ResponseBody
 	public List<ModifyDemoBo> bar() {
-		return dataPrecipitationService.queryAll();
+		try {
+			return dataPrecipitationService.queryAll();
+		} catch (final Exception e) {
+			log.error("exception:", e);
+		}
+		return null;
+	}
+
+	@RequestMapping(value = "/healthy", method = RequestMethod.GET)
+	@ResponseBody
+	public String healthy() {
+		return "OK";
 	}
 
 }

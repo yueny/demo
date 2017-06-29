@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.yueny.demo.job.scheduler.config.bind.model.DataflowJobBean;
+import com.yueny.demo.job.scheduler.config.bind.model.JobBean;
+
 /**
  * 任务配置加载服务
  *
@@ -42,6 +45,10 @@ public final class JobsConfigurationLoader {
 		}
 	}
 
+	public static Collection<DataflowJobBean> getDataflowJobs() {
+		return Collections.unmodifiableCollection(sourceConfig.getDataflowJobs());
+	}
+
 	public static Collection<JobBean> getJobs() {
 		return Collections.unmodifiableCollection(sourceConfig.getJobs());
 	}
@@ -68,6 +75,7 @@ public final class JobsConfigurationLoader {
 
 			final JobsConfigData sc = JAXB.unmarshal(reader, JobsConfigData.class);
 			sourceConfig.plusData(sc.getJobs());
+			sourceConfig.plusDataflowData(sc.getDataflowJobs());
 
 			logger.info("任务配置加载: " + sourceConfig);
 		} catch (final Exception e) {

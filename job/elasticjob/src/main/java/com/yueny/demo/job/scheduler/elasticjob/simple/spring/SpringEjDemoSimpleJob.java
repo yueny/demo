@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
-import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.yueny.demo.common.example.service.IDataPrecipitationService;
-import com.yueny.demo.job.scheduler.base.IScheduler;
-
-import lombok.extern.slf4j.Slf4j;
+import com.yueny.demo.job.scheduler.elasticjob.simple.AbstractSimpleJob;
 
 /**
  * 实现<br>
@@ -34,13 +31,12 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Service
-@Slf4j
-public class SpringDemoSimpleJob implements SimpleJob, IScheduler {
+public class SpringEjDemoSimpleJob extends AbstractSimpleJob {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
 
 	@Override
-	public void execute(final ShardingContext shardingContext) {
+	public void executor(final ShardingContext shardingContext) {
 		// switch (shardingContext.getShardingItem()) {
 		// case 0:
 		// // do something by sharding item 0
@@ -64,7 +60,9 @@ public class SpringDemoSimpleJob implements SimpleJob, IScheduler {
 		final List<Long> ids = dataPrecipitationService.quertIdsBySharding(shardingContext.getShardingTotalCount(),
 				shardingContext.getShardingItem(), 10);
 
-		log.info("获取信息:{}， Thread ID: {}, Sharding Context: {}.", ids, Thread.currentThread().getId(), shardingContext);
+		System.out.println("SpringEjDemoSimpleJob...");
+		logger.info("获取信息:{}， Thread ID: {}, Sharding Context: {}.", ids, Thread.currentThread().getId(),
+				shardingContext);
 	}
 
 }

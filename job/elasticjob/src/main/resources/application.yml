@@ -1,9 +1,23 @@
-# 服务器配置
-server:
-   port: 9091
-   sessionTimeout: 45
-   contextPath: /
-   
 spring:
    aop: 
       proxy-target-class: true
+      
+# 开启shutdown的安全验证
+endpoints:
+   shutdown:
+      # 启用shutdown
+      enabled: true
+      # 禁用密码验证
+      sensitive: true
+      # 指定shutdown endpoint的路径
+      # path: /custompath
+#security:
+#   user:
+#      # 验证用户名
+#      name: admin
+#      # 验证密码
+#      password: secret
+# 角色
+#management:
+#   security:
+#      role: SUPERUSER

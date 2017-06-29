@@ -1,6 +1,7 @@
 package com.yueny.demo.job.scheduler.elasticjob;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,10 +15,13 @@ import com.dangdang.ddframe.job.event.JobEventConfiguration;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import com.google.common.base.Preconditions;
-import com.yueny.demo.job.scheduler.config.bind.JobBean;
+import com.google.common.collect.Lists;
 import com.yueny.demo.job.scheduler.config.bind.JobsConfigurationLoader;
 import com.yueny.demo.job.scheduler.config.bind.JopType;
+import com.yueny.demo.job.scheduler.config.bind.model.IJobBean;
 import com.yueny.demo.job.scheduler.config.bind.strategy.IJobStrategy;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -26,6 +30,7 @@ import com.yueny.demo.job.scheduler.config.bind.strategy.IJobStrategy;
  *
  */
 @Configuration
+@Slf4j
 public class JobConfigLoader implements InitializingBean, ApplicationContextAware {
 	private final Map<JopType, IJobStrategy> container = new HashMap<JopType, IJobStrategy>();
 	private ApplicationContext context;
@@ -64,26 +69,21 @@ public class JobConfigLoader implements InitializingBean, ApplicationContextAwar
 	}
 
 	private boolean jobSchedulerLoader() {
-		// final SimpleJob demoSimpleJob, @Value("${simpleJob.cron}") final
-		// String cron,
-		// @Value("${simpleJob.shardingTotalCount}") final int
-		// shardingTotalCount,
-		// @Value("${simpleJob.shardingItemParameters}") final String
-		// shardingItemParameters
-
-		// // 启动作业
-		// new JobScheduler(regCenter,
-		// BaseJobStrategy.getLiteJobConfiguration(DemoSimpleJob.class,
-		// JopType.SIMPLE, "0/10 * * * * ?", 1, "0=Beijing"),
-		// jobEventConfiguration).init();
-
 		// 使用Spring配置启动
-		for (final JobBean jobBean : JobsConfigurationLoader.getJobs()) {
+		final List<IJobBean> jobBeans = Lists.newArrayList();
+		jobBeans.addAll(JobsConfigurationLoader.getJobs());
+		jobBeans.addAll(JobsConfigurationLoader.getDataflowJobs());
+
+		for (final IJobBean jobBean : jobBeans) {
 			final IJobStrategy jobStrategy = getStrategy(jobBean.getType());
 			if (jobStrategy != null) {
-				final JobScheduler jobScheduler = jobStrategy.jobScheduler(jobBean);
-				if (jobScheduler != null) {
-					jobScheduler.init();
+				try {
+					final JobScheduler jobScheduler = jobStrategy.jobScheduler(jobBean);
+					if (jobScheduler != null) {
+						jobScheduler.init();
+					}
+				} catch (final Exception ignore) {
+					log.warn("任务{}初始化时异常，初始化操作跳过。", jobBean);
 				}
 			}
 		}

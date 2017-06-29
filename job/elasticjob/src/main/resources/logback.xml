@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="30 seconds" debug="true">
 	<contextName>job</contextName>
 	
-	<property name="LOG_HOME" value="/data/logs/tomcat/micros/job" />
+	<property name="LOG_HOME" value="/data/var/logs/javalog/micros/job" />
 	<property name="DEFAULT_PATTERN" value="%d %-5level [%X{ctxTraceId}][%X{ctxLogId}][%thread] %logger{5} - %msg%n"/>
 	<property name="LEVEL" value="info" />
 	<property name="CHARSET" value="UTF-8" />
@@ -75,21 +75,33 @@
 	</appender>
 	
 	<!-- Loggers : App Details -->
-	<logger name="com.taobao.pamirs.schedule" level="${LEVEL}" additivity="false">
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="CONSOLE_ERROR" />
-		<appender-ref ref="SERVICE" />
-		<appender-ref ref="ERROR" />
-	</logger>
 	<logger name="com.yueny.demo.job" level="${LEVEL}" additivity="false">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="CONSOLE_ERROR" />
 		<appender-ref ref="SERVICE" />
 		<appender-ref ref="ERROR" />
 	</logger>
+	<logger name="org.apache" level="${LEVEL}" additivity="false">
+		<appender-ref ref="SERVICE" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.quartz" level="${LEVEL}" additivity="false">
+		<appender-ref ref="SERVICE" />
+		<appender-ref ref="ERROR" />
+	</logger>
 	
+	<logger name="org.springframework.jdbc" level="${LEVEL}" additivity="false">
+		<appender-ref ref="SERVICE" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.mybatis.spring" level="DEBUG" additivity="false">
+		<appender-ref ref="SERVICE" />
+		<appender-ref ref="ERROR" />
+	</logger>
+
+
 	<!-- Loggers : Root Logger -->
-	<root level="${LEVEL}">
+	<root level="DEBUG">
 		<appender-ref ref="ERROR" />
 		<appender-ref ref="DEFAULT" />
 	</root>

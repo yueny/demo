@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.collect.Lists;
+import com.yueny.demo.job.scheduler.config.bind.model.DataflowJobBean;
+import com.yueny.demo.job.scheduler.config.bind.model.JobBean;
 import com.yueny.rapid.lang.mask.pojo.instance.AbstractMaskBo;
 
 import lombok.Setter;
@@ -27,13 +29,20 @@ public class JobsConfigData extends AbstractMaskBo {
 	 */
 	@XmlElement(name = "dataflowjob", required = true)
 	@Setter
-	private List<JobBean> dataFlowJob;
+	private List<DataflowJobBean> dataFlowJob;
 	/**
 	 * simple任务配置
 	 */
 	@XmlElement(name = "job", required = true)
 	@Setter
 	private List<JobBean> jobs;
+
+	public List<DataflowJobBean> getDataflowJobs() {
+		if (this.dataFlowJob == null) {
+			this.dataFlowJob = Lists.newArrayList();
+		}
+		return dataFlowJob;
+	}
 
 	public List<JobBean> getJobs() {
 		if (this.jobs == null) {
@@ -44,6 +53,10 @@ public class JobsConfigData extends AbstractMaskBo {
 
 	public synchronized boolean plusData(final List<JobBean> settingData) {
 		return getJobs().addAll(settingData);
+	}
+
+	public synchronized boolean plusDataflowData(final List<DataflowJobBean> settingData) {
+		return getDataflowJobs().addAll(settingData);
 	}
 
 }

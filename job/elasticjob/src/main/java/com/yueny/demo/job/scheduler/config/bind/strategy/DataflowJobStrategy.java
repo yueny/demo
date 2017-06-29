@@ -2,22 +2,14 @@ package com.yueny.demo.job.scheduler.config.bind.strategy;
 
 import org.springframework.stereotype.Service;
 
-import com.dangdang.ddframe.job.api.simple.SimpleJob;
+import com.dangdang.ddframe.job.api.dataflow.DataflowJob;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
-import com.yueny.demo.job.scheduler.config.bind.JobBean;
 import com.yueny.demo.job.scheduler.config.bind.JopType;
+import com.yueny.demo.job.scheduler.config.bind.model.IJobBean;
 
 /**
- * <job:dataflow id="${dataflow.id}" class="${dataflow.class}"
- * registry-center-ref="regCenter" sharding-total-count=
- * "${dataflow.shardingTotalCount}" cron="${dataflow.cron}"
- * sharding-item-parameters="${dataflow.shardingItemParameters}"
- * monitor-execution="${dataflow.monitorExecution}" failover=
- * "${dataflow.failover}" max-time-diff-seconds="${dataflow.maxTimeDiffSeconds}"
- * streaming-process="${dataflow.streamingProcess}" description=
- * "${dataflow.description}" disabled="${dataflow.disabled}" overwrite=
- * "${dataflow.overwrite}" />
+ * 流式任务实例化策略
  *
  * @author yueny09 <deep_blue_yang@163.com>
  *
@@ -26,15 +18,13 @@ import com.yueny.demo.job.scheduler.config.bind.JopType;
  */
 @Service
 public class DataflowJobStrategy extends BaseJobStrategy {
-	// private final ElasticJobListener jobListener = new SimpleListener();
-
 	@Override
 	public JopType getCondition() {
 		return JopType.DATAFLOW;
 	}
 
 	@Override
-	public JobScheduler jobScheduler(final JobBean jobBean) {
+	public JobScheduler jobScheduler(final IJobBean jobBean) {
 		Class<?> dataflowJobObj = null;
 		try {
 			dataflowJobObj = Class.forName(jobBean.getName());
@@ -48,15 +38,21 @@ public class DataflowJobStrategy extends BaseJobStrategy {
 		}
 
 		JobScheduler jobScheduler = null;
-		// 判断一个类clazz和另一个类SimpleJob是否相同或是另一个类的超类或接口。 父-->子
-		if (!SimpleJob.class.isAssignableFrom(dataflowJobObj)) {
-			System.out.println("暂不支持的" + getCondition() + "服务类类型!");
+		if (!DataflowJob.class.isAssignableFrom(dataflowJobObj)) {
+			System.out.println("暂不支持的" + getCondition() + "服务类DataflowJob类型!");
 		} else {
-			final Class<? extends SimpleJob> dataflowJobClazz = (Class<? extends SimpleJob>) dataflowJobObj;
+			final Class<? extends DataflowJob<?>> dataflowJobClazz = (Class<? extends DataflowJob<?>>) dataflowJobObj;
 
-			final SimpleJob dataflowJob = getContext().getBean(dataflowJobClazz);
+			final long startTimeoutMills = 5000L;
+			final long completeTimeoutMills = 10000L;
+
+			final DataflowJob<?> dataflowJob = getContext().getBean(dataflowJobClazz);
 			jobScheduler = new SpringJobScheduler(dataflowJob, getRegCenter(),
-					getLiteJobConfiguration(dataflowJobClazz, jobBean), getJobEventConfiguration());
+					getLiteJobConfiguration(dataflowJobClazz, jobBean), getJobEventConfiguration()
+			// new SimpleJobListener()
+			// new DistributeOnceJobListener(startTimeoutMills,
+			// completeTimeoutMills)
+			);
 		}
 		return jobScheduler;
 	}
