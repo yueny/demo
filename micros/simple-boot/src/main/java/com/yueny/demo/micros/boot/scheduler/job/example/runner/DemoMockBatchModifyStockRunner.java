@@ -44,7 +44,7 @@ public class DemoMockBatchModifyStockRunner implements Callable<List<Long>>, Ser
 	public DemoMockBatchModifyStockRunner(final String batchId, final List<Long> ids) {
 		this.batchId = batchId;
 		this.taskData = ids;
-		taskId = UuidUtil.getSimpleUuid();
+		taskId = UuidUtil.getNumberUuid();
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import com.google.common.util.concurrent.MoreExecutors;
-import com.yueny.demo.micros.boot.spring.context.config.scheduler.factory.NamedThreadFactory;
+import com.yueny.superclub.util.exec.async.factory.NamedThreadFactory;
 
 /**
  * 并行任务基础配置

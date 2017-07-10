@@ -26,7 +26,7 @@
 	</properties>
 
 	<dependencies>
-		<!-- Compile -->
+		<!--   -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -116,6 +116,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- 配置中心:Diamond是一个持久配置管理中心，核心功能是使应用在运行中感知配置数据的变化。 -->
+		<dependency>
+		    <groupId>com.baidu.disconf</groupId>
+		    <artifactId>disconf-client</artifactId>
+		    <version>2.6.36</version>
+		</dependency>
+
 		<!-- Project Lombok -->
 		<dependency>
 	        <groupId>org.projectlombok</groupId>

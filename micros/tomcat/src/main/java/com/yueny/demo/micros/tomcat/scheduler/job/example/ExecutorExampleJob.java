@@ -20,7 +20,7 @@ import com.yueny.demo.micros.tomcat.scheduler.job.example.runner.DemoMockBatchMo
 import com.yueny.rapid.lang.util.UuidUtil;
 import com.yueny.rapid.lang.util.collect.CollectionUtil;
 import com.yueny.rapid.lang.util.time.SystemClock;
-import com.yueny.superclub.util.exec.async.factory.ExecutorServiceObjectFactory;
+import com.yueny.superclub.util.exec.async.factory.ExecutorServiceBeanFactory;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -33,8 +33,8 @@ public class ExecutorExampleJob extends BaseSuperScheduler {
 	@Autowired
 	private IDataPrecipitationService dataPrecipitationService;
 
-	private final ExecutorService executorService = ExecutorServiceObjectFactory
-			.getExecutorServiceObject("executor-asyn-example").createExecutorService();
+	private final ExecutorService executorService = ExecutorServiceBeanFactory
+			.getExecutorServiceBean("executor-asyn-example").createExecutorService();
 
 	@PostConstruct
 	public void doSomething() {
@@ -47,7 +47,7 @@ public class ExecutorExampleJob extends BaseSuperScheduler {
 	@Scheduled(cron = "0/15 * * * * ?")
 	public void processData() {
 		final long start = SystemClock.now();
-		final String batchId = UuidUtil.getSimpleUuid();
+		final String batchId = UuidUtil.getNumberUuid();
 
 		// 得到服务器中待批量处理数据的主键信息, limit 50
 		final List<Long> ids = dataPrecipitationService.queryAllIds();

@@ -3,6 +3,7 @@ package com.yueny.demo.micros.cloud.service.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -12,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,12 @@ import com.yueny.demo.micros.cloud.scheduler.MailSendEntry;
 import com.yueny.demo.micros.cloud.scheduler.MailSendQueue;
 import com.yueny.demo.micros.cloud.scheduler.runner.MailSendRunner;
 import com.yueny.demo.micros.cloud.service.IMailService;
-import com.yueny.superclub.util.exec.async.NamedThreadFactory;
+import com.yueny.superclub.util.exec.async.factory.NamedThreadFactory;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Consumer;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.internal.schedulers.ExecutorScheduler;
 import io.reactivex.schedulers.Schedulers;
 
@@ -115,6 +118,72 @@ public class MailServiceImpl implements IMailService {
 		return sendTemplateMail(Arrays.asList(to), subject, emailTemplate, maps);
 	}
 
+	// /**
+	// * 发送结果入库
+	// */
+	// private void toStorage(final MailSendEntry<Boolean> entry) {
+	// // 异步线程读数据库
+	// final Observable<MailSendEntry<Boolean>> observable = Observable
+	// .create(new ObservableOnSubscribe<MailSendEntry<Boolean>>() {
+	// @Override
+	// public void subscribe(final ObservableEmitter<MailSendEntry<Boolean>>
+	// emitter) throws Exception {
+	// logger.info("subscribe thread is :{} ~~~",
+	// Thread.currentThread().getName());
+	//
+	// emitter.onNext(entry);
+	// }
+	// })
+	// // 指定的是上游发送事件的线程. 多次指定上游的线程只有第一次指定的有效,
+	// // 也就是说多次调用subscribeOn() 只有第一次的有效, 其余的会被忽略.
+	// .subscribeOn(Schedulers.computation());
+	//
+	// observable
+	// // 指定的是下游接收事件的线程. 多次指定下游的线程是可以的,
+	// // 也就是说每调用一次observeOn() , 下游的线程就会切换一次.
+	// .observeOn(new ExecutorScheduler(Executors.newFixedThreadPool(3)))
+	// //
+	// .subscribe(new Consumer<MailSendEntry<Boolean>>() {
+	// @Override
+	// public void accept(final MailSendEntry<Boolean> et) throws Exception {
+	// if (et.getFuture().get()) {
+	// logger.info("邮件发送成功,开始数据库入库。 总耗时:{} 秒, thread is :{} ~~~",
+	// et.durnSecond(),
+	// Thread.currentThread().getName());
+	// System.out.println("insert DB: " + et);
+	// } else {
+	// logger.warn("邮件发送失败, thread is :{},", Thread.currentThread().getName());
+	// }
+	// }
+	// }, new Consumer<Throwable>() {
+	// @Override
+	// public void accept(final Throwable throwable) throws Exception {
+	// logger.warn("邮件发送失败了:{}。", throwable);
+	// }
+	// });
+	// }
+
+	private <T> Flowable<T> getEmailFlowable(final List<T> ts) {
+		final Flowable<T> upstream = Flowable.create(new FlowableOnSubscribe<T>() {
+			@Override
+			public void subscribe(final FlowableEmitter<T> emitter) throws Exception {
+				logger.info("subscribe thread is :{}, 可以受理的请求量:{}.", Thread.currentThread().getName(),
+						emitter.requested());
+
+				for (final T t : ts) {
+					emitter.onNext(t);
+				}
+
+				emitter.onComplete();
+			}
+		}, BackpressureStrategy.BUFFER);
+
+		return upstream;
+	}
+
+	/**
+	 * 模板渲染
+	 */
 	private String getTemplateEngine(final String emailTemplate, final Map<String, String> maps) {
 		// 创建邮件正文
 		final Context context = new Context();
@@ -131,37 +200,52 @@ public class MailServiceImpl implements IMailService {
 	 */
 	private void toStorage(final MailSendEntry<Boolean> entry) {
 		// 异步线程读数据库
-		final Observable<MailSendEntry<Boolean>> observable = Observable
-				.create(new ObservableOnSubscribe<MailSendEntry<Boolean>>() {
-					@Override
-					public void subscribe(final ObservableEmitter<MailSendEntry<Boolean>> emitter) throws Exception {
-						logger.info("subscribe thread is :{} ~~~", Thread.currentThread().getName());
+		final Flowable<MailSendEntry<Boolean>> upstream = getEmailFlowable(Arrays.asList(entry))
+				// 指定的是上游发送事件的线程. 多次指定上游的线程只有第一次指定的有效,
+				// 也就是说多次调用subscribeOn() 只有第一次的有效, 其余的会被忽略.
+				.subscribeOn(Schedulers.computation());
 
-						emitter.onNext(entry);
-					}
-				});
-
-		final Consumer<MailSendEntry<Boolean>> consumer = new Consumer<MailSendEntry<Boolean>>() {
+		final Subscriber<MailSendEntry<Boolean>> downstream = new Subscriber<MailSendEntry<Boolean>>() {
 			@Override
-			public void accept(final MailSendEntry<Boolean> et) throws Exception {
-				if (et.getFuture().get()) {
-					logger.info("邮件发送成功, 总耗时:{} 秒, thread is :{} ~~~", et.durnSecond(),
-							Thread.currentThread().getName());
-					System.out.println("insert " + et);
-				} else {
+			public void onComplete() {
+				System.out.println("执行结束 onComplete");
+			}
+
+			@Override
+			public void onError(final Throwable t) {
+				logger.warn("邮件发送失败了:{}。", t);
+			}
+
+			@Override
+			public void onNext(final MailSendEntry<Boolean> s) {
+				try {
+					if (s.getFuture().get()) {
+						logger.info("邮件发送成功,开始数据库入库。 总耗时:{} 秒, thread is :{} ~~~", s.durnSecond(),
+								Thread.currentThread().getName());
+						System.out.println("insert DB:  " + s);
+					}
+				} catch (InterruptedException | ExecutionException e) {
+					e.printStackTrace();
 					logger.warn("邮件发送失败, thread is :{},", Thread.currentThread().getName());
 				}
 			}
+
+			@Override
+			public void onSubscribe(final Subscription s) {
+				System.out.println("onSubscribe");
+
+				// 下游处理事件的能力
+				// 调用request去请求资源，参数就是要请求的数量，一般如果不限制请求数量，可以写成Long.MAX_VALUE
+				// 如果不调用request，Subscriber的onNext和onComplete方法将不会被调用。
+
+				// 调用Subscription.cancel()也可以切断水管, 不同的地方在于Subscription增加了一个void
+				// request(Long.MAX_VALUE)方法
+				s.request(2L);
+			}
 		};
 
-		observable
-				// 指定的是上游发送事件的线程. 多次指定上游的线程只有第一次指定的有效,
-				// 也就是说多次调用subscribeOn() 只有第一次的有效, 其余的会被忽略.
-				.subscribeOn(Schedulers.computation())
-				// 指定的是下游接收事件的线程. 多次指定下游的线程是可以的,
-				// 也就是说每调用一次observeOn() , 下游的线程就会切换一次.
-				.observeOn(new ExecutorScheduler(Executors.newFixedThreadPool(3))).subscribe(consumer);
-
+		// 订阅代码 执行
+		upstream.observeOn(new ExecutorScheduler(Executors.newFixedThreadPool(3))).subscribe(downstream);
 	}
 
 }

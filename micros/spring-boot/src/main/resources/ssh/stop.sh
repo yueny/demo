@@ -1,12 +1,36 @@
 #!/bin/bash
 
-_JAR_NAME=micros_spring_boot.jar
+usage() {
+    echo "Usage: $0 [OPTIONS]"
+    echo "  -n <name>          Server name"
+    exit 1
+}
 
-PID=$(ps -ef | grep ${_JAR_NAME} | grep -v grep | awk '{ print $2 }')
+# 默认值设置
+name=""
+
+while getopts ":n:" arg 
+do
+    case "$arg" in
+        n)
+                echo "name is :$OPTARG"
+                name="$OPTARG";;
+	    [?])
+	            #当有不认识的选项的时候arg为 ?  
+	        echo "unkonw argument"
+	            usage;;
+    esac
+done
+
+if [ ! -n "$name" ]; then
+  usage
+fi
+
+PID=$(ps -ef | grep ${name} | grep -v grep | awk '{ print $2 }')
 if [ -z "$PID" ]
 then
     echo 服务已关闭
 else
-    echo 关闭服务中 $PID
+    echo 关闭服务中 $PID ${name}
     kill $PID
 fi

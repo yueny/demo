@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ObservableTest {
 	@Test
 	public void testObservable() {
-		// 创建一个上游 Observable：
+		// 创建一个观察者
 		final Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
 			// emitter: 发射器
 			@Override
@@ -150,6 +150,42 @@ public class ObservableTest {
 
 		try {
 			TimeUnit.MILLISECONDS.sleep(200);
+		} catch (final InterruptedException e) {
+			System.out.println("sleep Interrupted!");
+		}
+	}
+
+	/**
+	 * 无效循环的数据推送<br>
+	 * 上游同样无限循环的发送事件, 在下游每次接收事件前延时0.2秒.把上游切换到了IO线程(Schedulers.io())中去,
+	 * 下游到其他线程(Executors.newFixedThreadPool(3))去接收
+	 */
+	@Test
+	public void testObservable3() {
+		Observable.create(new ObservableOnSubscribe<Integer>() {
+			@Override
+			public void subscribe(final ObservableEmitter<Integer> emitter) throws Exception {
+				for (int i = 0; i < 200; i++) { // 无限循环发事件
+					emitter.onNext(i);
+				}
+			}
+		})
+				// Observable 线程创建
+				.subscribeOn(Schedulers.io())
+				// Observable sample取样: 这个操作符每隔指定的时间就从上游中取出一个事件发送给下游:
+				// 会造成丢失大部分的事件
+				// .sample(500, TimeUnit.MILLISECONDS)
+				// Consumer 线程创建
+				.observeOn(new ExecutorScheduler(Executors.newFixedThreadPool(3))).subscribe(new Consumer<Integer>() {
+					@Override
+					public void accept(final Integer integer) throws Exception {
+						Thread.sleep(100);
+						System.out.println("正在执行 " + integer);
+					}
+				});
+
+		try {
+			TimeUnit.MILLISECONDS.sleep(5000);
 		} catch (final InterruptedException e) {
 			System.out.println("sleep Interrupted!");
 		}

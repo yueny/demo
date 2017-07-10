@@ -43,7 +43,7 @@ public class ExecutorExampleJob {
 	public void init() {
 		log.info("ExecutorExampleJob...");
 
-		final String batchId = UuidUtil.getSimpleUuid();
+		final String batchId = UuidUtil.getNumberUuid();
 		processData(batchId);
 	}
 
