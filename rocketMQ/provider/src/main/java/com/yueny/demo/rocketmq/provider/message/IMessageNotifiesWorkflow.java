@@ -1,5 +1,9 @@
 package com.yueny.demo.rocketmq.provider.message;
 
+import java.util.List;
+
+import com.yueny.demo.rocketmq.data.Event;
+
 /**
  * 消息发送流程
  *
@@ -10,10 +14,14 @@ package com.yueny.demo.rocketmq.provider.message;
  */
 public interface IMessageNotifiesWorkflow {
 	/**
-	 * @param trys
-	 *            次数
-	 * @param steps
-	 *            步数
+	 * @param event
+	 *            事件
 	 */
-	boolean message(final int trys, int steps);
+	boolean message(Event event);
+
+	/**
+	 * @param event
+	 *            事件
+	 */
+	boolean message(List<Event> event);
 }

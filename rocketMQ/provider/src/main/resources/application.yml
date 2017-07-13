@@ -1,0 +1,30 @@
+# Server settings (ServerProperties)
+# 在yaml中缩进不要使用TAB，否则会解析错误
+# 使用.yml时，属性名的值和冒号中间必须有空格. spring会从classpath下的/config目录或者classpath的根目录查找application.properties或application.yml。
+# /config优先于classpath根目录
+
+database:
+   style:
+      config: MY_SQL
+
+# 服务器配置
+server:
+   port: 8091
+
+spring: 
+   aop: 
+      proxy-target-class: true
+      auto: true
+   mvc:
+      # 设定静态文件路径，js,css等
+      #static-path-pattern: /static/**
+      view:
+         # 指定mvc视图的前缀
+         prefix: /
+         # 指定mvc视图的后缀
+         suffix: .ftl
+   
+# url/shutdown
+endpoints:
+   shutdown:
+      enabled: true

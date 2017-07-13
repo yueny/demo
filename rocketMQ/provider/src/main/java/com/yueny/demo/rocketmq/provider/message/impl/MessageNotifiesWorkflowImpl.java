@@ -1,19 +1,19 @@
 package com.yueny.demo.rocketmq.provider.message.impl;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.rocketmq.client.exception.MQClientException;
-import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
-import com.yueny.demo.common.constant.MqConstants;
-import com.yueny.demo.rocketmq.data.EventData;
-import com.yueny.demo.rocketmq.provider.factory.ProducerFactory;
+import com.yueny.demo.rocketmq.MqConstants;
+import com.yueny.demo.rocketmq.core.factory.product.sender.MQProductSender;
+import com.yueny.demo.rocketmq.data.Event;
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
 import com.yueny.rapid.lang.json.JsonUtil;
 
@@ -31,8 +31,9 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 	 * 发送失败数量
 	 */
 	private final AtomicLong failCounter = new AtomicLong(0L);
+
 	@Autowired
-	private ProducerFactory producerFactory;
+	private MQProductSender mqProductSender;
 	/**
 	 * 发送成功数量
 	 */
@@ -44,23 +45,13 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 	}
 
 	@Override
-	public boolean message(final int trys, final int steps) {
-		System.out.println("---------------------- message start ----------------------");
-		try {
-			sendMsg(trys, steps);
-			return true;
-		} catch (final MQClientException e) {
-			e.printStackTrace();
-		} finally {
-			System.out.println("---------------------- message end ----------------------");
-		}
-		return false;
+	public boolean message(final Event event) {
+		return message(Arrays.asList(event));
 	}
 
-	private void sendMsg(final int trys, final int steps) throws MQClientException {
-		System.out.println("--开始第" + trys + "次消息批量推送");
-
-		final DefaultMQProducer producer = producerFactory.getProducer();
+	@Override
+	public boolean message(final List<Event> event) {
+		System.out.println("---------------------- message start ----------------------");
 
 		/**
 		 * 下面这段代码表明一个Producer对象可以发送多个topic，多个tag的消息。
@@ -68,37 +59,16 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 		 * 例如消息写入Master成功，但是Slave不成功，这种情况消息属于成功，但是对于个别应用如果对消息可靠性要求极高，<br>
 		 * 需要对这种情况做处理。另外，消息可能会存在发送失败的情况，失败重试由应用来处理。
 		 */
-		for (int i = 0; i < steps; i++) {
+		for (final Event ev : event) {
 			try {
-				final StringBuilder sb = new StringBuilder();
-				sb.append(trys);
-				sb.append("统内部帐对帐结束,总耗时:46201毫秒!");
-				sb.append("支付系统内部商户:S003");
-				sb.append("该商户下总处理数目[平账/不平账/异常]:7[7/0/0]");
-				sb.append("该商户下总处理数目[平账/不平账/异常]:0[0/0/0]");
-				sb.append("该商户下总处理数目[平账/不平账/异常]:0[0/0/0]");
-				sb.append(i);
-				sb.append("--");
-				sb.append("Just for test.push!");
-
-				final EventData data = new EventData();
-				data.setContent(sb.toString());
-				data.setSubject("消息");
-				data.setEventRequestType("PAYMENT_RECON_PROCESS_INFO");
-
-				final String json = JsonUtil.toJson(data);
+				final String json = JsonUtil.toJson(ev);
 				final Message msg = new Message(MqConstants.Topic.NOTIFIES_MQ_TOPIC.topic(), // topic
 						MqConstants.Tags.NOTIFIES_TAG_WARNING.tag(), // tag
 						json.getBytes());
-				// final Message msg = new
-				// Message(MqConstants.Topic.DEMO_MQ_TOPIC.topic(), // topic
-				// MqConstants.Tags.DEMO_TAG_MQ_MSG.tag(), // tag
-				// json.getBytes());
+				final SendResult sendResult = mqProductSender.send(msg);
 
-				final SendResult sendResult = producer.send(msg);
 				if (sendResult == null || sendResult.getSendStatus() != SendStatus.SEND_OK) {
-					System.out.println("消息:" + json);
-					System.out.println("消息通知失败,result:" + sendResult);
+					System.out.println("消息:" + json + " 通知失败,result:" + sendResult);
 					failCounter.incrementAndGet();
 				} else {
 					System.out.println("[S]消息:" + json);
@@ -109,7 +79,10 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 				failCounter.incrementAndGet();
 			}
 		}
-		System.out.println("--第" + trys + "次消息批量推送结束, 已成功/失败发送总数量:" + successCounter.get() + "/" + failCounter.get());
+
+		System.out.println("消息批量推送结束, 已成功/失败发送总数量:" + successCounter.get() + "/" + failCounter.get());
+		System.out.println("---------------------- message end ----------------------");
+		return true;
 	}
 
 }

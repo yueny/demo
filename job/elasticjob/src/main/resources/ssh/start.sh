@@ -43,6 +43,7 @@ fi
 
 if [ "x${CONF_PATH}x" == "xx" ];then
 	CONF_PATH="$BASE"
+	# /alchemist.jar!/BOOT-INF/classes!/logback.xml
 fi
 sys_file=$CONF_PATH/$_sys_file
 echo "conf file is :$sys_file"
