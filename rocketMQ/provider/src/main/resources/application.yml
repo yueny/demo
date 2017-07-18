@@ -8,8 +8,8 @@ database:
       config: MY_SQL
 
 # 服务器配置
-server:
-   port: 8091
+# server:
+#    port: 8091
 
 spring: 
    aop: 

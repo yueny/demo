@@ -15,7 +15,7 @@ import com.yueny.demo.rocketmq.core.factory.product.MQProductFactory;
 public class MQProductSender {
 	private static final Logger logger = LoggerFactory.getLogger(MQProductSender.class);
 
-	@Autowired
+	@Autowired(required = false)
 	private MQProductFactory productFactory;
 
 	/**
@@ -32,6 +32,17 @@ public class MQProductSender {
 		try {
 			final SendResult rs = producer.send(message);
 			return rs;
+
+			// producer.send(message, new SendCallback() {
+			// public void onException(final Throwable e) {
+			// System.out.printf("%-10d Exception %n", e);
+			// e.printStackTrace();
+			// }
+			//
+			// public void onSuccess(final SendResult sendResult) {
+			// System.out.printf("%-10d OK %n", sendResult.getMsgId());
+			// }
+			// });
 		} catch (final Throwable e) {
 			logger.error("发送消息失败:", e);
 		}

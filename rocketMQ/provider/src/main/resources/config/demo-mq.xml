@@ -10,12 +10,6 @@
 	
 	<bean class="com.yueny.superclub.util.strategy.spring.ManageSpringBeans" lazy-init="false" />
 	
-	<bean id="consumerFactory" class="com.yueny.demo.rocketmq.core.factory.consumer.MQConsumerFactory" 
-		init-method="init" destroy-method="destroy" scope="singleton"
-		p:namesrvAddr="${mq.namesrv.consumer.address}">
-        <property name="consumerGroup" value="${mq.consumer.group}"/>
-    </bean>
-	
 	<bean id="productFactory" class="com.yueny.demo.rocketmq.core.factory.product.MQProductFactory"
 		p:namesrvAddr="${mq.namesrv.producer.address}" scope="singleton">
         <property name="producerGroup" value="${mq.producer.group}"/>

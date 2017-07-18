@@ -4,6 +4,7 @@
 package com.yueny.demo.rocketmq.data;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,9 @@ import lombok.ToString;
  */
 @ToString
 public class JSONEvent implements Event {
+	/**
+	 * 消息内容
+	 */
 	@Getter
 	private String body;
 	/**
@@ -30,8 +34,19 @@ public class JSONEvent implements Event {
 	@Setter
 	@Getter
 	private transient CharsetType charset = CharsetType.UTF8;
+	/**
+	 * 消息头
+	 */
 	private final Map<HeaderType, String> headers = new HashMap<HeaderType, String>();
+	/**
+	 * 消息产生时间
+	 */
+	@Setter
+	private Date timer;
 
+	// public String GetTimer(){
+	//
+	// }
 	/*
 	 * (non-Javadoc)
 	 *

@@ -13,7 +13,7 @@ package com.yueny.demo.rocketmq.enums;
  */
 public enum HeaderType {
 	/**
-	 * 消息ID
+	 * 消息体ID
 	 */
-	MSG_ID;
+	MESSAGE_ID;
 }

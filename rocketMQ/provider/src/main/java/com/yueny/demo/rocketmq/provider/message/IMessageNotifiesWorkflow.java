@@ -2,6 +2,7 @@ package com.yueny.demo.rocketmq.provider.message;
 
 import java.util.List;
 
+import com.yueny.demo.rocketmq.MqConstants;
 import com.yueny.demo.rocketmq.data.Event;
 
 /**
@@ -17,11 +18,11 @@ public interface IMessageNotifiesWorkflow {
 	 * @param event
 	 *            事件
 	 */
-	boolean message(Event event);
+	boolean message(MqConstants.Topic topic, MqConstants.Tags tag, Event event);
 
 	/**
 	 * @param event
 	 *            事件
 	 */
-	boolean message(List<Event> event);
+	boolean message(MqConstants.Topic topic, MqConstants.Tags tag, List<Event> event);
 }

@@ -19,25 +19,16 @@ public class MqConstants {
 		/**
 		 * 仅供测试
 		 */
-		DEMO_TAG_MQ_MSG("demo_mq_tag"),
+		MQ_DEMO_TAG_MSG,
 		/**
 		 * tags:消息
 		 */
-		NOTIFIES_TAG_MSG("demo_mq_notifies_tag"),
-		/**
-		 * tags:预警
-		 */
-		NOTIFIES_TAG_WARNING("demo_mq_warning_tag");
-
-		private final String tag;
-
-		Tags(final String tag) {
-			this.tag = tag;
-		}
-
-		public String tag() {
-			return this.tag;
-		}
+		MQ_NOTIFIES_TAG_MSG,
+		// /**
+		// * tags:预警
+		// */
+		// NOTIFIES_TAG_WARNING
+		;
 	}
 
 	/**
@@ -50,23 +41,9 @@ public class MqConstants {
 	 */
 	public enum Topic {
 		/**
-		 * 仅供测试
+		 * 仅供测试的TOPIC
 		 */
-		DEMO_MQ_TOPIC("demo_mq_topic"),
-		/**
-		 * 通知的MQ topic
-		 */
-		NOTIFIES_MQ_TOPIC("demo_notifies_mq_topic");
-
-		private final String topic;
-
-		Topic(final String topic) {
-			this.topic = topic;
-		}
-
-		public String topic() {
-			return this.topic;
-		}
+		MQ_DEMO_TOPIC_TEST;
 	}
 
 }

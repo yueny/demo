@@ -1,13 +1,13 @@
 package com.yueny.demo.rocketmq.core.factory.consumer.strategy;
 
+import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.yueny.demo.rocketmq.common.CounterHepler;
-import com.yueny.demo.rocketmq.data.JSONEvent;
-import com.yueny.demo.rocketmq.enums.HeaderType;
+import com.yueny.demo.rocketmq.enums.CharsetType;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -15,7 +15,7 @@ import com.yueny.demo.rocketmq.enums.HeaderType;
  * @DATE 2017年7月12日 下午2:25:26
  *
  */
-public class DefaultMqConsumer extends AbstractMqConsumer<JSONEvent> {
+public class DefaultMqConsumer extends AbstractMqConsumer<String> {
 	/**
 	 * 数据组装任务
 	 */
@@ -23,11 +23,10 @@ public class DefaultMqConsumer extends AbstractMqConsumer<JSONEvent> {
 		public void run() {
 			while (true) {
 				try {
-					final JSONEvent event = getQueue().take();
+					final String event = getQueue().take();
 
 					try {
-						System.out.println("完成消息处理: " + event.getHeaders().get(HeaderType.MSG_ID) + "。"
-								+ Thread.currentThread().getName());
+						System.out.println("完成JSON DATA消息处理: " + event + "。" + Thread.currentThread().getName());
 					} catch (final Exception e) {
 						put(event);
 						logger.error("监听消息异常，重新入池进行等待下次操作！", e);
@@ -54,9 +53,8 @@ public class DefaultMqConsumer extends AbstractMqConsumer<JSONEvent> {
 	}
 
 	public ConsumeConcurrentlyStatus consumer(final MessageExt messageExt) {
-		final JSONEvent event = new JSONEvent();
-		event.setBody(messageExt.getBody());
-		event.addHeaders(HeaderType.MSG_ID, messageExt.getMsgId());
+		// body is JSONEvent
+		final String event = new String(messageExt.getBody(), Charset.forName(CharsetType.UTF8.charset()));
 
 		try {
 			// 放入队列 put/add

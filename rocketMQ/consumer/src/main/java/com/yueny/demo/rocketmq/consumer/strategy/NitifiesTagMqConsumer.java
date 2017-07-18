@@ -69,7 +69,7 @@ public class NitifiesTagMqConsumer extends AbstractMqConsumer<ScallorEvent>
 
 	@Override
 	public Tags getCondition() {
-		return MqConstants.Tags.NOTIFIES_TAG_MSG;
+		return MqConstants.Tags.MQ_NOTIFIES_TAG_MSG;
 	}
 
 	private boolean consumeMsg(final MessageExt msg) {

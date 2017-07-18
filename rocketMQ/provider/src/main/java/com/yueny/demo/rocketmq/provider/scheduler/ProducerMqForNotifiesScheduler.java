@@ -1,13 +1,14 @@
 package com.yueny.demo.rocketmq.provider.scheduler;
 
-import java.io.UnsupportedEncodingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.yueny.demo.rocketmq.MqConstants;
 import com.yueny.demo.rocketmq.data.JSONEvent;
+import com.yueny.demo.rocketmq.enums.HeaderType;
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
+import com.yueny.rapid.lang.util.UuidUtil;
 
 /**
  * Notifies
@@ -24,8 +25,10 @@ public class ProducerMqForNotifiesScheduler {
 	@Scheduled(cron = "0/12 * * * * ?")
 	public void autoLogs() {
 		for (int i = 0; i < 2; i++) {
+			final String orderNo = UuidUtil.getUUIDForNumber24();
 			final StringBuilder sb = new StringBuilder();
-			sb.append(i + 1);
+			sb.append("订单：");
+			sb.append(orderNo);
 			sb.append("总耗时:46201毫秒!");
 			sb.append("总处理数目[平账/不平账/异常]:");
 			sb.append(i);
@@ -37,16 +40,14 @@ public class ProducerMqForNotifiesScheduler {
 			try {
 				final JSONEvent data = new JSONEvent();
 				data.setBody(sb.toString().getBytes(data.getCharset().charset()));
+				data.addHeaders(HeaderType.MESSAGE_ID, orderNo);
 
-				try {
-					messageNotifiesWorkflow.message(data);
-				} catch (final Exception e) {
-					e.printStackTrace();
-				} finally {
-					// .
-				}
-			} catch (final UnsupportedEncodingException e) {
-				// TODO: handle exception
+				messageNotifiesWorkflow.message(MqConstants.Topic.MQ_DEMO_TOPIC_TEST, MqConstants.Tags.MQ_DEMO_TAG_MSG,
+						data);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			} finally {
+				// .
 			}
 
 		}
