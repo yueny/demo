@@ -7,15 +7,19 @@ import java.util.concurrent.Executors;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.yueny.demo.rocketmq.common.CounterHepler;
+import com.yueny.demo.rocketmq.data.JSONEvent;
 import com.yueny.demo.rocketmq.enums.CharsetType;
+import com.yueny.rapid.lang.json.JsonUtil;
 
 /**
+ * 默认处理策略
+ *
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2017年7月12日 下午2:25:26
  *
  */
-public class DefaultMqConsumer extends AbstractMqConsumer<String> {
+public class DefaultMqConsumerStrategy extends AbstractMqConsumerStrategy<JSONEvent> {
 	/**
 	 * 数据组装任务
 	 */
@@ -23,7 +27,7 @@ public class DefaultMqConsumer extends AbstractMqConsumer<String> {
 		public void run() {
 			while (true) {
 				try {
-					final String event = getQueue().take();
+					final JSONEvent event = getQueue().take();
 
 					try {
 						System.out.println("完成JSON DATA消息处理: " + event + "。" + Thread.currentThread().getName());
@@ -46,21 +50,27 @@ public class DefaultMqConsumer extends AbstractMqConsumer<String> {
 	 */
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-	public DefaultMqConsumer() {
+	public DefaultMqConsumerStrategy() {
 		super();
 
 		executorService.execute(new AssemblyEventDataTask());
 	}
 
 	public ConsumeConcurrentlyStatus consumer(final MessageExt messageExt) {
-		// body is JSONEvent
-		final String event = new String(messageExt.getBody(), Charset.forName(CharsetType.UTF8.charset()));
+		// body and eventJson is JSONEvent
+		final String eventJson = new String(messageExt.getBody(), Charset.forName(CharsetType.UTF8.charset()));
+		final JSONEvent event = JsonUtil.fromJson(eventJson, JSONEvent.class);
+
+		// RocketMQ不保证消息不重复，如果你的业务需要保证严格的不重复消息，需要你自己在业务端去重。
+		// 消费端处理消息的业务逻辑保持幂等性
+		// 保证每条消息都有唯一编号且保证消息处理成功与去重表的日志同时出现
 
 		try {
 			// 放入队列 put/add
 			if (super.put(event)) {
 				final long rl = CounterHepler.increment();
-				System.out.println("Receive: " + rl + " New Messages: " + messageExt.getMsgId());
+
+				logger.info("{} --> Receive MessagesID[{}/{}]:{}.", rl, messageExt.getMsgId(), event.getMessageId());
 				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 			}
 		} catch (final Exception e) {

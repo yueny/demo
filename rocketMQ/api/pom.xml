@@ -15,6 +15,17 @@
 	</properties>
 	
 	<dependencies>
+		<dependency>
+			<groupId>com.yueny.rapid.util</groupId>
+			<artifactId>rapid-util-strategy</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-json</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+		</dependency>
+		
 		<!-- Project Lombok -->
 		<dependency>
 	        <groupId>org.projectlombok</groupId>
@@ -42,12 +53,6 @@
 			<groupId>com.alibaba.rocketmq</groupId>
 			<artifactId>rocketmq-client</artifactId>
 			<version>${rocketmq.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.yueny.rapid.util</groupId>
-			<artifactId>rapid-util-strategy</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

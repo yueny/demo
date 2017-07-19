@@ -38,26 +38,10 @@
 // @Getter
 // @Setter
 // private String eventRequestType;
-// private final Map<HeaderType, String> headers = new HashMap<HeaderType,
-// String>();
 // /**
 // * 事件主题
 // */
 // @Getter
 // @Setter
 // private String subject;
-//
-// public void addHeaders(final HeaderType headerType, final String
-// headerContent) {
-// this.headers.put(headerType, headerContent);
-// }
-//
-// public void addHeaders(final Map<HeaderType, String> headers) {
-// this.headers.putAll(headers);
-// }
-//
-// public Map<HeaderType, String> getHeaders() {
-// return headers;
-// }
-//
 // }

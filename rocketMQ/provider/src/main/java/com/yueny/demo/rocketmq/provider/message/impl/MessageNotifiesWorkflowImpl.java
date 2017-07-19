@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +14,11 @@ import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
 import com.yueny.demo.rocketmq.MqConstants;
-import com.yueny.demo.rocketmq.core.factory.product.sender.MQProductSender;
 import com.yueny.demo.rocketmq.data.Event;
-import com.yueny.demo.rocketmq.enums.HeaderType;
+import com.yueny.demo.rocketmq.provider.factory.sender.MQProductSender;
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
 import com.yueny.rapid.lang.json.JsonUtil;
+import com.yueny.rapid.lang.util.StringUtil;
 
 /**
  * 消息流程
@@ -32,6 +34,7 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 	 * 发送失败数量
 	 */
 	private final AtomicLong failCounter = new AtomicLong(0L);
+	private final Logger logger = LoggerFactory.getLogger(MessageNotifiesWorkflowImpl.class);
 
 	@Autowired
 	private MQProductSender mqProductSender;
@@ -66,9 +69,7 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 				// body.
 				final Message msg = new Message(topic.name(), // topic
 						tag.name(), // tag
-						(ev.getHeaders().containsKey(HeaderType.MESSAGE_ID) ? ev.getHeaders().get(HeaderType.MESSAGE_ID)
-								: ""),
-						json.getBytes());
+						(StringUtil.isEmpty(ev.getMessageId()) ? ev.getMessageId() : ""), json.getBytes());
 
 				// This message will be delivered to consumer 10 seconds later.
 				// msg.setDelayTimeLevel(3);
@@ -76,12 +77,12 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 				final SendResult sendResult = mqProductSender.send(msg);
 				if (sendResult == null || sendResult.getSendStatus() != SendStatus.SEND_OK) {
 					failCounter.incrementAndGet();
-					System.out.println(successCounter.get() + "/" + failCounter.get() + "消息:" + sendResult.getMsgId()
-							+ " / " + json + " 通知失败!");
+					logger.info("{}/{} [S]消息msgId/messageId:{}/{} 通知失败!.", successCounter.get(), failCounter.get(),
+							sendResult.getMsgId(), ev.getMessageId());
 				} else {
 					successCounter.incrementAndGet();
-					System.out
-							.println(successCounter.get() + "/" + failCounter.get() + "[S]消息:" + sendResult.getMsgId());
+					logger.info("{}/{} [S]消息msgId/messageId:{}/{}.", successCounter.get(), failCounter.get(),
+							sendResult.getMsgId(), ev.getMessageId());
 				}
 			} catch (final Exception e) {
 				e.printStackTrace();

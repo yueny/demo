@@ -1,5 +1,6 @@
-package com.yueny.demo.rocketmq.consumer.strategy;
+package com.yueny.demo.rocketmq.consumer.factory.strategy;
 
+import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -11,8 +12,11 @@ import com.alibaba.rocketmq.common.message.MessageExt;
 import com.yueny.demo.rocketmq.MqConstants;
 import com.yueny.demo.rocketmq.common.CounterHepler;
 import com.yueny.demo.rocketmq.consumer.data.ScallorEvent;
-import com.yueny.demo.rocketmq.core.factory.consumer.strategy.AbstractMqConsumer;
-import com.yueny.demo.rocketmq.core.factory.consumer.strategy.IConsumer;
+import com.yueny.demo.rocketmq.core.factory.consumer.strategy.AbstractMqConsumerStrategy;
+import com.yueny.demo.rocketmq.core.factory.consumer.strategy.IConsumerStrategy;
+import com.yueny.demo.rocketmq.data.JSONEvent;
+import com.yueny.demo.rocketmq.enums.CharsetType;
+import com.yueny.rapid.lang.json.JsonUtil;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -21,7 +25,8 @@ import com.yueny.demo.rocketmq.core.factory.consumer.strategy.IConsumer;
  *
  */
 @Service
-public class DemoTagMqConsumer extends AbstractMqConsumer<ScallorEvent> implements IConsumer<MqConstants.Tags> {
+public class DemoTagMqConsumerStrategy extends AbstractMqConsumerStrategy<ScallorEvent>
+		implements IConsumerStrategy<MqConstants.Tags> {
 	/**
 	 * 数据组装任务
 	 */
@@ -51,8 +56,8 @@ public class DemoTagMqConsumer extends AbstractMqConsumer<ScallorEvent> implemen
 				try {
 					CounterHepler.increment(GROUP_FOR_OPERA);
 
-					logger.info("{} -->完成{}消息处理 in {} :{}.", CounterHepler.get(GROUP_FOR_OPERA), getCondition(),
-							Thread.currentThread().getName(), event.getMsgId());
+					logger.info("{} -->完成{}消息处理 in {} :{}/{}.", CounterHepler.get(GROUP_FOR_OPERA), getCondition(),
+							Thread.currentThread().getName(), event.getMsgId(), event.getMessageId());
 				} catch (final Exception e) {
 					put(event);
 					logger.error("监听" + getCondition() + "消息异常，重新入池进行等待下次操作！", e);
@@ -70,7 +75,7 @@ public class DemoTagMqConsumer extends AbstractMqConsumer<ScallorEvent> implemen
 	 */
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-	public DemoTagMqConsumer() {
+	public DemoTagMqConsumerStrategy() {
 		super();
 
 		executorService.execute(new AssemblyEventDataTask());
@@ -85,14 +90,20 @@ public class DemoTagMqConsumer extends AbstractMqConsumer<ScallorEvent> implemen
 	 */
 	@Override
 	public ConsumeConcurrentlyStatus consumer(final MessageExt messageExt) {
-		// RocketMQ不保证消息不重复，如果你的业务需要保证严格的不重复消息，需要你自己在业务端去重。
+		final ScallorEvent event = new ScallorEvent();
+		event.setMsgId(messageExt.getMsgId());
 
+		// body and json is JSONEvent
+		final String json = new String(messageExt.getBody(), Charset.forName(CharsetType.UTF8.charset()));
+		logger.info("接收数据：{}.", json);
+
+		final JSONEvent jsonEvent = JsonUtil.fromJson(json, JSONEvent.class);
+		event.setData(jsonEvent.getBody());
+		event.setMessageId(jsonEvent.getMessageId());
+
+		// RocketMQ不保证消息不重复，如果你的业务需要保证严格的不重复消息，需要你自己在业务端去重。
 		// 消费端处理消息的业务逻辑保持幂等性
 		// 保证每条消息都有唯一编号且保证消息处理成功与去重表的日志同时出现
-
-		final ScallorEvent event = new ScallorEvent();
-		event.setData(messageExt.getBody());
-		event.setMsgId(messageExt.getMsgId());
 
 		try {
 			// 放入队列 put/add
@@ -100,7 +111,8 @@ public class DemoTagMqConsumer extends AbstractMqConsumer<ScallorEvent> implemen
 				final long rl = CounterHepler.increment(GROUP_FOR_CONSUMER);
 
 				// (System.currentTimeMillis() - msg.getStoreTimestamp())
-				logger.info("{} --> Receive New Messages[{}]:{}.", rl, getCondition(), event.getMsgId());
+				logger.info("{} --> Receive MessagesID[{}/{}]:{}.", rl, getCondition(), event.getMsgId(),
+						event.getMessageId());
 				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 			}
 		} catch (final Exception e) {

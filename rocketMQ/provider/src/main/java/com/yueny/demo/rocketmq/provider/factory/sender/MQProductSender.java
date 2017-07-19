@@ -1,4 +1,4 @@
-package com.yueny.demo.rocketmq.core.factory.product.sender;
+package com.yueny.demo.rocketmq.provider.factory.sender;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -9,25 +9,24 @@ import org.springframework.stereotype.Component;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.common.message.Message;
-import com.yueny.demo.rocketmq.core.factory.product.MQProductFactory;
+import com.yueny.demo.rocketmq.provider.factory.DemoMQProductFactory;
 
 @Component
 public class MQProductSender {
 	private static final Logger logger = LoggerFactory.getLogger(MQProductSender.class);
-
-	@Autowired(required = false)
-	private MQProductFactory productFactory;
+	@Autowired
+	private DemoMQProductFactory demoMQProductFactory;
 
 	/**
 	 * @param message
 	 * @return 发送结果
 	 */
 	public SendResult send(final Message message) {
-		final DefaultMQProducer producer = productFactory.getProducer();
-		if (producer == null) {
-			logger.warn("producer is null");
+		if (demoMQProductFactory == null) {
+			logger.warn("productFactory is null");
 			return null;
 		}
+		final DefaultMQProducer producer = demoMQProductFactory.getProducer();
 
 		try {
 			final SendResult rs = producer.send(message);

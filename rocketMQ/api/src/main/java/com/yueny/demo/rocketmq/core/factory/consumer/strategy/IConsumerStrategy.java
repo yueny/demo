@@ -4,7 +4,7 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.yueny.superclub.util.strategy.IStrategy;
 
-public interface IConsumer<T> extends IStrategy<T> {
+public interface IConsumerStrategy<T> extends IStrategy<T> {
 	/**
 	 * 消费
 	 */

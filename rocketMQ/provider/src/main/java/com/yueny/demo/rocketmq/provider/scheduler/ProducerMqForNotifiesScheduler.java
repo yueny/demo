@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.yueny.demo.rocketmq.MqConstants;
 import com.yueny.demo.rocketmq.data.JSONEvent;
-import com.yueny.demo.rocketmq.enums.HeaderType;
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
 import com.yueny.rapid.lang.util.UuidUtil;
 
@@ -27,7 +26,7 @@ public class ProducerMqForNotifiesScheduler {
 		for (int i = 0; i < 2; i++) {
 			final String orderNo = UuidUtil.getUUIDForNumber24();
 			final StringBuilder sb = new StringBuilder();
-			sb.append("订单：");
+			sb.append("订单:");
 			sb.append(orderNo);
 			sb.append("总耗时:46201毫秒!");
 			sb.append("总处理数目[平账/不平账/异常]:");
@@ -40,7 +39,7 @@ public class ProducerMqForNotifiesScheduler {
 			try {
 				final JSONEvent data = new JSONEvent();
 				data.setBody(sb.toString().getBytes(data.getCharset().charset()));
-				data.addHeaders(HeaderType.MESSAGE_ID, orderNo);
+				data.setMessageId(orderNo);
 
 				messageNotifiesWorkflow.message(MqConstants.Topic.MQ_DEMO_TOPIC_TEST, MqConstants.Tags.MQ_DEMO_TAG_MSG,
 						data);

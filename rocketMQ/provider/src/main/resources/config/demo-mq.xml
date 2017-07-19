@@ -10,7 +10,7 @@
 	
 	<bean class="com.yueny.superclub.util.strategy.spring.ManageSpringBeans" lazy-init="false" />
 	
-	<bean id="productFactory" class="com.yueny.demo.rocketmq.core.factory.product.MQProductFactory"
+	<bean id="demoMQProductFactory" class="com.yueny.demo.rocketmq.provider.factory.DemoMQProductFactory"
 		p:namesrvAddr="${mq.namesrv.producer.address}" scope="singleton">
         <property name="producerGroup" value="${mq.producer.group}"/>
     </bean>

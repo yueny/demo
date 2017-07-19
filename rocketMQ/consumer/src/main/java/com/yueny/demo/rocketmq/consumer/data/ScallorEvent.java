@@ -19,9 +19,15 @@ public class ScallorEvent extends AbstractMaskBo {
 	 * 数据
 	 */
 	@Setter
-	private byte[] data;
+	private String data;
 	/**
-	 * msgId
+	 * 业务方传递的messageId
+	 */
+	@Getter
+	@Setter
+	private String messageId;
+	/**
+	 * MQ msgId
 	 */
 	@Getter
 	@Setter

@@ -3,10 +3,7 @@
  */
 package com.yueny.demo.rocketmq.data;
 
-import java.util.Map;
-
 import com.yueny.demo.rocketmq.enums.CharsetType;
-import com.yueny.demo.rocketmq.enums.HeaderType;
 
 /**
  * data object in notifies
@@ -17,18 +14,6 @@ import com.yueny.demo.rocketmq.enums.HeaderType;
  *
  */
 public interface Event {
-	/**
-	 * @param headerType
-	 *            头枚举
-	 * @param headerContent
-	 *            header内容
-	 */
-	void addHeaders(HeaderType headerType, String headerContent);
-
-	/**
-	 * Map of headers to replace the current headers.
-	 */
-	void addHeaders(Map<HeaderType, String> headers);
 
 	/**
 	 * Returns the raw byte array of the data contained in this event.
@@ -40,11 +25,28 @@ public interface Event {
 	 */
 	CharsetType getCharset();
 
-	Map<HeaderType, String> getHeaders();
+	/**
+	 * @return 业务方传递的 messageId，用于区别业务标识
+	 */
+	String getMessageId();
 
 	/**
 	 * @param charset
 	 *            编码集
 	 */
 	void setCharset(final CharsetType charset);
+	// /**
+	// * @param headerType
+	// * 头枚举
+	// * @param headerContent
+	// * header内容
+	// */
+	// void addHeaders(HeaderType headerType, String headerContent);
+	//
+	// /**
+	// * Map of headers to replace the current headers.
+	// */
+	// void addHeaders(Map<HeaderType, String> headers);
+	// Map<HeaderType, String> getHeaders();
+
 }
