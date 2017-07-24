@@ -16,14 +16,14 @@ import com.yueny.demo.rocketmq.enums.CharsetType;
 public interface Event {
 
 	/**
-	 * Returns the raw byte array of the data contained in this event.
-	 */
-	String getBody();
-
-	/**
 	 * @return 编码集
 	 */
 	CharsetType getCharset();
+
+	/**
+	 * Returns the raw byte array of the data contained in this event.
+	 */
+	String getData();
 
 	/**
 	 * @return 业务方传递的 messageId，用于区别业务标识

@@ -24,10 +24,11 @@ import lombok.Getter;
  *
  * @DATE 2017年7月12日 上午11:19:30
  */
-public abstract class BaseProductForMQFactory implements InitializingBean, DisposableBean {
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+public abstract class BaseProductForMQFactory implements IProducerForMQFactory, InitializingBean, DisposableBean {
 	@Getter
 	private DefaultMQProducer producer;
+
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public void afterPropertiesSet() throws Exception {
 		try {

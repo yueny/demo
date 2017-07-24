@@ -37,9 +37,7 @@ public class ProducerMqForNotifiesScheduler {
 			sb.append("OVER");
 
 			try {
-				final JSONEvent data = new JSONEvent();
-				data.setBody(sb.toString().getBytes(data.getCharset().charset()));
-				data.setMessageId(orderNo);
+				final JSONEvent data = JSONEvent.builder().data(sb.toString()).messageId(orderNo).build();
 
 				messageNotifiesWorkflow.message(MqConstants.Topic.MQ_DEMO_TOPIC_TEST, MqConstants.Tags.MQ_DEMO_TAG_MSG,
 						data);

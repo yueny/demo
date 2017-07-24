@@ -1,6 +1,5 @@
 package com.yueny.demo.rocketmq.consumer.factory.strategy;
 
-import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +14,6 @@ import com.yueny.demo.rocketmq.consumer.data.ScallorEvent;
 import com.yueny.demo.rocketmq.core.factory.consumer.strategy.AbstractMqConsumerStrategy;
 import com.yueny.demo.rocketmq.core.factory.consumer.strategy.IConsumerStrategy;
 import com.yueny.demo.rocketmq.data.JSONEvent;
-import com.yueny.demo.rocketmq.enums.CharsetType;
 import com.yueny.rapid.lang.json.JsonUtil;
 
 /**
@@ -90,16 +88,14 @@ public class DemoTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Scallo
 	 */
 	@Override
 	public ConsumeConcurrentlyStatus consumer(final MessageExt messageExt) {
-		final ScallorEvent event = new ScallorEvent();
-		event.setMsgId(messageExt.getMsgId());
-
 		// body and json is JSONEvent
-		final String json = new String(messageExt.getBody(), Charset.forName(CharsetType.UTF8.charset()));
-		logger.info("接收数据：{}.", json);
+		final String json = new String(messageExt.getBody(), MqConstants.DEFAULT_CHARSET_TYPE);
+		logger.debug("接收数据：{}.", json);
 
 		final JSONEvent jsonEvent = JsonUtil.fromJson(json, JSONEvent.class);
-		event.setData(jsonEvent.getBody());
-		event.setMessageId(jsonEvent.getMessageId());
+
+		final ScallorEvent event = ScallorEvent.builder().msgId(messageExt.getMsgId()).data(jsonEvent.getData())
+				.messageId(jsonEvent.getMessageId()).build();
 
 		// RocketMQ不保证消息不重复，如果你的业务需要保证严格的不重复消息，需要你自己在业务端去重。
 		// 消费端处理消息的业务逻辑保持幂等性

@@ -1,5 +1,9 @@
 package com.yueny.demo.rocketmq;
 
+import java.nio.charset.Charset;
+
+import com.yueny.demo.rocketmq.enums.CharsetType;
+
 /**
  * @author yueny09 <deep_blue_yang@163.com>
  *
@@ -45,5 +49,10 @@ public class MqConstants {
 		 */
 		MQ_DEMO_TOPIC_TEST;
 	}
+
+	/**
+	 * 默认编码
+	 */
+	public static Charset DEFAULT_CHARSET_TYPE = Charset.forName(CharsetType.UTF8.charset());
 
 }

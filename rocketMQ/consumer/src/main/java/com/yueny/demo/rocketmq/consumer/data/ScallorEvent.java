@@ -5,8 +5,9 @@ package com.yueny.demo.rocketmq.consumer.data;
 
 import com.yueny.rapid.lang.mask.pojo.instance.AbstractMaskBo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -14,23 +15,23 @@ import lombok.Setter;
  * @DATE 2016年7月19日 上午9:18:45
  *
  */
+@Builder
+@AllArgsConstructor
 public class ScallorEvent extends AbstractMaskBo {
 	/**
 	 * 数据
 	 */
-	@Setter
-	private String data;
+	@Getter
+	private final String data;
 	/**
 	 * 业务方传递的messageId
 	 */
 	@Getter
-	@Setter
-	private String messageId;
+	private final String messageId;
 	/**
 	 * MQ msgId
 	 */
 	@Getter
-	@Setter
-	private String msgId;
+	private final String msgId;
 
 }

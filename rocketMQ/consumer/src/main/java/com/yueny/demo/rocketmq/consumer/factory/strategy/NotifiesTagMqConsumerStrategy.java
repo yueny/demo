@@ -1,6 +1,5 @@
 package com.yueny.demo.rocketmq.consumer.factory.strategy;
 
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -18,7 +17,6 @@ import com.yueny.demo.rocketmq.consumer.data.ScallorEvent;
 import com.yueny.demo.rocketmq.core.factory.consumer.strategy.AbstractMqConsumerStrategy;
 import com.yueny.demo.rocketmq.core.factory.consumer.strategy.IConsumerStrategy;
 import com.yueny.demo.rocketmq.data.JSONEvent;
-import com.yueny.demo.rocketmq.enums.CharsetType;
 import com.yueny.rapid.lang.json.JsonUtil;
 
 /**
@@ -109,14 +107,12 @@ public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Sc
 
 	@Override
 	public ConsumeConcurrentlyStatus consumer(final MessageExt messageExt) {
-		final ScallorEvent event = new ScallorEvent();
-		event.setMsgId(messageExt.getMsgId());
-
 		// body and json is JSONEvent
-		final String json = new String(messageExt.getBody(), Charset.forName(CharsetType.UTF8.charset()));
+		final String json = new String(messageExt.getBody(), MqConstants.DEFAULT_CHARSET_TYPE);
 		final JSONEvent jsonEvent = JsonUtil.fromJson(json, JSONEvent.class);
-		event.setData(jsonEvent.getBody());
-		event.setMessageId(jsonEvent.getMessageId());
+
+		final ScallorEvent event = ScallorEvent.builder().msgId(messageExt.getMsgId()).data(jsonEvent.getData())
+				.messageId(jsonEvent.getMessageId()).build();
 
 		// 幂等性
 

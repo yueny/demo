@@ -2,7 +2,6 @@ package com.yueny.demo.rocketmq.provider.message.impl;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +9,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.rocketmq.client.producer.SendResult;
-import com.alibaba.rocketmq.client.producer.SendStatus;
 import com.alibaba.rocketmq.common.message.Message;
 import com.yueny.demo.rocketmq.MqConstants;
+import com.yueny.demo.rocketmq.core.factory.product.helper.ProducerSendHelper;
 import com.yueny.demo.rocketmq.data.Event;
-import com.yueny.demo.rocketmq.provider.factory.sender.MQProductSender;
+import com.yueny.demo.rocketmq.provider.factory.DemoMQProductFactory;
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
 import com.yueny.rapid.lang.json.JsonUtil;
 import com.yueny.rapid.lang.util.StringUtil;
@@ -30,18 +28,10 @@ import com.yueny.rapid.lang.util.StringUtil;
  */
 @Service
 public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, InitializingBean {
-	/**
-	 * 发送失败数量
-	 */
-	private final AtomicLong failCounter = new AtomicLong(0L);
-	private final Logger logger = LoggerFactory.getLogger(MessageNotifiesWorkflowImpl.class);
-
 	@Autowired
-	private MQProductSender mqProductSender;
-	/**
-	 * 发送成功数量
-	 */
-	private final AtomicLong successCounter = new AtomicLong(0L);
+	private DemoMQProductFactory demoMQProductFactory;
+
+	private final Logger logger = LoggerFactory.getLogger(MessageNotifiesWorkflowImpl.class);
 
 	@Override
 	public void afterPropertiesSet() {
@@ -62,32 +52,19 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 		 * 需要对这种情况做处理。另外，消息可能会存在发送失败的情况，失败重试由应用来处理。
 		 */
 		for (final Event ev : event) {
-			try {
-				final String json = JsonUtil.toJson(ev);
+			final String json = JsonUtil.toJson(ev);
 
-				// Create a message instance, specifying topic, tag and message
-				// body.
-				final Message msg = new Message(topic.name(), // topic
-						tag.name(), // tag
-						(StringUtil.isEmpty(ev.getMessageId()) ? ev.getMessageId() : ""), json.getBytes());
+			// Create a message instance, specifying topic, tag and message
+			// body.
+			final Message msg = new Message(topic.name(), // topic
+					tag.name(), // tag
+					(StringUtil.isEmpty(ev.getMessageId()) ? ev.getMessageId() : ""),
+					json.getBytes(MqConstants.DEFAULT_CHARSET_TYPE));
 
-				// This message will be delivered to consumer 10 seconds later.
-				// msg.setDelayTimeLevel(3);
+			// This message will be delivered to consumer 10 seconds later.
+			// msg.setDelayTimeLevel(3);
 
-				final SendResult sendResult = mqProductSender.send(msg);
-				if (sendResult == null || sendResult.getSendStatus() != SendStatus.SEND_OK) {
-					failCounter.incrementAndGet();
-					logger.info("{}/{} [S]消息msgId/messageId:{}/{} 通知失败!.", successCounter.get(), failCounter.get(),
-							sendResult.getMsgId(), ev.getMessageId());
-				} else {
-					successCounter.incrementAndGet();
-					logger.info("{}/{} [S]消息msgId/messageId:{}/{}.", successCounter.get(), failCounter.get(),
-							sendResult.getMsgId(), ev.getMessageId());
-				}
-			} catch (final Exception e) {
-				e.printStackTrace();
-				failCounter.incrementAndGet();
-			}
+			ProducerSendHelper.send(demoMQProductFactory, msg, ev);
 		}
 
 		return true;

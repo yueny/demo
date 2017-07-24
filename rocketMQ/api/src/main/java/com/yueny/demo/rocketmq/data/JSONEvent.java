@@ -3,11 +3,12 @@
  */
 package com.yueny.demo.rocketmq.data;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import com.yueny.demo.rocketmq.enums.CharsetType;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,18 +20,21 @@ import lombok.ToString;
  *
  */
 @ToString
+@Builder
+@AllArgsConstructor
 public class JSONEvent implements Event {
-	/**
-	 * 消息内容，该内容中不允许出现Map结构，避免出现JSON格式问题
-	 */
-	@Getter
-	private String body;
 	/**
 	 * 编码集,默认UTF-8
 	 */
 	@Setter
 	@Getter
 	private transient CharsetType charset = CharsetType.UTF8;
+	/**
+	 * 消息内容
+	 */
+	@Getter
+	@Setter
+	private String data;
 	/**
 	 * 业务方传递的 messageId，用于区别业务标识
 	 */
@@ -40,8 +44,9 @@ public class JSONEvent implements Event {
 	/**
 	 * 消息产生时间
 	 */
-	@Setter
-	private Date timer;
+	@Getter
+	private final Date timer = new Date();
+
 	// /**
 	// * 消息头
 	// */
@@ -63,18 +68,5 @@ public class JSONEvent implements Event {
 	// public String GetTimer(){
 	//
 	// }
-
-	public void setBody(final byte[] body) {
-		if (body != null) {
-			try {
-				this.body = new String(body, charset.charset());
-			} catch (final UnsupportedEncodingException e) {
-				// exception
-				e.printStackTrace();
-			}
-		} else {
-			this.body = "";
-		}
-	}
 
 }

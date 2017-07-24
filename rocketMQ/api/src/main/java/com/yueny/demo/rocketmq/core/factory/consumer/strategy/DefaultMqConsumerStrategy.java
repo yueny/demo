@@ -1,14 +1,13 @@
 package com.yueny.demo.rocketmq.core.factory.consumer.strategy;
 
-import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
+import com.yueny.demo.rocketmq.MqConstants;
 import com.yueny.demo.rocketmq.common.CounterHepler;
 import com.yueny.demo.rocketmq.data.JSONEvent;
-import com.yueny.demo.rocketmq.enums.CharsetType;
 import com.yueny.rapid.lang.json.JsonUtil;
 
 /**
@@ -58,7 +57,7 @@ public class DefaultMqConsumerStrategy extends AbstractMqConsumerStrategy<JSONEv
 
 	public ConsumeConcurrentlyStatus consumer(final MessageExt messageExt) {
 		// body and eventJson is JSONEvent
-		final String eventJson = new String(messageExt.getBody(), Charset.forName(CharsetType.UTF8.charset()));
+		final String eventJson = new String(messageExt.getBody(), MqConstants.DEFAULT_CHARSET_TYPE);
 		final JSONEvent event = JsonUtil.fromJson(eventJson, JSONEvent.class);
 
 		// RocketMQ不保证消息不重复，如果你的业务需要保证严格的不重复消息，需要你自己在业务端去重。
