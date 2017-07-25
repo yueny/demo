@@ -3,6 +3,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	
+	<parent>
+		<groupId>com.yueny.base</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.1.1-RELEASE</version>
+	</parent>
+	
 	<groupId>com.yueny.demo</groupId>
 	<artifactId>rocketmq-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -61,12 +67,10 @@
 	    	<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.10</version>
 			</plugin>
 	    </plugins>
 	</build>
