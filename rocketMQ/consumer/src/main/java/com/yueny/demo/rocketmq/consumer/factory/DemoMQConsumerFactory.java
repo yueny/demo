@@ -9,9 +9,9 @@ import com.alibaba.rocketmq.client.consumer.listener.MessageListener;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.common.message.MessageExt;
-import com.yueny.demo.rocketmq.MqConstants;
-import com.yueny.demo.rocketmq.core.factory.consumer.BaseConsumerForMQFactory;
-import com.yueny.demo.rocketmq.core.factory.consumer.strategy.IConsumerStrategy;
+import com.yueny.demo.storage.mq.MqConstantsTest;
+import com.yueny.demo.storage.mq.core.factory.consumer.BaseConsumerForMQFactory;
+import com.yueny.demo.storage.mq.core.factory.consumer.strategy.IConsumerStrategy;
 import com.yueny.superclub.util.strategy.container.IStrategyContainer;
 import com.yueny.superclub.util.strategy.container.StrategyContainerImpl;
 
@@ -34,7 +34,7 @@ public class DemoMQConsumerFactory extends BaseConsumerForMQFactory {
 	@Getter
 	private String consumerGroup;
 
-	private final IStrategyContainer<MqConstants.Tags, IConsumerStrategy<MqConstants.Tags>> container = new StrategyContainerImpl<MqConstants.Tags, IConsumerStrategy<MqConstants.Tags>>() {
+	private final IStrategyContainer<MqConstantsTest.Tags, IConsumerStrategy<MqConstantsTest.Tags>> container = new StrategyContainerImpl<MqConstantsTest.Tags, IConsumerStrategy<MqConstantsTest.Tags>>() {
 		// .
 	};
 
@@ -55,8 +55,8 @@ public class DemoMQConsumerFactory extends BaseConsumerForMQFactory {
 		final MessageExt msg = msgs.get(0);
 
 		try {
-			final IConsumerStrategy<MqConstants.Tags> strategy = container
-					.getStrategy(MqConstants.Tags.valueOf(msg.getTags().trim()));
+			final IConsumerStrategy<MqConstantsTest.Tags> strategy = container
+					.getStrategy(MqConstantsTest.Tags.valueOf(msg.getTags().trim()));
 			if (strategy == null) {
 				return getDefaultMqConsumer().consumer(msg);
 			}
@@ -109,7 +109,7 @@ public class DemoMQConsumerFactory extends BaseConsumerForMQFactory {
 	public void subscribe(final DefaultMQPushConsumer consumer) throws MQClientException {
 		// 订阅
 		// consumer.subscribe("TopicTest", "TagA || TagC || TagD");
-		consumer.subscribe(MqConstants.Topic.MQ_DEMO_TOPIC_TEST.name(), MqConstants.Tags.MQ_DEMO_TAG_MSG.name());
+		consumer.subscribe(MqConstantsTest.Topic.MQ_DEMO_TOPIC_TEST.name(), MqConstantsTest.Tags.MQ_DEMO_TAG_MSG.name());
 	}
 
 }

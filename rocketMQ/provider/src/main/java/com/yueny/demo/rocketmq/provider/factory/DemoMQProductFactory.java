@@ -2,7 +2,7 @@ package com.yueny.demo.rocketmq.provider.factory;
 
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
-import com.yueny.demo.rocketmq.core.factory.product.BaseProductForMQFactory;
+import com.yueny.demo.storage.mq.core.factory.product.BaseProductForMQFactory;
 
 import lombok.Setter;
 

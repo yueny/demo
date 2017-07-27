@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.yueny.demo.rocketmq.MqConstants;
-import com.yueny.demo.rocketmq.data.JSONEvent;
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
+import com.yueny.demo.storage.mq.MqConstantsTest;
+import com.yueny.demo.storage.mq.data.JSONEvent;
 import com.yueny.rapid.lang.util.UuidUtil;
 
 /**
@@ -39,7 +39,7 @@ public class ProducerMqForNotifiesScheduler {
 			try {
 				final JSONEvent data = JSONEvent.builder().data(sb.toString()).messageId(orderNo).build();
 
-				messageNotifiesWorkflow.message(MqConstants.Topic.MQ_DEMO_TOPIC_TEST, MqConstants.Tags.MQ_DEMO_TAG_MSG,
+				messageNotifiesWorkflow.message(MqConstantsTest.Topic.MQ_DEMO_TOPIC_TEST, MqConstantsTest.Tags.MQ_DEMO_TAG_MSG,
 						data);
 			} catch (final Exception e) {
 				e.printStackTrace();

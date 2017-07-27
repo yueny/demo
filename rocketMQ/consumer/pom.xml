@@ -84,7 +84,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.yueny.demo</groupId>
-			<artifactId>rocketmq-api</artifactId>
+			<artifactId>rapid-storage-mq</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		

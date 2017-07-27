@@ -2,8 +2,8 @@ package com.yueny.demo.rocketmq.provider.message;
 
 import java.util.List;
 
-import com.yueny.demo.rocketmq.MqConstants;
-import com.yueny.demo.rocketmq.data.Event;
+import com.yueny.demo.storage.mq.MqConstantsTest;
+import com.yueny.demo.storage.mq.data.Event;
 
 /**
  * 消息发送流程
@@ -18,11 +18,11 @@ public interface IMessageNotifiesWorkflow {
 	 * @param event
 	 *            事件
 	 */
-	boolean message(MqConstants.Topic topic, MqConstants.Tags tag, Event event);
+	boolean message(MqConstantsTest.Topic topic, MqConstantsTest.Tags tag, Event event);
 
 	/**
 	 * @param event
 	 *            事件
 	 */
-	boolean message(MqConstants.Topic topic, MqConstants.Tags tag, List<Event> event);
+	boolean message(MqConstantsTest.Topic topic, MqConstantsTest.Tags tag, List<Event> event);
 }

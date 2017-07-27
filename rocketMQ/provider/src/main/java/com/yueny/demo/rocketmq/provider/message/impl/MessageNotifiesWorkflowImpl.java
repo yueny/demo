@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.rocketmq.common.message.Message;
-import com.yueny.demo.rocketmq.MqConstants;
-import com.yueny.demo.rocketmq.core.factory.product.helper.ProducerSendHelper;
-import com.yueny.demo.rocketmq.data.Event;
 import com.yueny.demo.rocketmq.provider.factory.DemoMQProductFactory;
 import com.yueny.demo.rocketmq.provider.message.IMessageNotifiesWorkflow;
+import com.yueny.demo.storage.mq.MqConstantsTest;
+import com.yueny.demo.storage.mq.core.factory.product.helper.ProducerSendHelper;
+import com.yueny.demo.storage.mq.data.Event;
 import com.yueny.rapid.lang.json.JsonUtil;
 import com.yueny.rapid.lang.util.StringUtil;
 
@@ -39,12 +39,12 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 	}
 
 	@Override
-	public boolean message(final MqConstants.Topic topic, final MqConstants.Tags tag, final Event event) {
+	public boolean message(final MqConstantsTest.Topic topic, final MqConstantsTest.Tags tag, final Event event) {
 		return message(topic, tag, Arrays.asList(event));
 	}
 
 	@Override
-	public boolean message(final MqConstants.Topic topic, final MqConstants.Tags tag, final List<Event> event) {
+	public boolean message(final MqConstantsTest.Topic topic, final MqConstantsTest.Tags tag, final List<Event> event) {
 		/**
 		 * 下面这段代码表明一个Producer对象可以发送多个topic，多个tag的消息。
 		 * 注意：send方法是同步调用，只要不抛异常就标识成功。但是发送成功也可会有多种状态，<br>
@@ -59,7 +59,7 @@ public class MessageNotifiesWorkflowImpl implements IMessageNotifiesWorkflow, In
 			final Message msg = new Message(topic.name(), // topic
 					tag.name(), // tag
 					(StringUtil.isEmpty(ev.getMessageId()) ? ev.getMessageId() : ""),
-					json.getBytes(MqConstants.DEFAULT_CHARSET_TYPE));
+					json.getBytes(MqConstantsTest.DEFAULT_CHARSET_TYPE));
 
 			// This message will be delivered to consumer 10 seconds later.
 			// msg.setDelayTimeLevel(3);

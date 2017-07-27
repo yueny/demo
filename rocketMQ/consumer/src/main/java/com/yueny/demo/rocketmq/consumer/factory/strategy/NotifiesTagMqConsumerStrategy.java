@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
-import com.yueny.demo.rocketmq.MqConstants;
-import com.yueny.demo.rocketmq.MqConstants.Tags;
-import com.yueny.demo.rocketmq.common.CounterHepler;
 import com.yueny.demo.rocketmq.consumer.data.ScallorEvent;
-import com.yueny.demo.rocketmq.core.factory.consumer.strategy.AbstractMqConsumerStrategy;
-import com.yueny.demo.rocketmq.core.factory.consumer.strategy.IConsumerStrategy;
-import com.yueny.demo.rocketmq.data.JSONEvent;
+import com.yueny.demo.storage.mq.MqConstantsTest;
+import com.yueny.demo.storage.mq.MqConstantsTest.Tags;
+import com.yueny.demo.storage.mq.common.CounterHepler;
+import com.yueny.demo.storage.mq.core.factory.consumer.strategy.AbstractMqConsumerStrategy;
+import com.yueny.demo.storage.mq.core.factory.consumer.strategy.IConsumerStrategy;
+import com.yueny.demo.storage.mq.data.JSONEvent;
 import com.yueny.rapid.lang.json.JsonUtil;
 
 /**
@@ -28,7 +28,7 @@ import com.yueny.rapid.lang.json.JsonUtil;
  */
 @Service
 public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<ScallorEvent>
-		implements IConsumerStrategy<MqConstants.Tags> {
+		implements IConsumerStrategy<MqConstantsTest.Tags> {
 	/**
 	 * 数据组装任务
 	 */
@@ -108,7 +108,7 @@ public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Sc
 	@Override
 	public ConsumeConcurrentlyStatus consumer(final MessageExt messageExt) {
 		// body and json is JSONEvent
-		final String json = new String(messageExt.getBody(), MqConstants.DEFAULT_CHARSET_TYPE);
+		final String json = new String(messageExt.getBody(), MqConstantsTest.DEFAULT_CHARSET_TYPE);
 		final JSONEvent jsonEvent = JsonUtil.fromJson(json, JSONEvent.class);
 
 		final ScallorEvent event = ScallorEvent.builder().msgId(messageExt.getMsgId()).data(jsonEvent.getData())
@@ -132,7 +132,7 @@ public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Sc
 
 	@Override
 	public Tags getCondition() {
-		return MqConstants.Tags.MQ_NOTIFIES_TAG_MSG;
+		return MqConstantsTest.Tags.MQ_NOTIFIES_TAG_MSG;
 	}
 
 }
