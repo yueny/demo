@@ -55,7 +55,7 @@
 	
 	<modules>
 		<module>springjob</module>
-		<module>elasticjob</module>
+		<module>job_elastic</module>
 		<module>tbschedulejob</module>
 	</modules>
 	
