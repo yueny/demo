@@ -61,6 +61,17 @@ public class ProductGroupsFactoryManager {
 		logger.info("注销{}成功!", producerGroup);
 	}
 
+	/**
+	 * 是否存在
+	 */
+	public static boolean isExist(final String producerGroup) {
+		if (mqCachedProducer == null || mqCachedProducer.isEmpty()) {
+			return false;
+		}
+
+		return mqCachedProducer.containsKey(producerGroup);
+	}
+
 	public static synchronized boolean reg(final DefaultMQProducer producer) throws Exception {
 		if (mqCachedProducer.containsKey(producer.getProducerGroup())) {
 			logger.warn("producer：{} 已注册，跳过~!", producer.getProducerGroup());

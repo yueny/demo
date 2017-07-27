@@ -25,16 +25,26 @@ import lombok.Getter;
  * @DATE 2017年7月12日 上午11:19:30
  */
 public abstract class BaseProductForMQFactory implements IProducerForMQFactory, InitializingBean, DisposableBean {
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Getter
 	private DefaultMQProducer producer;
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
-
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		try {
 			producer = createProducer();
 
+			if (ProductGroupsFactoryManager.isExist(producer.getProducerGroup())) {
+				logger.warn("producer:{} isExist.", producer);
+				return;
+			}
+
 			if (ProductGroupsFactoryManager.reg(producer)) {
+				/**
+				 * Producer对象在使用之前必须要调用start初始化，初始化一次即可<br>
+				 * 注意：切记不可以在每次发送消息时，都调用start方法
+				 */
 				producer.start();
 				logger.info("producer Started.");
 			} else {
@@ -56,6 +66,7 @@ public abstract class BaseProductForMQFactory implements IProducerForMQFactory, 
 	 *
 	 * @see org.springframework.beans.factory.DisposableBean#destroy()
 	 */
+	@Override
 	public void destroy() {
 		ProductGroupsFactoryManager.destroy(producer.getProducerGroup());
 

@@ -25,7 +25,8 @@ public class DemoMQProductFactory extends BaseProductForMQFactory {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.yueny.demo.rocketmq.core.factory.product.BaseMQProductFactory#
+	 * @see
+	 * com.yueny.demo.storage.mq.core.factory.product.BaseProductForMQFactory#
 	 * createProducer()
 	 */
 	@Override
@@ -34,7 +35,7 @@ public class DemoMQProductFactory extends BaseProductForMQFactory {
 
 		// eg: 192.168.100.145:9876;192.168.100.146:9876
 		producer.setNamesrvAddr(namesrvAddr);
-		producer.setInstanceName("Producer");
+		producer.setInstanceName("Producer" + String.valueOf(System.currentTimeMillis()));
 		/*
 		 * Producer往MQ上发消息没有发送成功，我们可以设置发送失败重试的次数
 		 *
