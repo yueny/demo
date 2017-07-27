@@ -44,6 +44,14 @@
 	        <artifactId>spring-beans</artifactId>
 	        <version>4.3.3.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.alibaba.rocketmq</groupId>
+			<artifactId>rocketmq-client</artifactId>
+			<version>${rocketmq.version}</version>
+		</dependency>
+		
+		<!-- 依赖作废
 		<dependency>
 	        <groupId>org.springframework</groupId>
 	        <artifactId>spring-context</artifactId>
@@ -54,12 +62,7 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.alibaba.rocketmq</groupId>
-			<artifactId>rocketmq-client</artifactId>
-			<version>${rocketmq.version}</version>
-		</dependency>
+		 -->
 	</dependencies>
 
 	<build>
