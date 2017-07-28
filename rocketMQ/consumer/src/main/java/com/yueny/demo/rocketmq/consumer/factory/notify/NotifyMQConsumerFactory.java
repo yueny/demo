@@ -1,4 +1,4 @@
-package com.yueny.demo.rocketmq.consumer.factory;
+package com.yueny.demo.rocketmq.consumer.factory.notify;
 
 import java.util.List;
 
@@ -19,14 +19,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 消费工厂<br>
+ * 发送 notify 消息的消费工厂<br>
  *
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2016年3月13日 下午3:16:59
  *
  */
-public class DemoMQConsumerFactory extends BaseConsumerForMQFactory {
+public class NotifyMQConsumerFactory extends BaseConsumerForMQFactory {
 	/**
 	 *
 	 */
@@ -34,19 +34,24 @@ public class DemoMQConsumerFactory extends BaseConsumerForMQFactory {
 	@Getter
 	private String consumerGroup;
 
-	private final IStrategyContainer<MqConstantsTest.Tags, IConsumerStrategy<MqConstantsTest.Tags>> container = new StrategyContainerImpl<MqConstantsTest.Tags, IConsumerStrategy<MqConstantsTest.Tags>>() {
+	private final IStrategyContainer<MqConstantsTest.TagsN, IConsumerStrategy<MqConstantsTest.TagsN>> container = new StrategyContainerImpl<MqConstantsTest.TagsN, IConsumerStrategy<MqConstantsTest.TagsN>>() {
 		// .
 	};
 
-	@Setter
-	@Getter
-	private String namesrvAddr;
-	/**
-	 * 消息失败后的再重试次数，默认重试2次
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * com.yueny.demo.rocketmq.core.factory.consumer.BaseConsumerForMQFactory#
+	 * subscribe(com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer)
 	 */
-	@Setter
-	@Getter
-	private int retryTimes = 2;
+	@Override
+	public void subscribe(final DefaultMQPushConsumer consumer) throws MQClientException {
+		// 订阅
+		// consumer.subscribe("TopicTest", "TagA || TagC || TagD");
+		consumer.subscribe(MqConstantsTest.Topic.MQ_DEMO_TOPIC_TEST.name(),
+				MqConstantsTest.TagsN.MQ_NOTIFIES_TAG_MSG.name());
+	}
 
 	/**
 	 * 消息消费处理
@@ -55,8 +60,8 @@ public class DemoMQConsumerFactory extends BaseConsumerForMQFactory {
 		final MessageExt msg = msgs.get(0);
 
 		try {
-			final IConsumerStrategy<MqConstantsTest.Tags> strategy = container
-					.getStrategy(MqConstantsTest.Tags.valueOf(msg.getTags().trim()));
+			final IConsumerStrategy<MqConstantsTest.TagsN> strategy = container
+					.getStrategy(MqConstantsTest.TagsN.valueOf(msg.getTags().trim()));
 			if (strategy == null) {
 				return getDefaultMqConsumer().consumer(msg);
 			}
@@ -96,20 +101,6 @@ public class DemoMQConsumerFactory extends BaseConsumerForMQFactory {
 			}
 		};
 		return messageListener;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * com.yueny.demo.rocketmq.core.factory.consumer.BaseConsumerForMQFactory#
-	 * subscribe(com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer)
-	 */
-	@Override
-	public void subscribe(final DefaultMQPushConsumer consumer) throws MQClientException {
-		// 订阅
-		// consumer.subscribe("TopicTest", "TagA || TagC || TagD");
-		consumer.subscribe(MqConstantsTest.Topic.MQ_DEMO_TOPIC_TEST.name(), MqConstantsTest.Tags.MQ_DEMO_TAG_MSG.name());
 	}
 
 }

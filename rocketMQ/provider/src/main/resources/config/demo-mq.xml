@@ -10,9 +10,14 @@
 	
 	<bean class="com.yueny.superclub.util.strategy.spring.ManageSpringBeans" lazy-init="false" />
 	
-	<bean id="demoMQProductFactory" class="com.yueny.demo.rocketmq.provider.factory.DemoMQProductFactory"
-		p:namesrvAddr="${mq.namesrv.producer.address}" scope="singleton">
-        <property name="producerGroup" value="${mq.producer.group}"/>
+	<bean id="notifyProducerFactory" class="com.yueny.demo.rocketmq.provider.factory.NotifyMQProductFactory"
+		p:namesrvAddr="${mq.namesrv.notify.producer.address}" scope="singleton">
+        <property name="producerGroup" value="${mq.notify.producer.group}"/>
+    </bean>
+    
+    <bean id="transProducerFactory" class="com.yueny.demo.rocketmq.provider.factory.NotifyMQProductFactory"
+		p:namesrvAddr="${mq.namesrv.trans.producer.address}">
+        <property name="producerGroup" value="${mq.trans.producer.group}"/>
     </bean>
     
 </beans>

@@ -1,4 +1,4 @@
-package com.yueny.demo.storage.mq.core.factory.consumer.strategy;
+package com.yueny.demo.storage.mq.core.factory.consumer.core;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -11,12 +11,12 @@ import lombok.Setter;
 
 /**
  * 抽象策略执行类
- * 
+ *
  * @author yueny
  *
  * @param <T>
  */
-public abstract class AbstractMqConsumerStrategy<T> {
+public abstract class AbstractMqConsumer<T> implements IConsumer {
 	/**
 	 * 阻塞队列大小, 默认2000
 	 */
@@ -28,14 +28,14 @@ public abstract class AbstractMqConsumerStrategy<T> {
 	@Setter
 	private int capacity = DEFAULT_CAPACITY;
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	/**
 	 * MQ数据源内部维护的阻塞队列<br>
 	 */
 	@Getter
 	private final BlockingQueue<T> queue;
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public AbstractMqConsumerStrategy() {
+	public AbstractMqConsumer() {
 		// 阻塞队列,先进先出, 每次操作的是队列头
 		queue = new ArrayBlockingQueue<T>(capacity);
 	}

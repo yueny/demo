@@ -34,12 +34,22 @@ import lombok.Setter;
  * @DATE 2016年3月13日 下午3:16:59
  *
  */
-public abstract class BaseConsumerForMQFactory implements InitializingBean, DisposableBean {
+public abstract class BaseConsumerForMQFactory implements IConsumerFactory, InitializingBean, DisposableBean {
 	@Getter
 	private DefaultMQPushConsumer consumer;
 	@Getter
 	@Setter
 	private DefaultMqConsumerStrategy defaultMqConsumer = new DefaultMqConsumerStrategy();
+	@Setter
+	@Getter
+	private String namesrvAddr;
+
+	/**
+	 * 消息失败后的再重试次数，超过次数还失败则认定为成功。默认重试2次
+	 */
+	@Setter
+	@Getter
+	private int retryTimes = 2;
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -48,6 +58,7 @@ public abstract class BaseConsumerForMQFactory implements InitializingBean, Disp
 	 *
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		try {
 			consumer = createPushConsumer();
@@ -62,6 +73,28 @@ public abstract class BaseConsumerForMQFactory implements InitializingBean, Disp
 			logger.error("订阅消息异常！", e);
 		}
 	}
+
+	/**
+	 * Spring bean destroy-method
+	 *
+	 * @see org.springframework.beans.factory.DisposableBean#destroy()
+	 */
+	@Override
+	public void destroy() throws Exception {
+		ConsumerGroupsFactoryManager.destroy(consumer.getConsumerGroup());
+
+		logger.info("注销成功");
+	}
+
+	/**
+	 * @return consumerGroup
+	 */
+	public abstract String getConsumerGroup();
+
+	/**
+	 * 订阅
+	 */
+	public abstract void subscribe(DefaultMQPushConsumer consumer) throws MQClientException;
 
 	/**
 	 * 默认创建Producer的逻辑，如需覆盖，请注意不需要进行启动操作
@@ -132,34 +165,8 @@ public abstract class BaseConsumerForMQFactory implements InitializingBean, Disp
 	}
 
 	/**
-	 * Spring bean destroy-method
-	 *
-	 * @see org.springframework.beans.factory.DisposableBean#destroy()
-	 */
-	public void destroy() throws Exception {
-		ConsumerGroupsFactoryManager.destroy(consumer.getConsumerGroup());
-
-		logger.info("注销成功");
-	}
-
-	/**
-	 * @return consumerGroup
-	 */
-	public abstract String getConsumerGroup();
-
-	/**
-	 * @return namesrvAddr
-	 */
-	public abstract String getNamesrvAddr();
-
-	/**
 	 * MessageListener
 	 */
 	protected abstract MessageListener messageListener();
-
-	/**
-	 * 订阅
-	 */
-	public abstract void subscribe(DefaultMQPushConsumer consumer) throws MQClientException;
 
 }

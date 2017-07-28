@@ -12,18 +12,14 @@ import com.yueny.demo.storage.mq.enums.CharsetType;
  */
 public class MqConstantsTest {
 	/**
-	 * tags<br>
+	 * notify tags<br>
 	 *
 	 * @author yueny09 <deep_blue_yang@163.com>
 	 *
 	 * @DATE 2016年8月23日 上午10:36:55
 	 *
 	 */
-	public enum Tags {
-		/**
-		 * 仅供测试
-		 */
-		MQ_DEMO_TAG_MSG,
+	public enum TagsN {
 		/**
 		 * tags:消息
 		 */
@@ -33,6 +29,21 @@ public class MqConstantsTest {
 		// */
 		// NOTIFIES_TAG_WARNING
 		;
+	}
+
+	/**
+	 * trans tags<br>
+	 *
+	 * @author yueny09 <deep_blue_yang@163.com>
+	 *
+	 * @DATE 2016年8月23日 上午10:36:55
+	 *
+	 */
+	public enum TagsT {
+		/**
+		 * tags:交易
+		 */
+		MQ_TRANS_TAG_MSG;
 	}
 
 	/**

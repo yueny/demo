@@ -10,11 +10,16 @@
 	
 	<bean class="com.yueny.superclub.util.strategy.spring.ManageSpringBeans" lazy-init="false" />
 	
-	<!--  init-method="init" destroy-method="destroy" -->
-	<bean id="demoConsumerFactory" class="com.yueny.demo.rocketmq.consumer.factory.DemoMQConsumerFactory" 
-		p:namesrvAddr="${mq.namesrv.consumer.address}">
-        <property name="consumerGroup" value="${mq.consumer.group}"/>
+	<bean id="notifyConsumerFactory" class="com.yueny.demo.rocketmq.consumer.factory.notify.NotifyMQConsumerFactory"
+		p:namesrvAddr="${mq.namesrv.notify.consumer.address}">
+        <property name="consumerGroup" value="${mq.notify.consumer.group}"/>
         <property name="retryTimes" value="1"/>
     </bean>
 	
+	<bean id="transMQConsumerFactory" class="com.yueny.demo.rocketmq.consumer.factory.trans.TransMQConsumerFactory"
+		p:namesrvAddr="${mq.namesrv.trans.consumer.address}">
+        <property name="consumerGroup" value="${mq.trans.consumer.group}"/>
+        <property name="retryTimes" value="1"/>
+    </bean>
+    
 </beans>

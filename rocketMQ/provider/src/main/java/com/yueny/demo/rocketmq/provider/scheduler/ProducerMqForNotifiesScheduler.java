@@ -39,8 +39,8 @@ public class ProducerMqForNotifiesScheduler {
 			try {
 				final JSONEvent data = JSONEvent.builder().data(sb.toString()).messageId(orderNo).build();
 
-				messageNotifiesWorkflow.message(MqConstantsTest.Topic.MQ_DEMO_TOPIC_TEST, MqConstantsTest.Tags.MQ_DEMO_TAG_MSG,
-						data);
+				messageNotifiesWorkflow.message(MqConstantsTest.Topic.MQ_DEMO_TOPIC_TEST,
+						MqConstantsTest.TagsN.MQ_NOTIFIES_TAG_MSG, data);
 			} catch (final Exception e) {
 				e.printStackTrace();
 			} finally {

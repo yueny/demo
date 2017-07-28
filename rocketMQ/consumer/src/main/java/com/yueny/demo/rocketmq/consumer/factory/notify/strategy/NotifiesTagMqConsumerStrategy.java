@@ -1,4 +1,4 @@
-package com.yueny.demo.rocketmq.consumer.factory.strategy;
+package com.yueny.demo.rocketmq.consumer.factory.notify.strategy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,9 +12,9 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.yueny.demo.rocketmq.consumer.data.ScallorEvent;
 import com.yueny.demo.storage.mq.MqConstantsTest;
-import com.yueny.demo.storage.mq.MqConstantsTest.Tags;
+import com.yueny.demo.storage.mq.MqConstantsTest.TagsN;
 import com.yueny.demo.storage.mq.common.CounterHepler;
-import com.yueny.demo.storage.mq.core.factory.consumer.strategy.AbstractMqConsumerStrategy;
+import com.yueny.demo.storage.mq.core.factory.consumer.core.AbstractMqConsumer;
 import com.yueny.demo.storage.mq.core.factory.consumer.strategy.IConsumerStrategy;
 import com.yueny.demo.storage.mq.data.JSONEvent;
 import com.yueny.rapid.lang.json.JsonUtil;
@@ -27,8 +27,8 @@ import com.yueny.rapid.lang.json.JsonUtil;
  * @DATE 2016年3月13日 下午3:15:14
  */
 @Service
-public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<ScallorEvent>
-		implements IConsumerStrategy<MqConstantsTest.Tags> {
+public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumer<ScallorEvent>
+		implements IConsumerStrategy<MqConstantsTest.TagsN> {
 	/**
 	 * 数据组装任务
 	 */
@@ -56,10 +56,11 @@ public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Sc
 				}
 
 				try {
-					CounterHepler.increment();
+					CounterHepler.increment(GROUP_FOR_CONSUMER_END);
 
-					logger.info("{} -->完成{}消息处理 in {} :{}/{}.", CounterHepler.get(), getCondition(),
-							Thread.currentThread().getName(), event.getMsgId(), event.getMessageId());
+					logger.info("{}/{} -->完成{}消息处理 in {} :{}/{}.", CounterHepler.get(GROUP_FOR_CONSUMER_END),
+							GROUP_FOR_CONSUMER_END, getCondition(), Thread.currentThread().getName(), event.getMsgId(),
+							event.getMessageId());
 				} catch (final Exception e) {
 					put(event);
 					logger.error("监听" + getCondition() + "消息异常，重新入池进行等待下次操作！", e);
@@ -73,6 +74,10 @@ public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Sc
 	 * 保证任务由一个线程串行执行
 	 */
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+	// Counter for Consumer
+	private final String GROUP_FOR_CONSUMER = getCondition().name();
+	private final String GROUP_FOR_CONSUMER_END = GROUP_FOR_CONSUMER + "_OPERA";
 
 	public NotifiesTagMqConsumerStrategy() {
 		super();
@@ -119,9 +124,10 @@ public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Sc
 		try {
 			// 放入队列 put/add
 			if (super.put(event)) {
-				final long rl = CounterHepler.increment();
+				final long rl = CounterHepler.increment(GROUP_FOR_CONSUMER);
 
-				logger.info("{} --> Receive MessagesID[{}/{}]:{}.", rl, messageExt.getMsgId(), event.getMessageId());
+				logger.info("{}/{} --> Receive MessagesID[{}/{}]:{}.", rl, GROUP_FOR_CONSUMER, messageExt.getMsgId(),
+						event.getMessageId());
 				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 			}
 		} catch (final Exception e) {
@@ -131,8 +137,8 @@ public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Sc
 	}
 
 	@Override
-	public Tags getCondition() {
-		return MqConstantsTest.Tags.MQ_NOTIFIES_TAG_MSG;
+	public TagsN getCondition() {
+		return MqConstantsTest.TagsN.MQ_NOTIFIES_TAG_MSG;
 	}
 
 }

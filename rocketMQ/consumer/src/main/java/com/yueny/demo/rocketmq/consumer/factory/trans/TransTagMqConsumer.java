@@ -1,4 +1,4 @@
-package com.yueny.demo.rocketmq.consumer.factory.strategy;
+package com.yueny.demo.rocketmq.consumer.factory.trans;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,9 +10,10 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.yueny.demo.rocketmq.consumer.data.ScallorEvent;
 import com.yueny.demo.storage.mq.MqConstantsTest;
+import com.yueny.demo.storage.mq.MqConstantsTest.TagsT;
 import com.yueny.demo.storage.mq.common.CounterHepler;
-import com.yueny.demo.storage.mq.core.factory.consumer.strategy.AbstractMqConsumerStrategy;
-import com.yueny.demo.storage.mq.core.factory.consumer.strategy.IConsumerStrategy;
+import com.yueny.demo.storage.mq.core.factory.consumer.core.AbstractMqConsumer;
+import com.yueny.demo.storage.mq.core.factory.consumer.core.IConsumer;
 import com.yueny.demo.storage.mq.data.JSONEvent;
 import com.yueny.rapid.lang.json.JsonUtil;
 
@@ -23,8 +24,7 @@ import com.yueny.rapid.lang.json.JsonUtil;
  *
  */
 @Service
-public class DemoTagMqConsumerStrategy extends AbstractMqConsumerStrategy<ScallorEvent>
-		implements IConsumerStrategy<MqConstantsTest.Tags> {
+public class TransTagMqConsumer extends AbstractMqConsumer<ScallorEvent> implements IConsumer {
 	/**
 	 * 数据组装任务
 	 */
@@ -40,7 +40,7 @@ public class DemoTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Scallo
 						try {
 							TimeUnit.MILLISECONDS.sleep(500L);
 						} catch (final Exception e) {
-							logger.error("监听" + getCondition() + "消息无数据，等待下次操作！");
+							logger.error("监听" + getTagsT() + "消息无数据，等待下次操作！");
 						}
 					}
 				} catch (final InterruptedException ignore) {
@@ -52,20 +52,25 @@ public class DemoTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Scallo
 				}
 
 				try {
-					CounterHepler.increment(GROUP_FOR_OPERA);
+					CounterHepler.increment(GROUP_FOR_CONSUMER_END);
 
-					logger.info("{} -->完成{}消息处理 in {} :{}/{}.", CounterHepler.get(GROUP_FOR_OPERA), getCondition(),
+					logger.info("{} -->完成{}消息处理 in {} :{}/{}.", CounterHepler.get(GROUP_FOR_CONSUMER_END), getTagsT(),
 							Thread.currentThread().getName(), event.getMsgId(), event.getMessageId());
 				} catch (final Exception e) {
 					put(event);
-					logger.error("监听" + getCondition() + "消息异常，重新入池进行等待下次操作！", e);
+					logger.error("监听" + getTagsT() + "消息异常，重新入池进行等待下次操作！", e);
 				}
 			}
 		}
 	}
 
-	private static String GROUP_FOR_CONSUMER = "CONSUMER";
-	private static String GROUP_FOR_OPERA = "OPERA";
+	// Counter for Consumer
+	private static String GROUP_FOR_CONSUMER = getTagsT().name();
+	private static String GROUP_FOR_CONSUMER_END = GROUP_FOR_CONSUMER + "_OPERA";
+
+	private static TagsT getTagsT() {
+		return MqConstantsTest.TagsT.MQ_TRANS_TAG_MSG;
+	}
 
 	/**
 	 * 只支持一个线程的线程池，配置corePoolSize=maximumPoolSize=1，无界阻塞队列LinkedBlockingQueue；
@@ -73,7 +78,7 @@ public class DemoTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Scallo
 	 */
 	private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-	public DemoTagMqConsumerStrategy() {
+	public TransTagMqConsumer() {
 		super();
 
 		executorService.execute(new AssemblyEventDataTask());
@@ -107,19 +112,14 @@ public class DemoTagMqConsumerStrategy extends AbstractMqConsumerStrategy<Scallo
 				final long rl = CounterHepler.increment(GROUP_FOR_CONSUMER);
 
 				// (System.currentTimeMillis() - msg.getStoreTimestamp())
-				logger.info("{} --> Receive MessagesID[{}/{}]:{}.", rl, getCondition(), event.getMsgId(),
-						event.getMessageId());
+				logger.info("{}/{} --> Receive MessagesID[{}/{}]:{}.", rl, GROUP_FOR_CONSUMER, getTagsT(),
+						event.getMsgId(), event.getMessageId());
 				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 			}
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return ConsumeConcurrentlyStatus.RECONSUME_LATER;
-	}
-
-	@Override
-	public MqConstantsTest.Tags getCondition() {
-		return MqConstantsTest.Tags.MQ_DEMO_TAG_MSG;
 	}
 
 }

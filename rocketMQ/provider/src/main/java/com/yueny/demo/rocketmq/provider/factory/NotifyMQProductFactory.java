@@ -8,14 +8,14 @@ import lombok.Setter;
 
 /**
  *
- * 某一个 MQProductFactory
+ * 发送 notify 消息的 MQProductFactory
  *
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2017年7月12日 上午11:19:30
  *
  */
-public class DemoMQProductFactory extends BaseProductForMQFactory {
+public class NotifyMQProductFactory extends BaseProductForMQFactory {
 	@Setter
 	private String namesrvAddr;
 
@@ -24,7 +24,7 @@ public class DemoMQProductFactory extends BaseProductForMQFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.yueny.demo.storage.mq.core.factory.product.BaseProductForMQFactory#
 	 * createProducer()

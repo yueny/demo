@@ -7,6 +7,7 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.yueny.demo.storage.mq.MqConstantsTest;
 import com.yueny.demo.storage.mq.common.CounterHepler;
+import com.yueny.demo.storage.mq.core.factory.consumer.core.AbstractMqConsumer;
 import com.yueny.demo.storage.mq.data.JSONEvent;
 import com.yueny.rapid.lang.json.JsonUtil;
 
@@ -18,7 +19,7 @@ import com.yueny.rapid.lang.json.JsonUtil;
  * @DATE 2017年7月12日 下午2:25:26
  *
  */
-public class DefaultMqConsumerStrategy extends AbstractMqConsumerStrategy<JSONEvent> {
+public class DefaultMqConsumerStrategy extends AbstractMqConsumer<JSONEvent> {
 	/**
 	 * 数据组装任务
 	 */

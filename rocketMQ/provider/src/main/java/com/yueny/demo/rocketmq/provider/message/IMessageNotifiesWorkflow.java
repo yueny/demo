@@ -18,11 +18,11 @@ public interface IMessageNotifiesWorkflow {
 	 * @param event
 	 *            事件
 	 */
-	boolean message(MqConstantsTest.Topic topic, MqConstantsTest.Tags tag, Event event);
+	boolean message(MqConstantsTest.Topic topic, MqConstantsTest.TagsN tag, Event event);
 
 	/**
 	 * @param event
 	 *            事件
 	 */
-	boolean message(MqConstantsTest.Topic topic, MqConstantsTest.Tags tag, List<Event> event);
+	boolean message(MqConstantsTest.Topic topic, MqConstantsTest.TagsN tag, List<Event> event);
 }
