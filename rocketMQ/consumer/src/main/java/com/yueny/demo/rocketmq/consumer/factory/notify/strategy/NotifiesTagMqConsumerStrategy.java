@@ -59,7 +59,7 @@ public class NotifiesTagMqConsumerStrategy extends AbstractMqConsumer<ScallorEve
 					CounterHepler.increment(GROUP_FOR_CONSUMER_END);
 
 					logger.info("{}/{} -->完成{}消息处理 in {} :{}/{}.", CounterHepler.get(GROUP_FOR_CONSUMER_END),
-							GROUP_FOR_CONSUMER_END, getCondition(), Thread.currentThread().getName(), event.getMsgId(),
+							GROUP_FOR_CONSUMER, getCondition(), Thread.currentThread().getName(), event.getMsgId(),
 							event.getMessageId());
 				} catch (final Exception e) {
 					put(event);

@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 消息生产者
- * 
+ *
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2016年11月16日 上午9:48:39
@@ -39,6 +39,11 @@ public class AgentRocketmqProducerBootApplication extends SpringBootServletIniti
 		}
 	}
 
+	@Override
+	protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
+		return application.sources(applicationClass);
+	}
+
 	/*
 	 * Application exit
 	 *
@@ -47,11 +52,6 @@ public class AgentRocketmqProducerBootApplication extends SpringBootServletIniti
 	@Override
 	public void destroy() throws Exception {
 		log.error("服务关闭了~~~");
-	}
-
-	@Override
-	protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
-		return application.sources(applicationClass);
 	}
 
 }
