@@ -21,8 +21,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = { "com.yueny.demo.rocketmq", "com.yueny.kapo.core", "com.yueny.demo.common.example" })
-@ImportResource(locations = { "classpath:/config/demo-properties.xml", "classpath:/config/demo-mq.xml",
-		"classpath:/config/demo-redis.xml" })
+@ImportResource(locations = { "classpath:/config/cfg-properties.xml", "classpath:/config/demo-mq.xml",
+		"classpath:/config/demo-redis.xml", "classpath:/config/dubbo.xml" })
 @EnableTransactionManagement
 @EnableScheduling
 // @PropertySource(value = { "classpath:/properties/rocketmq.group.properties",

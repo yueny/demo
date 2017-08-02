@@ -12,6 +12,8 @@
                <value>classpath:/properties/rocketmq.group.properties</value>
                <value>classpath:/properties/db.properties</value>
                <value>classpath:/properties/redis.properties</value>
+               
+               <value>classpath:/dubbo.properties</value>
            </list>
        </property>
        <property name="ignoreResourceNotFound" value="true"/>
@@ -22,11 +24,17 @@
             <list>
                 <!-- groupId  dataId -->
                 <value>common, mq</value>
+                <value>common, redis</value>
+                <value>asset-base,app</value>
                 <!-- 
                 <value>common, dubbo</value>
                 <value>common, filter</value>
-                <value>common, dubboconfig</value>
                 <value>common-task-sms, baseconfig</value>
+                 -->
+                
+                <!-- 输出为 properties -->
+                <value>common,dubboconfig</value>
+                <!-- 
                 <value>common-task-sms, logconfig</value>
                  -->
             </list>
@@ -37,8 +45,9 @@
     <bean id="sysProperty" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
         <property name="propertiesArray">
            <list>
-               <ref bean="cfgConfigProperties"/>
-               <ref bean="localConfigProperties"/>
+           		<!-- 按顺序加载， 若有重复，后者覆盖前者   -->
+               	<ref bean="cfgConfigProperties"/>
+               	<ref bean="localConfigProperties"/>
            </list>  
        </property>
     </bean>

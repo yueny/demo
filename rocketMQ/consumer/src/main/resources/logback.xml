@@ -4,7 +4,7 @@
 	
 	<property name="LOG_HOME" value="/data/logs/tomcat/mq/consumer" />
 	<property name="DEFAULT_PATTERN" value="%-5level %d %logger{5} - %msg%n"/>
-	<property name="LEVEL" value="info" />
+	<property name="LEVEL" value="debug" />
 	<property name="CHARSET" value="UTF-8" />
 	
 	<!-- ConsoleAppender -->
