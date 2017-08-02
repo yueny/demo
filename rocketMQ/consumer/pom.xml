@@ -12,6 +12,10 @@
 	<packaging>jar</packaging>
 	<description>rocketmq-consumer 消息消费者</description>
 	
+	<properties>
+		<cfg.diamond.client.version>3.4-GA-SNAPSHOT</cfg.diamond.client.version>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -91,7 +95,7 @@
 		<dependency>
 			 <groupId>com.taobao.diamond</groupId>
 			 <artifactId>diamond-client</artifactId>
-			 <version>3.4-GA-SNAPSHOT</version>
+			 <version>${cfg.diamond.client.version}</version>
 		</dependency>
 		
 		<dependency>

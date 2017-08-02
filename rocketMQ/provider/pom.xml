@@ -11,6 +11,10 @@
 	<packaging>jar</packaging>
 	<description>rocketmq-provider 消息生产者</description>
 	
+	<properties>
+		<cfg.diamond.client.version>3.4-GA-SNAPSHOT</cfg.diamond.client.version>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -111,7 +115,7 @@
 		<dependency>
 			 <groupId>com.taobao.diamond</groupId>
 			 <artifactId>diamond-client</artifactId>
-			 <version>3.4-GA-SNAPSHOT</version>
+			 <version>${cfg.diamond.client.version}</version>
 		</dependency>
 	</dependencies>
 	
