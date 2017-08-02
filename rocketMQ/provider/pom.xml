@@ -111,7 +111,7 @@
 		<dependency>
 			 <groupId>com.taobao.diamond</groupId>
 			 <artifactId>diamond-client</artifactId>
-			 <version>3.3-SNAPSHOT</version>
+			 <version>3.4-GA-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	
