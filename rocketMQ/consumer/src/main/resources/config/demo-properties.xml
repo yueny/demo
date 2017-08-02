@@ -20,7 +20,15 @@
 	<bean id="cfgConfigProperties" class="com.taobao.diamond.extend.ExtendPropertiesFactoryBean">
         <property name="configs">
             <list>
+                <!-- groupId  dataId -->
                 <value>common, mq</value>
+                <!-- 
+                <value>common, dubbo</value>
+                <value>common, filter</value>
+                <value>common, dubboconfig</value>
+                <value>common-task-sms, baseconfig</value>
+                <value>common-task-sms, logconfig</value>
+                 -->
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
