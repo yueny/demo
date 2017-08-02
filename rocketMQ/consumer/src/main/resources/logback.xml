@@ -93,6 +93,13 @@
 		<appender-ref ref="SERVICE" />
 		<appender-ref ref="ERROR" />
 	</logger>
+	<logger name="com.taobao.diamond" level="${LEVEL}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="CONSOLE_ERROR" />
+		<appender-ref ref="SERVICE" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	
 	
 	<!-- Loggers : Root Logger -->
 	<root level="ROOT">

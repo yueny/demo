@@ -7,7 +7,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -22,11 +21,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = { "com.yueny.demo.rocketmq", "com.yueny.kapo.core", "com.yueny.demo.common.example" })
-@ImportResource(locations = { "classpath:/config/demo-mq.xml", "classpath:/config/demo-redis.xml" })
+@ImportResource(locations = { "classpath:/config/demo-properties.xml", "classpath:/config/demo-mq.xml",
+		"classpath:/config/demo-redis.xml" })
 @EnableTransactionManagement
 @EnableScheduling
-@PropertySource(value = { "classpath:/properties/rocketmq.properties", "classpath:/properties/db.properties",
-		"classpath:/properties/redis.properties" }, ignoreResourceNotFound = true, encoding = "utf-8")
 @Slf4j
 public class AgentRocketmqProducerBootApplication extends SpringBootServletInitializer implements DisposableBean {
 	private static Class<AgentRocketmqProducerBootApplication> applicationClass = AgentRocketmqProducerBootApplication.class;
