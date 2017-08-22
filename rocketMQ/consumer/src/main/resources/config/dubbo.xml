@@ -7,7 +7,8 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="${dubbo.consumer.application.name}" owner="${dubbo.consumer.application.owner}"
+    <dubbo:application name="${dubbo.consumer.application.name}" 
+    					owner="${dubbo.consumer.application.owner}"
                        organization="${dubbo.consumer.application.organization}"/>
 
     <dubbo:registry protocol="${dubbo.consumer.registry.protocol}"

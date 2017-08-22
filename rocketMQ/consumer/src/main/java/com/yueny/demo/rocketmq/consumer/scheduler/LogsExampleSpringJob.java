@@ -25,7 +25,7 @@ public class LogsExampleSpringJob {
 	private String redisClientPassword;
 	@Value("${redis.maxIdle}")
 	private Integer redisMaxIdle;
-	@Value("${redis.sentinel.2.host}")
+	@Value("${redis.client.host}")
 	private String redisSentinel2Host;
 
 	/**

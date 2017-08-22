@@ -26,8 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 @EnableTransactionManagement
 @EnableScheduling
 // @PropertySource(value = { "classpath:/properties/rocketmq.group.properties",
-// "classpath:/properties/db.properties",
-// "classpath:/properties/redis.properties" }, ignoreResourceNotFound = true,
 // encoding = "utf-8")
 @Slf4j
 public class AgentRocketmqConsumerBootApplication extends SpringBootServletInitializer implements DisposableBean {
@@ -41,11 +39,6 @@ public class AgentRocketmqConsumerBootApplication extends SpringBootServletIniti
 		}
 	}
 
-	@Override
-	protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
-		return application.sources(applicationClass);
-	}
-
 	/*
 	 * Application exit
 	 *
@@ -54,6 +47,11 @@ public class AgentRocketmqConsumerBootApplication extends SpringBootServletIniti
 	@Override
 	public void destroy() throws Exception {
 		log.error("服务关闭了~~~");
+	}
+
+	@Override
+	protected SpringApplicationBuilder configure(final SpringApplicationBuilder application) {
+		return application.sources(applicationClass);
 	}
 
 }

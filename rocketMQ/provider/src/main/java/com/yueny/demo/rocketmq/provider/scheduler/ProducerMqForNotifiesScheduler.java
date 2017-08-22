@@ -1,6 +1,7 @@
 package com.yueny.demo.rocketmq.provider.scheduler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,13 @@ public class ProducerMqForNotifiesScheduler {
 	@Autowired
 	private IMessageNotifiesWorkflow messageNotifiesWorkflow;
 
+	@Value("${mq.namesrv.address}")
+	private String mqNamesrv;
+
 	@Scheduled(cron = "0/12 * * * * ?")
 	public void autoLogs() {
+		System.out.println("mqNamesrv: " + mqNamesrv);
+
 		for (int i = 0; i < 2; i++) {
 			final String orderNo = UuidUtil.getUUIDForNumber24();
 			final StringBuilder sb = new StringBuilder();
