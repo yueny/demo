@@ -13,7 +13,7 @@
 	<description>rocketmq-consumer 消息消费者</description>
 	
 	<properties>
-		<cfg.diamond.client.version>3.4-GA-SNAPSHOT</cfg.diamond.client.version>
+		<cfg.diamond.client.version>3.3-GA-SNAPSHOT</cfg.diamond.client.version>
 	</properties>
 	
 	<dependencies>
@@ -61,6 +61,12 @@
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		
+		<dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-dubbo</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        
 		<!-- redis  -->
         <dependency>
             <groupId>org.springframework.data</groupId>

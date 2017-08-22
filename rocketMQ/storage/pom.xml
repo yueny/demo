@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	
+	<!--  for sonar -->
 	<parent>
 		<groupId>com.yueny.base</groupId>
 		<artifactId>parent</artifactId>
@@ -16,8 +17,10 @@
 	
 	<properties>
 		<java.version>1.8</java.version>
-		
 		<rocketmq.version>3.2.6</rocketmq.version>
+		
+		<jacoco.maven.version>0.7.9</jacoco.maven.version>
+		<sonar.java.binaries>${basedir}/target/classes/com</sonar.java.binaries>
 	</properties>
 	
 	<dependencies>
@@ -74,6 +77,34 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
+			
+			<!-- jacoco -->
+	    	<plugin>
+			    <groupId>org.jacoco</groupId>
+			    <artifactId>jacoco-maven-plugin</artifactId>
+			    <version>${jacoco.maven.version}</version>
+			    <configuration>
+			        <destFile>${sonar.jacoco.reportPath}</destFile>
+			        <dataFile>${sonar.jacoco.reportPath}</dataFile>
+			        <output>file</output>
+			        <!-- <reset>false</reset> -->
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <id>pre-test</id>
+			            <goals><goal>prepare-agent</goal></goals>
+			        </execution>
+			        <execution>
+			            <id>post-unit-test</id>
+			            <phase>test</phase>
+			            <goals><goal>report</goal></goals>
+			            <configuration>
+			                <dataFile>${sonar.jacoco.reportPath}</dataFile>
+			                <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
+			            </configuration>
+			        </execution>
+			    </executions>
 			</plugin>
 	    </plugins>
 	</build>

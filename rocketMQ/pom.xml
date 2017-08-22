@@ -22,6 +22,12 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+		
+		<!-- Sonar -->
+		<jacoco.maven.version>0.7.9</jacoco.maven.version>
+<!-- 		<jacoco.dump.address>120.26.106.157</jacoco.dump.address> -->
+<!-- 		<jacoco.dump.port>7000</jacoco.dump.port> -->
+		<sonar.java.binaries>${basedir}/target/classes/com</sonar.java.binaries>
 	</properties>
 	
 	<dependencies>
@@ -94,6 +100,33 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
+			
+			<!-- jacoco -->
+	    	<plugin>
+			    <groupId>org.jacoco</groupId>
+			    <artifactId>jacoco-maven-plugin</artifactId>
+			    <version>${jacoco.maven.version}</version>
+			    <configuration>
+			        <destFile>${sonar.jacoco.reportPath}</destFile>
+			        <dataFile>${sonar.jacoco.reportPath}</dataFile>
+			        <output>file</output>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <id>pre-test</id>
+			            <goals><goal>prepare-agent</goal></goals>
+			        </execution>
+			        <execution>
+			            <id>post-unit-test</id>
+			            <phase>test</phase>
+			            <goals><goal>report</goal></goals>
+			            <configuration>
+			                <dataFile>${sonar.jacoco.reportPath}</dataFile>
+			                <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
+			            </configuration>
+			        </execution>
+			    </executions>
 			</plugin>
 	    </plugins>
 	</build>
