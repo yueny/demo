@@ -59,7 +59,7 @@ public class ExecutorExampleJob {
 	 */
 	private void processData() {
 		final long start = SystemClock.now();
-		final String batchId = UuidUtil.getNumberUuid();
+		final String batchId = UuidUtil.getUUIDForNumber20();
 
 		final Random rn = new Random();
 		final List<Long> ids = Lists.newArrayList();

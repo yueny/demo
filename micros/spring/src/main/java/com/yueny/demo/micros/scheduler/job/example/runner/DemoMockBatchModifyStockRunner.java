@@ -53,7 +53,7 @@ public class DemoMockBatchModifyStockRunner implements Callable<List<Long>>, Ser
 		this.batchId = batchId;
 		this.taskData = ids;
 		this.dataPrecipitationService = dataPrecip;
-		taskId = UuidUtil.getNumberUuid();
+		taskId = UuidUtil.getUUIDForNumber20();
 	}
 
 	@Override

@@ -47,7 +47,7 @@ public class ExecutorExampleJob extends BaseSuperScheduler {
 	@Scheduled(cron = "0/5 * * * * ?")
 	public void processData() {
 		final long start = SystemClock.now();
-		final String batchId = UuidUtil.getNumberUuid();
+		final String batchId = UuidUtil.getUUIDForNumber20();
 
 		// 得到服务器中待批量处理数据的主键信息, limit 50
 		final List<Long> ids = dataPrecipitationService.queryAllIds();
