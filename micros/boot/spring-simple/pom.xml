@@ -20,10 +20,6 @@
 	
 	<properties>
 		<java.version>1.8</java.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
 	</properties>
@@ -39,7 +35,7 @@
 	            <scope>import</scope>
 	        </dependency>
 	        
-	        <!-- 解决 yueny-dependencies和spring-boot-dependencies 的依赖冲突 -->
+	        <!-- 如果使用spring-boot-starter-jetty，则用于解决 yueny-dependencies和spring-boot-dependencies 的依赖冲突 -->
 	        <dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-server</artifactId>
@@ -182,7 +178,6 @@
             <plugin>
 			    <groupId>org.projectlombok</groupId>
 			    <artifactId>lombok-maven-plugin</artifactId>
-			    <version>1.16.6.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

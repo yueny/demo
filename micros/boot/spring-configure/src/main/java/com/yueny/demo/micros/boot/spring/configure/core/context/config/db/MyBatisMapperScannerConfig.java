@@ -1,7 +1,5 @@
 package com.yueny.demo.micros.boot.spring.configure.core.context.config.db;
 
-import java.lang.annotation.Annotation;
-
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
@@ -22,31 +20,22 @@ import org.springframework.context.annotation.Configuration;
  */
 @AutoConfigureAfter(MyBatisConfigurer.class)
 public class MyBatisMapperScannerConfig {
-	/**
-	 * annotationClazz
-	 */
-	private final String annotation = "org.springframework.stereotype.Repository";
-	/**
-	 * mapper包路径
-	 */
-	private final String basePackage = "com.yueny.kapo.core;com.yueny.demo.job.dao;com.yueny.demo.common.example.dao;";
-	/**
-	 *
-	 */
-	private final String markerInterface = "com.yueny.kapo.api.biz.ISqlMapper";
-
 	@Bean
-	public MapperScannerConfigurer mapperScannerConfigurer() throws ClassNotFoundException {
+	public MapperScannerConfigurer mapperScannerConfigurer() {
 		final MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
 		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-		mapperScannerConfigurer.setBasePackage(basePackage);
+		// mapper包路径
+		mapperScannerConfigurer.setBasePackage(
+				"com.yueny.kapo.core;com.yueny.demo.common.example.dao;com.yueny.demo.micros.boot.spring.configure.dao;");
 
-		@SuppressWarnings("unchecked")
-		final Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) Class.forName(annotation);
-		mapperScannerConfigurer.setAnnotationClass(annotationClass);
+		// @SuppressWarnings("unchecked")
+		// final Class<? extends Annotation> annotationClass = (Class<? extends
+		// Annotation>) Class.forName(annotation);
+		// mapperScannerConfigurer.setAnnotationClass("org.springframework.stereotype.Repository");
 
-		final Class<?> superClass = Class.forName(markerInterface);
-		mapperScannerConfigurer.setMarkerInterface(superClass);
+		// final Class<?> superClass = Class.forName(markerInterface);
+		// mapperScannerConfigurer.setMarkerInterface("com.yueny.kapo.api.biz.ISqlMapper");
+
 		return mapperScannerConfigurer;
 	}
 

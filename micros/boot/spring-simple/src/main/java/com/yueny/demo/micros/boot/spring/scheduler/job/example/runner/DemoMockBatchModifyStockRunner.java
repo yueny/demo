@@ -36,6 +36,7 @@ public class DemoMockBatchModifyStockRunner implements Callable<List<Long>>, Ser
 	 * 保存任务所需要的数据
 	 */
 	private final List<Long> taskData;
+
 	/**
 	 * 任务号
 	 */

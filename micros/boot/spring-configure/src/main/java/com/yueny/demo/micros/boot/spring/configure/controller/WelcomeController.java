@@ -14,8 +14,17 @@ public class WelcomeController extends BaseController {
 	/*
 	 * 提供路由信息，负责URL到Controller中的具体函数的映射。
 	 */
-	@GetMapping(value = { "/", "welcome" })
+	// @RequestMapping("/")
+	@GetMapping(value = "/")
 	public String home() {
+		logger.info("主页 {} 被访问了~！", getEnv());
+
+		addAttribute("userName", "oo");
+		return "welcome";
+	}
+
+	@GetMapping(value = "welcome")
+	public String homeFor() {
 		logger.info("主页 {} 被访问了~！", getEnv());
 
 		addAttribute("userName", dataPrecipitationService.queryAll().size());

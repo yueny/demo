@@ -17,8 +17,9 @@
 		<java.version>1.8</java.version>
 
 		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
+		<cfg.diamond.client.version>3.4-GA-SNAPSHOT</cfg.diamond.client.version>
 	</properties>
-
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -50,21 +51,7 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-		<!-- spring boot web支持：mvc,aop... -->
-	    <dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-web</artifactId>
-		    <exclusions>
-		      <exclusion>
-		        <groupId>org.springframework.boot</groupId>
-		        <artifactId>spring-boot-starter-tomcat</artifactId>
-		      </exclusion>
-		    </exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jetty</artifactId>
-		</dependency>
+		
 		<!--mybatis springboot
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -143,6 +130,11 @@
 		    <groupId>com.yueny.rapid</groupId>
 			<artifactId>api</artifactId>
 			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+			 <groupId>com.taobao.diamond</groupId>
+			 <artifactId>diamond-client</artifactId>
+			 <version>${cfg.diamond.client.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.yueny.rapid.data</groupId>

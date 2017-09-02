@@ -43,6 +43,7 @@
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
+        <property name="printCfgResults" value="true"/>
     </bean>
     
     <bean id="sysProperty" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">

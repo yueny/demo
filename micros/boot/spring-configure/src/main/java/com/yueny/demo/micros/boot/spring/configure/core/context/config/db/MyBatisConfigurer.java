@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -25,9 +26,9 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
  */
 @Configuration
 @EnableTransactionManagement // 支持注解事务
-// @ImportResource("classpath:applicationContext-mybatis.xml")
 public class MyBatisConfigurer implements TransactionManagementConfigurer {
 	@Autowired
+	@Qualifier("dataSource")
 	private DataSource dataSource;
 
 	// @Bean(name = "transactionManager")
@@ -66,13 +67,12 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
 		try {
 			bean.setConfigLocation(resolver.getResource("classpath:/config/mybatis-config.xml"));
 			// TODO 多个怎么办
-			bean.setMapperLocations(resolver.getResources("classpath*:com/yueny/kapo/maps/singleTable-**-Mapping.xml"));
+			bean.setMapperLocations(resolver.getResources("classpath*:com/yueny/kapo/maps/**Mapper.xml"));
 			return bean.getObject();
 		} catch (final Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	@Bean

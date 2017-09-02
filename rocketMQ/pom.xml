@@ -39,6 +39,13 @@
 	            <type>pom</type>
 	            <scope>import</scope>
 	        </dependency>
+	        
+	        <!-- 如果使用spring-boot-starter-jetty，则用于解决 yueny-dependencies和spring-boot-dependencies 的依赖冲突 -->
+	        <dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-server</artifactId>
+				<version>9.4.4.v20170414</version>
+			</dependency>
 	    </dependencies>
 	</dependencyManagement>
 	

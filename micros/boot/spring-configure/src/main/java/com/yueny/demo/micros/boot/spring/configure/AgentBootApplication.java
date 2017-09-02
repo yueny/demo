@@ -7,7 +7,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -40,14 +39,10 @@ import lombok.extern.slf4j.Slf4j;
 /*
  * 需要使用基于XML的配置，在@Configuration所在的类开始。 使用附加的@ImportResource注解加载XML配置文件
  */
-@ImportResource(locations = { "classpath:/config/spring-dozer.xml", "classpath:/config/spring-sla.xml" })
+@ImportResource(locations = { "classpath:/config/spring-dozer.xml", "classpath:/config/spring-sla.xml",
+		"classpath:/config/cfg-properties.xml" })
 @EnableTransactionManagement
 @EnableScheduling
-/**
- * 配置文件
- */
-@PropertySource(value = { "classpath:/properties/global.properties", "classpath:/properties/app.properties",
-		"classpath:/properties/redis.properties" }, ignoreResourceNotFound = true, encoding = "utf-8")
 @Slf4j
 /// *
 // * @Import注解可以用来导入其他配置类

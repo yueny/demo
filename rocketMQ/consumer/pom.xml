@@ -13,7 +13,7 @@
 	<description>rocketmq-consumer 消息消费者</description>
 	
 	<properties>
-		<cfg.diamond.client.version>3.3-GA-SNAPSHOT</cfg.diamond.client.version>
+		<cfg.diamond.client.version>3.4-GA-SNAPSHOT</cfg.diamond.client.version>
 	</properties>
 	
 	<dependencies>

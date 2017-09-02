@@ -75,7 +75,7 @@
 	</appender>
 	
 	<!-- Loggers : App Details -->
-	<logger name="com.yueny.demo.micros" level="${LEVEL}" additivity="false">
+	<logger name="com.yueny.demo.micros.boot.spring.configure" level="${LEVEL}" additivity="false">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="CONSOLE_ERROR" />
 		<appender-ref ref="SERVICE" />
@@ -94,6 +94,12 @@
 		<appender-ref ref="ERROR" />
 	</logger>
 	<logger name="org.springframework.web" level="${LEVEL}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="CONSOLE_ERROR" />
+		<appender-ref ref="SERVICE" />
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="com.yueny.kapo.core" level="${LEVEL}" additivity="false">
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="CONSOLE_ERROR" />
 		<appender-ref ref="SERVICE" />

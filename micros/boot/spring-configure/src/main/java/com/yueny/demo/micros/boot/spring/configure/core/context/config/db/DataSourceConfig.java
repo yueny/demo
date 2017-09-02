@@ -3,10 +3,8 @@ package com.yueny.demo.micros.boot.spring.configure.core.context.config.db;
 import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 /**
  * 创建数据源
@@ -22,11 +20,29 @@ public class DataSourceConfig {
 	 * 主数据源创建
 	 */
 	@Bean(name = "dataSource")
-	@Primary
-	@ConfigurationProperties(prefix = "spring.datasource")
-	public DataSource primaryDataSource() {
+	public DataSource dataSource() {
 		// DataSourceBuilder.create().type(dataSourceType).build()
-		return DataSourceBuilder.create().build();
+		return DataSourceBuilder.create().driverClassName("").build();
+
+		// final DruidDataSource dataSource = new DruidDataSource();
+		// dataSource.setDriverClassName(SpringConstants.MYSQL_DRIVER);
+		// dataSource.setUrl(url);
+		// dataSource.setUsername(username);
+		// dataSource.setPassword(password);
+		// dataSource.setFilters("config,stat");
+		// dataSource.setConnectionProperties("config.decrypt=" + decrypt);
+		// dataSource.setMaxActive(100);
+		// dataSource.setInitialSize(20);
+		// dataSource.setMaxWait(60000);
+		// dataSource.setMinIdle(1);
+		// dataSource.setTimeBetweenEvictionRunsMillis(3000);
+		// dataSource.setMinEvictableIdleTimeMillis(300000);
+		// dataSource.setValidationQuery("SELECT 'x'");
+		// dataSource.setTestWhileIdle(Boolean.TRUE);
+		// dataSource.setTestOnBorrow(Boolean.FALSE);
+		// dataSource.setTestOnReturn(Boolean.FALSE);
+		// dataSource.setMaxPoolPreparedStatementPerConnectionSize(20);
+		// return dataSource;
 	}
 
 }

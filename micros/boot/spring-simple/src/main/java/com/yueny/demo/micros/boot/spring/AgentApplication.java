@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * @author yueny09 <deep_blue_yang@163.com>
@@ -14,6 +15,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
+/**
+ * 配置文件
+ */
+@PropertySource(value = {
+		"classpath:/properties/global.properties" }, ignoreResourceNotFound = true, encoding = "utf-8")
 public class AgentApplication {
 	// extends SpringBootServletInitializer implements
 	// EmbeddedServletContainerCustomizer {
