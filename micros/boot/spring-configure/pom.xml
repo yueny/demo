@@ -8,13 +8,6 @@
 		<artifactId>yueny-parent</artifactId>
 		<version>1.1.4-SNAPSHOT</version>
 	</parent>
-	<!-- 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>
-	</parent>
-	 -->
 	
 	<groupId>com.yueny.demo.micros</groupId>
 	<artifactId>micros_boot_spring_configure</artifactId>
@@ -22,12 +15,6 @@
 	
 	<properties>
 		<java.version>1.8</java.version>
-		<spring.version>4.3.3.RELEASE</spring.version>
-		
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
 
 		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
 	</properties>
@@ -196,10 +183,9 @@
 		<dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <version>3.3</version>
         </dependency>
         
-		<!-- 
+		<!-- -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -208,7 +194,7 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
-		 -->
+
 		<dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -222,19 +208,16 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>15.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
 		</dependency>
 		
 		<!-- 观察者模式  -->
 		<dependency>
 		    <groupId>io.reactivex.rxjava2</groupId>
 		    <artifactId>rxjava</artifactId>
-		    <version>2.1.0</version>
 		</dependency>
 		
 		<!-- test -->
@@ -249,36 +232,34 @@
 		<finalName>micros_spring_boot</finalName>
 		
 	    <plugins>
-	    	<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.5.3.RELEASE</version>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
             
 			<plugin>
 			    <groupId>org.projectlombok</groupId>
 			    <artifactId>lombok-maven-plugin</artifactId>
-			    <version>1.16.6.1</version>
 			</plugin>
 			<!-- 编译级别 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.encoding}</encoding>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
-                <configuration>
-                    <downloadSources>true</downloadSources>
-                    <ajdtVersion>none</ajdtVersion>
-                </configuration>
             </plugin>
             <plugin>
                  <groupId>org.codehaus.mojo</groupId>

@@ -14,7 +14,7 @@
     <aop:config>
         <aop:aspect ref="rateLimitAdvice">
             <aop:around method="process"
-              pointcut="within(com.yueny.demo.micros.boot.controller..*) and @annotation(com.yueny.superclub.util.sla.jvm.SlaRateLimit)"/>
+              pointcut="within(com.yueny.demo.micros.boot.spring.configure.controller..*) and @annotation(com.yueny.superclub.util.sla.jvm.SlaRateLimit)"/>
         </aop:aspect>
     </aop:config>
 
