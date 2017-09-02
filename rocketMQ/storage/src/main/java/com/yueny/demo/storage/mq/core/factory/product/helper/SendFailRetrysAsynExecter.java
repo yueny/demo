@@ -29,8 +29,10 @@ public class SendFailRetrysAsynExecter implements Runnable, IAsynExecter {
 	/**
 	 * @see java.lang.Runnable#run()
 	 */
+	@Override
 	public void run() {
-		logger.debug("SendFailRetrys enter run method ......");
+		logger.info("SendFailRetrys enter run method ......");
+
 		while (isRunning) {
 			if (sendFailQueue.isEmpty()) {
 				try {
@@ -39,9 +41,17 @@ public class SendFailRetrysAsynExecter implements Runnable, IAsynExecter {
 					logger.error("sleep interrupted !", e);
 				}
 			}
+
 			try {
 				final ProducerSendModel element = sendFailQueue.poll(interval, TimeUnit.MILLISECONDS);
-				if (element != null) {
+				if (element == null) {
+					// 2秒之后再来
+					try {
+						TimeUnit.MILLISECONDS.sleep(2000L);
+					} catch (final InterruptedException e) {
+						logger.error("sleep interrupted !", e);
+					}
+				} else {
 					logger.debug("put data into data queue again," + element);
 					ProducerSendHelper.send(element.getProducerFactory(), element.getMessage());
 				}
@@ -53,11 +63,12 @@ public class SendFailRetrysAsynExecter implements Runnable, IAsynExecter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.yueny.demo.rocketmq.core.factory.product.helper.asyn.IEstablishAsyn#
 	 * shutdown()
 	 */
+	@Override
 	public void shutdown() {
 		logger.info("SendFailCollector关闭。。。。");
 		this.isRunning = false;
@@ -65,11 +76,12 @@ public class SendFailRetrysAsynExecter implements Runnable, IAsynExecter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * com.yueny.demo.rocketmq.core.factory.product.helper.asyn.IEstablishAsyn#
 	 * startup()
 	 */
+	@Override
 	public void startup() {
 		logger.info("对应SendFailCollector启动。。。。");
 		this.isRunning = true;

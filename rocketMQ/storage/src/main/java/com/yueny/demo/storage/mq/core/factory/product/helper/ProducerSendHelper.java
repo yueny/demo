@@ -50,7 +50,7 @@ public final class ProducerSendHelper {
 	}
 
 	/**
-	 * 消息发送，保证发送成功
+	 * 消息发送，不保证发送成功。默认发送失败即失败，不会重试
 	 *
 	 * @param producerFactory
 	 *            消息发送的指定Factory
@@ -62,7 +62,19 @@ public final class ProducerSendHelper {
 	}
 
 	/**
-	 * 消息发送，保证发送成功
+	 * 消息发送，不保证发送成功。默认发送失败即失败，不会重试
+	 *
+	 * @param producerFactory
+	 *            消息发送的指定Factory
+	 * @param message
+	 *            消息内容体
+	 */
+	public static void send(final IProducerForMQFactory producerFactory, final Message message, final Event source) {
+		send(producerFactory, message, source, false);
+	}
+
+	/**
+	 * 消息发送，选择性的关注是否发送成功
 	 *
 	 * @param producerFactory
 	 *            消息发送的指定Factory
@@ -70,11 +82,14 @@ public final class ProducerSendHelper {
 	 *            消息内容体
 	 * @param source
 	 *            消息内容体原Event
+	 * @param care
+	 *            是否要求发送最终成功。默认发送失败即失败，不会重试(false)，如果设置为true，则会重试 TODO
 	 */
-	public static void send(final IProducerForMQFactory producerFactory, final Message message, final Event source) {
+	public static boolean send(final IProducerForMQFactory producerFactory, final Message message, final Event source,
+			final boolean care) {
 		if (producerFactory == null) {
 			logger.warn("productFactory is null");
-			return;
+			return false;
 		}
 
 		final DefaultMQProducer producer = producerFactory.getProducer();
@@ -83,6 +98,12 @@ public final class ProducerSendHelper {
 			final SendResult rs = producer.send(message);
 
 			if (rs == null || rs.getSendStatus() != SendStatus.SEND_OK) {
+				if (!care) {
+					// 不成功，直接失败
+					logger.info("发送消息失败，直接失败不再重试:{}.", message);
+					return false;
+				}
+
 				try {
 					logger.warn("发送消息失败，加入重试队列，稍后重试~");
 					sendFailQueue
@@ -99,7 +120,7 @@ public final class ProducerSendHelper {
 				}
 			} else {
 				successCounter.incrementAndGet();
-				
+
 				if (source != null) {
 					logger.info("{}/{} [S]消息msgId/messageId:{}/{}.", successCounter.get(), failCounter.get(),
 							rs.getMsgId(), source.getMessageId());
@@ -107,6 +128,7 @@ public final class ProducerSendHelper {
 					logger.info("{}/{} [S]消息msgId/messageId:{}.", successCounter.get(), failCounter.get(),
 							rs.getMsgId());
 				}
+				return true;
 			}
 		} catch (final Exception e) {
 			logger.warn("发送消息失败，加入重试队列，稍后重试~");
@@ -120,5 +142,7 @@ public final class ProducerSendHelper {
 				failCounter.incrementAndGet();
 			}
 		}
+		return false;
 	}
+
 }
