@@ -2,13 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
-		<groupId>com.yueny.demo</groupId>
-		<artifactId>micros</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<groupId>com.yueny.base</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.1.1-RELEASE</version>
 	</parent>
 	
 	<groupId>com.yueny.demo.micros</groupId>
-	<artifactId>micros_simple</artifactId>
+	<artifactId>micros_server_java</artifactId>
 	<packaging>jar</packaging>
 	
 	<properties>
@@ -122,7 +122,7 @@
 		</testResources>
 		
 	    <plugins>
-			<!--
+			<!-- 第一种实现方式
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -154,22 +154,51 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
-			<!--
+			  -->
+			<!-- 或者 -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.4.0</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.0.0</version>
 				<configuration>
-					<executable>java</executable>
-					<arguments>
-						<argument>-jar</argument>
-						<argument>target/${project.build.finalName}.jar</argument>
-					</arguments>
+					<archive>
+						<manifest>
+							<mainClass>com.yueny.demo.micros.AgentApplication</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- jetty -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.2.v20150730</version>
+				<configuration>
+					<httpConnector>
+						<port>8088</port>
+					</httpConnector>
+					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<systemProperties>
+						<systemProperty>
+							<name>org.eclipse.jetty.LEVEL</name>
+							<value>DEBUG</value>
+						</systemProperty>
+					</systemProperties>
 				</configuration>
 			</plugin>
-			-->
-
 			<plugin>
 			    <groupId>org.projectlombok</groupId>
 			    <artifactId>lombok-maven-plugin</artifactId>

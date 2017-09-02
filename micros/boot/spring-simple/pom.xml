@@ -2,9 +2,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.yueny.demo</groupId>
-		<artifactId>micros</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<groupId>com.yueny.base</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.1.1-RELEASE</version>
 	</parent>
 	<!-- 
 	<parent>
@@ -13,16 +13,9 @@
 		<version>1.5.3.RELEASE</version>
 	</parent>
 	 -->
-	<!-- 
-	<parent>
-    	<groupId>com.yueny.base</groupId>
-		<artifactId>parent_boot</artifactId>
-		<version>1.1.2-SNAPSHOT</version>
-	</parent>
-	 -->
 	 
 	<groupId>com.yueny.demo.micros</groupId>
-	<artifactId>micros_simple_boot</artifactId>
+	<artifactId>micros_boot_spring_simple</artifactId>
 	<packaging>jar</packaging>
 	
 	<properties>

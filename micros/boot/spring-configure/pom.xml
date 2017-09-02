@@ -4,13 +4,20 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
+		<groupId>com.yueny.base</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.1.1-RELEASE</version>
+	</parent>
+	<!-- 
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.3.RELEASE</version>
 	</parent>
+	 -->
 	
 	<groupId>com.yueny.demo.micros</groupId>
-	<artifactId>micros_spring-cloud</artifactId>
+	<artifactId>micros_boot_spring_configure</artifactId>
 	<packaging>jar</packaging>
 	
 	<properties>
@@ -25,8 +32,20 @@
 		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
 	</properties>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-dependencies</artifactId>
+	            <version>1.5.3.RELEASE</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<dependencies>
-		<!--   -->
+		<!-- Compile -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -69,7 +88,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
         </dependency>
          -->
         <!-- 引入freeMarker的依赖包. -->
@@ -77,29 +95,6 @@
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-freemarker</artifactId>
 	    </dependency>
-	    <!-- 邮件服务  -->
-	    <!-- -->
-	    <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>javax.mail-api</artifactId>
-		    <version>1.5.6</version>
-		</dependency>
-		
-		<!-- html模板引擎
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-velocity</artifactId>
-        </dependency>
-		 -->
-	    <dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -116,13 +111,6 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- 配置中心:Diamond是一个持久配置管理中心，核心功能是使应用在运行中感知配置数据的变化。 -->
-		<dependency>
-		    <groupId>com.baidu.disconf</groupId>
-		    <artifactId>disconf-client</artifactId>
-		    <version>2.6.36</version>
-		</dependency>
-
 		<!-- Project Lombok -->
 		<dependency>
 	        <groupId>org.projectlombok</groupId>
@@ -135,7 +123,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-		<!-- 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
@@ -152,8 +139,7 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 		</dependency>
-		 -->
-		 
+		
 		<!-- example -->
 		<dependency>
 			<groupId>com.yueny.demo</groupId>
@@ -194,6 +180,16 @@
 		<dependency>
 		    <groupId>com.yueny.rapid.service</groupId>
 			<artifactId>rapid-service-rest</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.util</groupId>
+			<artifactId>rapid-util-sla</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-lua</artifactId>
 			<version>${rapid.laster.veision}</version>
 		</dependency>
 		
@@ -260,6 +256,7 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
+            
 			<plugin>
 			    <groupId>org.projectlombok</groupId>
 			    <artifactId>lombok-maven-plugin</artifactId>
@@ -286,6 +283,7 @@
             <plugin>
                  <groupId>org.codehaus.mojo</groupId>
                  <artifactId>build-helper-maven-plugin</artifactId>
+                 <version>1.8</version>
                  <executions>
                     <execution>
                     	<id>add-resource</id>

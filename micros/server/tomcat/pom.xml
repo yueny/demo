@@ -8,7 +8,7 @@
 	</parent>
 	
 	<groupId>com.yueny.demo.micros</groupId>
-	<artifactId>micros_tomcat</artifactId>
+	<artifactId>micros_server_tomcat</artifactId>
 	<packaging>war</packaging>
 	
 	<properties>
