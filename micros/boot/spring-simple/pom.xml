@@ -2,9 +2,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.yueny.base</groupId>
-		<artifactId>parent</artifactId>
-		<version>1.1.1-RELEASE</version>
+		<groupId>com.yueny</groupId>
+		<artifactId>yueny-parent</artifactId>
+		<version>1.1.4-SNAPSHOT</version>
 	</parent>
 	<!-- 
 	<parent>
@@ -32,7 +32,6 @@
 		<dependencies>
 			<!-- 使用 scope=import 依赖，获取到spring-boot依赖管理 -->
 	        <dependency>
-	            <!-- Import dependency management from Spring Boot -->
 	            <groupId>org.springframework.boot</groupId>
 	            <artifactId>spring-boot-dependencies</artifactId>
 	            <version>1.5.3.RELEASE</version>
@@ -117,6 +116,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -125,6 +125,7 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>org.logback-extensions</groupId>
 			<artifactId>logback-ext-spring</artifactId>
@@ -139,7 +140,20 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
 		<!-- test -->
 		<dependency>
 			<groupId>junit</groupId>

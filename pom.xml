@@ -22,20 +22,20 @@
 	
 	<modules>
 		<module>common</module>
+		<module>frequence</module>
+		<module>hystrix</module>
+		<module>metrics</module>
+		<module>rocketmq</module>
 		
 		<!--  
-		<module>annotations</module>
 		<module>aspect</module>
 		<module>dubbo</module>
 		<module>exec</module>
 		<module>fileReader</module>
-		<module>frequence</module>
 		<module>hadoop</module>
-		<module>hystrix</module>
 		<module>javaRemoteSSH</module>
 		<module>jms</module>
 		<module>lamdba</module>
-		<module>metrics</module>
 		<module>pagehelper</module>
 		<module>randCode</module>
 		<module>redis</module>
@@ -47,9 +47,7 @@
 		-->
 		<!-- 微服务 -->
 		<module>micros</module>
-		<!-- 
 		<module>job</module>
-		 -->
   </modules>
 	
 </project>
