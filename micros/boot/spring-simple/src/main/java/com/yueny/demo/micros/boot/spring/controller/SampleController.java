@@ -1,4 +1,4 @@
-package com.yueny.demo.micros.boot.controller;
+package com.yueny.demo.micros.boot.spring.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

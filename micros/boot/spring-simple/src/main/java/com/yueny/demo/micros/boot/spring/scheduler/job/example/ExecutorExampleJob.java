@@ -1,4 +1,4 @@
-package com.yueny.demo.micros.boot.scheduler.job.example;
+package com.yueny.demo.micros.boot.spring.scheduler.job.example;
 
 import java.util.List;
 import java.util.Random;

@@ -1,4 +1,4 @@
-package com.yueny.demo.micros;
+package com.yueny.demo.micros.boot.spring;
 
 import javax.annotation.PostConstruct;
 

@@ -1,4 +1,4 @@
-package com.yueny.demo.micros.boot.common;
+package com.yueny.demo.micros.boot.spring.common;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
