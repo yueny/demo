@@ -13,7 +13,8 @@
 	  	
 	<modules>
 		<module>spring-simple</module>
-		<module>spring-configure</module>
+		<module>spring-configure-for-jpa</module>
+		<module>spring-configure-for-kapo</module>
 	</modules>
 
 </project>

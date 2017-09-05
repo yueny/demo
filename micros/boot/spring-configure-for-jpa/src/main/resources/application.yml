@@ -1,0 +1,24 @@
+server:
+   port: 8091
+   tomcat:
+      uri-enconding: UTF-8
+   sessionTimeout: 45
+   # 默认是/,直接通过http://ip:port/就可以访问，如果要修改为http://ip:port/path/访问，需要server.context-path=/path
+   contextPath: /
+   #server.tomcat.protocol-header=x-forwarded-proto # ssl forward headers
+   #server.tomcat.remote-ip-header=x-forwarded-for
+   #server.tomcat.max-threads = 0 # number of threads in protocol handler
+   #server.tomcat.uri-encoding = UTF-8 # character encoding to use for URLdecoding
+
+spring: 
+   jpa:
+      database: MYSQL
+      show-sql: true  #运行时输出SQL语句 
+   aop: 
+      proxy-target-class: true
+      auto: true
+   
+# url/shutdown
+endpoints:
+   shutdown:
+      enabled: true
