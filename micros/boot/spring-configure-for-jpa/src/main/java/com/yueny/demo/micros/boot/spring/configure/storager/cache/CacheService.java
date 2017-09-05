@@ -146,6 +146,7 @@ public class CacheService {
 			return handler.caller();
 		}
 
+		// TODO 没有办法解决缓存雪崩的问题
 		final String ts = getValue(cacheKey);
 		if (StringUtil.isNotEmpty(ts)) {
 			final T t = gson.fromJson(ts, valueType.getType());

@@ -18,6 +18,8 @@ import com.yueny.demo.micros.boot.spring.configure.entry.ModifyDemoForJpaEntry;
 @Repository
 public interface IModifyDemoRepository extends JpaRepository<ModifyDemoForJpaEntry, Long> {
 
+	ModifyDemoForJpaEntry findByName(String name);
+
 	List<ModifyDemoForJpaEntry> queryByType(final String type);
 
 }
