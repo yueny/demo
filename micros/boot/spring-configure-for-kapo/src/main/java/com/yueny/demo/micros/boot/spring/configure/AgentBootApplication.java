@@ -38,10 +38,9 @@ import lombok.extern.slf4j.Slf4j;
 /*
  * 需要使用基于XML的配置，在@Configuration所在的类开始。 使用附加的@ImportResource注解加载XML配置文件
  */
-@ImportResource(locations = { "classpath:/config/spring-dozer.xml", "classpath:/config/spring-db.xml",
-		"classpath:/config/cfg-properties.xml" })
-@EnableTransactionManagement
+@ImportResource(locations = { "classpath:/config/cfg-properties.xml", "classpath:/config/spring-*.xml" })
 @EnableScheduling
+@EnableTransactionManagement(proxyTargetClass = true) // 启用JPA事务管理
 @Slf4j
 /// *
 // * @Import注解可以用来导入其他配置类

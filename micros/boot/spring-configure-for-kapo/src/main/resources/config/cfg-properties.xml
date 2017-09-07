@@ -9,7 +9,6 @@
     <bean id="localConfigProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">  
        <property name="locations">  
            <list>
-               <value>classpath:/properties/db.properties</value>
                <value>classpath:/properties/app.properties</value>
                <value>classpath:/properties/redis.properties</value>
            </list>

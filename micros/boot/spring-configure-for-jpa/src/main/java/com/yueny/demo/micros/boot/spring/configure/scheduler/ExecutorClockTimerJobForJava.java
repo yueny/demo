@@ -46,7 +46,7 @@ public class ExecutorClockTimerJobForJava {
 	public void init() {
 		log.info("ExecutorClockTimerJobForJava ...");
 
-		final String batchId = UuidUtil.getSimpleUuid();
+		final String batchId = UuidUtil.getUUIDForNumber12();
 		processData(batchId);
 	}
 

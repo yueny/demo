@@ -35,7 +35,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 		// 设置缓存过期时间, 秒
 		rcm.setDefaultExpiration(15);
 
-		// // 设置value的过期时间
+		// TODO 设置value的过期时间
 		// final Map<String, Long> map = new HashMap<String, Long>();
 		// map.put("test", 60L);
 		// rcm.setExpires(map);

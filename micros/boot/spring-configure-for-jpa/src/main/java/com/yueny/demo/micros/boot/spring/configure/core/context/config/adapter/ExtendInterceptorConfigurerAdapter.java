@@ -32,7 +32,7 @@ public class ExtendInterceptorConfigurerAdapter extends WebMvcConfigurerAdapter 
 
 		final ServiceContextInterceptor interceptor = new ServiceContextInterceptor();
 		// interceptor.setSystemCode(systemCode);
-		registry.addInterceptor(interceptor).addPathPatterns("/**").excludePathPatterns("/content/**");
+		registry.addInterceptor(interceptor).addPathPatterns("/**").excludePathPatterns("/static/**");
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class ExtendInterceptorConfigurerAdapter extends WebMvcConfigurerAdapter 
 		 * 注：如果你的应用将被打包成jar，那就不要使用src/main/webapp文件夹。尽管该文件夹是一个共同的标准，
 		 * 但它仅在打包成war的情况下起作用，并且如果产生一个jar，多数构建工具都会静悄悄的忽略它。
 		 */
-		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/").setCachePeriod(0);
+		registry.addResourceHandler("/**").addResourceLocations("/static").setCachePeriod(0);
 	}
 
 	// /*

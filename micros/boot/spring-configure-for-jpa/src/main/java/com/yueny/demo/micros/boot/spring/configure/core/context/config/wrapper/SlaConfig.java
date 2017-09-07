@@ -2,7 +2,6 @@ package com.yueny.demo.micros.boot.spring.configure.core.context.config.wrapper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import com.yueny.rapid.lang.lua.sla.SlaAccessForLuaRedisServer;
 import com.yueny.superclub.util.sla.core.advice.ILimitAdvice;
@@ -16,7 +15,7 @@ import com.yueny.superclub.util.sla.whole.RateLimitForWholeAdvice;
  * @DATE 2017年5月17日 下午7:27:31
  *
  */
-@Configuration
+// @Configuration
 public class SlaConfig {
 	// /**
 	// * 如果限流配置项为空,则创建默认限流配置项。默认true

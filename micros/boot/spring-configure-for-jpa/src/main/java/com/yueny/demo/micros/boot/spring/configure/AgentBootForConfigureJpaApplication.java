@@ -23,12 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication
 @ComponentScan(basePackages = { "com.yueny.superclub.util.sla.core", // 限流
 		"com.yueny.demo.micros.boot.spring.configure" })
-@ImportResource(locations = { "classpath:/config/spring-dozer.xml", "classpath:/config/spring-db.xml",
-		"classpath:/config/spring-sla.xml", "classpath:/config/cfg-properties.xml" })
-@EnableTransactionManagement(proxyTargetClass = true) // 启用JPA事务管理
-@EnableJpaRepositories(basePackages = "com.yueny.demo.micros.boot.spring.configure.repository") // 启用JPA资源库并指定接口资源库位置
-@EntityScan(basePackages = "com.yueny.demo.micros.boot.spring.configure.entry") // 定义实体位置
+@ImportResource(locations = { "classpath:/config/cfg-properties.xml", "classpath:/config/spring-db.xml" })
 @EnableScheduling
+@EnableTransactionManagement // 启用JPA事务管理
+@EnableJpaRepositories(basePackages = "com.yueny.demo.micros.boot.spring.configure.repository") //
+// 启用JPA资源库并指定接口资源库位置
+@EntityScan(basePackages = "com.yueny.demo.micros.boot.spring.configure.entry") // 定义实体位置
 @Slf4j
 public class AgentBootForConfigureJpaApplication extends SpringBootServletInitializer implements DisposableBean {
 	private static Class<AgentBootForConfigureJpaApplication> applicationClass = AgentBootForConfigureJpaApplication.class;

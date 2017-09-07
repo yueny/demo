@@ -9,16 +9,13 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
- * Created by Rocky on 2017/4/26.
- */
-/**
  * @author yueny09 <deep_blue_yang@163.com>
  *
  * @DATE 2017年5月11日 上午11:11:04
  *
  */
 // @Configuration
-public class WrapperConfig {
+public class DozerConfig {
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertyConfig() {
 		return new PropertySourcesPlaceholderConfigurer();

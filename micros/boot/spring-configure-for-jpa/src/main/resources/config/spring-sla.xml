@@ -10,13 +10,15 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 	   default-autowire="byName">
-
+	
+	<!-- 
     <aop:config>
         <aop:aspect ref="rateLimitAdvice">
             <aop:around method="process"
               pointcut="within(com.yueny.demo.micros.boot.spring.configure.controller..*) and @annotation(com.yueny.superclub.util.sla.jvm.SlaRateLimit)"/>
         </aop:aspect>
     </aop:config>
+	 -->
 
 	<!-- 
 	<bean id="rateLimitBoss" class="com.yueny.superclub.util.sla.jvm.limit.boss.RateForMemoryLimitBoss"/>

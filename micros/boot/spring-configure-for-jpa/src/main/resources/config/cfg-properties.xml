@@ -7,13 +7,12 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
     <bean id="localConfigProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">  
-       <property name="locations">  
+       <property name="locations">
            <list>
-               <value>classpath:/properties/db.properties</value>
                <value>classpath:/properties/app.properties</value>
-               <value>classpath:/properties/redis.properties</value>
            </list>
        </property>
+       <property name="ignoreResourceNotFound" value="true"/>
     </bean>
 		
 	<bean id="cfgConfigProperties" class="com.taobao.diamond.extend.ExtendPropertiesFactoryBean">
@@ -22,6 +21,8 @@
                 <!-- groupId  dataId -->
                 <value>common, db</value>
                 <value>common, redis</value>
+                
+                <value>example-cfg-base, db</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
@@ -32,8 +33,8 @@
         <property name="propertiesArray">
            <list>
            		<!-- 按顺序加载， 若有重复，后者覆盖前者   -->
-               	<ref bean="cfgConfigProperties"/>
                	<ref bean="localConfigProperties"/>
+               	<ref bean="cfgConfigProperties"/>
            </list>  
        </property>
     </bean>
