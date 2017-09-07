@@ -29,13 +29,6 @@
 	            <type>pom</type>
 	            <scope>import</scope>
 	        </dependency>
-	        
-	        <!-- 如果使用spring-boot-starter-jetty，则用于解决 yueny-dependencies和spring-boot-dependencies 的依赖冲突 -->
-	        <dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-server</artifactId>
-				<version>9.4.4.v20170414</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	
@@ -58,17 +51,23 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jetty</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 		
-		<!-- db -->
+		<!-- 热部署
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+         -->
+         
+        <!-- 页面元素 thymeleaf  -->
+	    <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+	    
+	    
+        <!-- new import -->
+        <!-- db -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -77,39 +76,34 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		<!-- mybatis dependency -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-		</dependency>
-		
-		<!-- redis -->
+        <!-- redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.yueny.rapid.util</groupId>
+			<artifactId>rapid-util-sla</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-lua</artifactId>
+			<version>${rapid.laster.veision}</version>
+		</dependency>
+        <!-- new import -->
+        
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		
-		<!-- 页面元素 
-	    <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-	    -->
-	    
 		<!-- Project Lombok -->
 		<dependency>
 	        <groupId>org.projectlombok</groupId>
 	        <artifactId>lombok</artifactId>
 	        <scope>provided</scope>
 	    </dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
 		
 		<!-- Log Dependencies -->
 		<dependency>
@@ -138,6 +132,13 @@
 			 <artifactId>diamond-client</artifactId>
 			 <version>${cfg.diamond.client.version}</version>
 		</dependency>
+		
+		<dependency>
+	        <groupId>com.yueny.demo.dynamic</groupId>
+			<artifactId>scheduler-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+	    </dependency>
+	    
 		<dependency>
 		    <groupId>com.yueny.rapid</groupId>
 			<artifactId>api</artifactId>
@@ -146,11 +147,6 @@
 		<dependency>
 			<groupId>com.yueny.rapid.data</groupId>
 			<artifactId>rapid-data-log-core</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.yueny.rapid.service</groupId>
-			<artifactId>rapid-service-rest</artifactId>
 			<version>${rapid.laster.veision}</version>
 		</dependency>
 		<dependency>
@@ -164,16 +160,40 @@
 			<version>${rapid.laster.veision}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.yueny.rapid.util</groupId>
-			<artifactId>rapid-util-sla</artifactId>
+			<groupId>com.yueny.rapid.lang</groupId>
+			<artifactId>rapid-lang-mask</artifactId>
 			<version>${rapid.laster.veision}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.yueny.rapid.lang</groupId>
-			<artifactId>rapid-lang-lua</artifactId>
+		    <groupId>com.yueny.rapid.service</groupId>
+			<artifactId>rapid-service-rest</artifactId>
 			<version>${rapid.laster.veision}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+        </dependency>
+        
+		<!-- -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
 
+		<dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		</dependency>
+		
 		<!-- common -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -199,6 +219,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
