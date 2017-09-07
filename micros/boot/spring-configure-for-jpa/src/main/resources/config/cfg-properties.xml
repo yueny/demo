@@ -17,11 +17,13 @@
 		
 	<bean id="cfgConfigProperties" class="com.taobao.diamond.extend.ExtendPropertiesFactoryBean">
         <property name="configs">
+			<!-- groupId  dataId -->
             <list>
-                <!-- groupId  dataId -->
-                <value>common, db</value>
+            	<!-- redis配置 -->
                 <value>common, redis</value>
                 
+                <!-- 数据库配置 -->
+                <value>common, db</value>
                 <value>example-cfg-base, db</value>
             </list>
         </property>
