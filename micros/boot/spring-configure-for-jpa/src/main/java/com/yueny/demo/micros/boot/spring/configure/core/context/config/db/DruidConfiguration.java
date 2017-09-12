@@ -1,5 +1,6 @@
 package com.yueny.demo.micros.boot.spring.configure.core.context.config.db;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.yueny.demo.micros.boot.spring.configure.core.context.config.db.DruidConfigProperties.DruidConfig;
 
 /**
  * Druid监控服务器
@@ -18,12 +20,18 @@ import com.alibaba.druid.support.http.WebStatFilter;
  */
 @Configuration
 public class DruidConfiguration {
+	@Autowired
+	private DruidConfigProperties druidConfigProperties;
+
 	/**
 	 * @return 过滤器
 	 */
 	@Bean
 	public FilterRegistrationBean statFilter() {
 		final FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+
+		final DruidConfig cf = druidConfigProperties.getConfig();
+		System.out.println("DruidConfiguration:" + cf);
 
 		// 添加过滤规则
 		filterRegistrationBean.addUrlPatterns("/*");

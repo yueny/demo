@@ -27,6 +27,11 @@ public class ModifyDemoServiceImpl implements IModifyDemoService {
 		return modifyDemoRepository.count();
 	}
 
+	@Override
+	public List<ModifyDemoForJpaEntry> queryByDescLike(final String desc) {
+		return modifyDemoRepository.queryByDescLike(desc);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *

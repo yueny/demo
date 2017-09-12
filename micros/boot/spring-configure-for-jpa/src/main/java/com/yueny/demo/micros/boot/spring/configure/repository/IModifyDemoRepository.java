@@ -20,6 +20,12 @@ public interface IModifyDemoRepository extends JpaRepository<ModifyDemoForJpaEnt
 
 	ModifyDemoForJpaEntry findByName(String name);
 
+	/**
+	 * @param desc
+	 *            模糊查询
+	 */
+	List<ModifyDemoForJpaEntry> queryByDescLike(String desc);
+
 	List<ModifyDemoForJpaEntry> queryByType(final String type);
 
 }

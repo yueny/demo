@@ -22,3 +22,8 @@ spring:
 endpoints:
    shutdown:
       enabled: true
+      
+# just for test
+druid:
+    config:
+       statView: /druid/*

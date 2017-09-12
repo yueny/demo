@@ -12,12 +12,12 @@
 		<property name="password" value="${db.mysql.jdbc.password}" />
 		<property name="connectionProperties" value="config.decrypt=${db.mysql.jdbc.decrypt}"/>
 		<property name="filters" value="${db.mysql.filters}" />
-		<property name="maxActive" value="${db.jdbc.default.pool.maxActive}" />
-		<property name="initialSize" value="${db.jdbc.default.pool.initialSize}" />
-		<property name="maxWait" value="${db.jdbc.default.pool.maxWait}" />
-		<property name="minIdle" value="${db.jdbc.default.pool.minIdle}" />
-		<property name="timeBetweenEvictionRunsMillis" value="${db.jdbc.default.pool.timeBetweenEvictionRunsMillis}" />
-		<property name="minEvictableIdleTimeMillis" value="${db.jdbc.default.pool.minEvictableIdleTimeMillis}" />
+		<property name="maxActive" value="${db.mysql.default.pool.maxActive}" />
+		<property name="initialSize" value="${db.mysql.default.pool.initialSize}" />
+		<property name="maxWait" value="${db.mysql.default.pool.maxWait}" />
+		<property name="minIdle" value="${db.mysql.default.pool.minIdle}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${db.mysql.default.pool.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${db.mysql.default.pool.minEvictableIdleTimeMillis}" />
 		<property name="validationQuery" value="${db.mysql.validationQuery}" />
 		<property name="testWhileIdle" value="${db.mysql.testWhileIdle}" />
 		<property name="testOnBorrow" value="${db.mysql.testOnBorrow}" />

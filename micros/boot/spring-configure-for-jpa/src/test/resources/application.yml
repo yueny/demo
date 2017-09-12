@@ -1,0 +1,18 @@
+server:
+   port: 8091
+   tomcat:
+      uri-enconding: UTF-8
+   sessionTimeout: 45
+
+spring: 
+   jpa:
+      database: MYSQL
+      show-sql: true  #运行时输出SQL语句 
+   aop: 
+      proxy-target-class: true
+      auto: true
+   
+# url/shutdown
+endpoints:
+   shutdown:
+      enabled: true
