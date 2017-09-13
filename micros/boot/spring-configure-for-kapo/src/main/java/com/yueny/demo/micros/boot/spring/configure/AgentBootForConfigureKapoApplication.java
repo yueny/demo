@@ -46,12 +46,12 @@ import lombok.extern.slf4j.Slf4j;
 // * @Import注解可以用来导入其他配置类
 // */
 // @Import
-public class AgentBootApplication extends SpringBootServletInitializer implements DisposableBean {
-	private static Class<AgentBootApplication> applicationClass = AgentBootApplication.class;
+public class AgentBootForConfigureKapoApplication extends SpringBootServletInitializer implements DisposableBean {
+	private static Class<AgentBootForConfigureKapoApplication> applicationClass = AgentBootForConfigureKapoApplication.class;
 
 	public static void main(final String[] args) {
 		try {
-			SpringApplication.run(AgentBootApplication.class, args);
+			SpringApplication.run(AgentBootForConfigureKapoApplication.class, args);
 		} catch (final Exception e) {
 			log.error("服务启动异常:", e);
 		}

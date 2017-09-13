@@ -20,13 +20,13 @@ import org.springframework.context.annotation.PropertySource;
  */
 @PropertySource(value = {
 		"classpath:/properties/global.properties" }, ignoreResourceNotFound = true, encoding = "utf-8")
-public class AgentApplication {
+public class AgentBootForSimpleApplication {
 	// extends SpringBootServletInitializer implements
 	// EmbeddedServletContainerCustomizer {
-	private static final Logger logger = LoggerFactory.getLogger(AgentApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(AgentBootForSimpleApplication.class);
 
 	public static void main(final String[] args) {
-		SpringApplication.run(AgentApplication.class, args);
+		SpringApplication.run(AgentBootForSimpleApplication.class, args);
 		// System.exit(0);
 	}
 
