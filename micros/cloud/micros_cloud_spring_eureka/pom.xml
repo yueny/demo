@@ -4,366 +4,83 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.yueny.base</groupId>
-		<artifactId>parent</artifactId>
-		<version>1.1.1-RELEASE</version>
+		<groupId>com.yueny</groupId>
+		<artifactId>yueny-parent</artifactId>
+		<version>1.1.4-SNAPSHOT</version>
 	</parent>
 	
 	<groupId>com.yueny.demo.micros</groupId>
 	<artifactId>micros_cloud_spring_eureka</artifactId>
-	<packaging>jar</packaging>
-	
+
 	<properties>
 		<java.version>1.8</java.version>
-		<spring.version>4.3.3.RELEASE</spring.version>
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-
-		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
 	</properties>
-	
+
+	<!--  -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-dependencies</artifactId>
+	            <version>1.5.4.RELEASE</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+
+			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
+				<!--
 				<version>Brixton.RELEASE</version>
+				-->
+				<version>Dalston.SR1</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<dependencies>
-		<!--   -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <!-- spring boot提供的对应用系统的自省和监控的集成功能，可以对应用系统进行配置查看、相关功能统计等 -->
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-aop</artifactId>
-		</dependency>
-		<!-- spring boot web支持：mvc,aop... -->
-	    <dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-web</artifactId>
-		    <exclusions>
-		      <exclusion>
-		        <groupId>org.springframework.boot</groupId>
-		        <artifactId>spring-boot-starter-tomcat</artifactId>
-		      </exclusion>
-		    </exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jetty</artifactId>
-		</dependency>
-		<!--mybatis springboot
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-         -->
-		<!-- 热部署
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
-         -->
-        <!-- 引入freeMarker的依赖包. -->
-	    <dependency>
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter-freemarker</artifactId>
-	    </dependency>
-	    <!-- 邮件服务  -->
-	    <!-- -->
-	    <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>javax.mail</groupId>
-		    <artifactId>javax.mail-api</artifactId>
-		    <version>1.5.6</version>
-		</dependency>
-		
-		<!-- html模板引擎
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-velocity</artifactId>
-        </dependency>
-		 -->
-	    <dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka-server</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		<!-- 配置中心:Diamond是一个持久配置管理中心，核心功能是使应用在运行中感知配置数据的变化。 -->
-		<dependency>
-		    <groupId>com.baidu.disconf</groupId>
-		    <artifactId>disconf-client</artifactId>
-		    <version>2.6.36</version>
-		</dependency>
-
-		<!-- Project Lombok -->
-		<dependency>
-	        <groupId>org.projectlombok</groupId>
-	        <artifactId>lombok</artifactId>
-	        <scope>provided</scope>
-	    </dependency>
-
-		<!-- Log Dependencies -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>log4j-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-		</dependency>
-		 -->
-		 
-		<!-- example -->
-		<dependency>
-			<groupId>com.yueny.demo</groupId>
-			<artifactId>common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-	        <groupId>com.yueny.demo.dynamic</groupId>
-			<artifactId>scheduler-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-	    </dependency>
-	    
-		<dependency>
-		    <groupId>com.yueny.rapid</groupId>
-			<artifactId>api</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.data</groupId>
-			<artifactId>rapid-data-log-core</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.util</groupId>
-			<artifactId>rapid-util-exec</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.lang</groupId>
-			<artifactId>rapid-lang-dozer</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.lang</groupId>
-			<artifactId>rapid-lang-mask</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.yueny.rapid.service</groupId>
-			<artifactId>rapid-service-rest</artifactId>
-			<version>${rapid.laster.veision}</version>
-		</dependency>
-		
-		<dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>3.3</version>
-        </dependency>
-        
-		<!-- 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-		</dependency>
-		 -->
-		<dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-		<dependency>
-		    <groupId>com.google.code.gson</groupId>
-		    <artifactId>gson</artifactId>
-		</dependency>
-		
-		<!-- common -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>15.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
-		</dependency>
-		
-		<!-- 观察者模式  -->
-		<dependency>
-		    <groupId>io.reactivex.rxjava2</groupId>
-		    <artifactId>rxjava</artifactId>
-		    <version>2.1.0</version>
-		</dependency>
-		
-		<!-- test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	
 	<build>
-		<finalName>micros_spring_boot</finalName>
-		
-	    <plugins>
-	    	<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
-            
+		<finalName>micros_cloud_spring_eureka</finalName>
+
+		<plugins>
 			<plugin>
-			    <groupId>org.projectlombok</groupId>
-			    <artifactId>lombok-maven-plugin</artifactId>
-			    <version>1.16.6.1</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.5.4.RELEASE</version>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
-			<!-- 编译级别 -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.encoding}</encoding>
-                </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <configuration>
-                    <downloadSources>true</downloadSources>
-                    <ajdtVersion>none</ajdtVersion>
-                </configuration>
-            </plugin>
-            <plugin>
-                 <groupId>org.codehaus.mojo</groupId>
-                 <artifactId>build-helper-maven-plugin</artifactId>
-                 <executions>
-                    <execution>
-                    	<id>add-resource</id>
-                    	<phase>validate</phase>
-					    <goals>
-					    	<goal>add-resource</goal>
-					    </goals>
-                        <configuration>
-                            <resources>
-                            	<resource>
-                                    <directory>profile/${env}/config</directory>
-                                    <targetPath>config</targetPath>
-                                    <filtering>true</filtering>
-                                </resource>
-                                <resource>
-                                    <directory>profile/${env}/properties</directory>
-                                    <targetPath>properties</targetPath>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                 </executions>
-             </plugin>
 	    </plugins>
 	</build>
-	
-	<profiles>
-        <profile>
-            <id>local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <env>local</env>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>dev</id>
-            <properties>
-                <env>dev</env>
-            </properties>
-        </profile>
-        
-		<profile>
-            <id>qa</id>
-			<properties>
-            	<env>qa</env>
-			</properties>
-        </profile>
-        
-        <profile>
-            <id>pre</id>
-            <properties>
-            	<env>pre</env>
-            </properties>
-        </profile>
-        
-        <profile>
-            <id>prod</id>
-            <properties>
-            	<env>prod</env>
-            </properties>
-        </profile>
-	</profiles>
 	
 </project>

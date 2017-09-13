@@ -1,27 +1,21 @@
-## 简单的boot配置
-# 涉及spring注入, jetty(tomcat端口配置)
-# 不涉及数据库，缓存等配置
-* mvn clean package -Dmaven.test.skip=true -U
+## 使用Spring Cloud Eureka来实现服务治理
 
-# 命令启动应用程序
-#  不指定加载，使用默认的配置文件路径
-* java -jar target/micros_spring_boot-1.5.3.RELEASE.jar
+# Spring Cloud Eureka是Spring Cloud Netflix项目下的服务治理模块。而Spring Cloud Netflix项目是Spring Cloud的子项目之一，主要内容是对Netflix公司一系列开源产品的包装，它为Spring Boot应用提供了自配置的Netflix OSS整合。通过一些简单的注解，开发者就可以快速的在应用中配置一下常用模块并构建庞大的分布式系统。它主要提供的模块包括：服务发现（Eureka），断路器（Hystrix），智能路由（Zuul），客户端负载均衡（Ribbon）等。
+创建“服务注册中心”
 
-#  指定加载的配置文件路径 -Dspring.config.location
-* java -jar -Dspring.config.location=classpath:/properties/*.yml target/micros_spring_boot-1.5.3.RELEASE.jar
-# 指定服务对外端口号
-* java -jar -Dserver.port=8090 target/micros_spring_boot-1.5.3.RELEASE.jar
-# 
-* java -jar -Dserver.port=8090 -Dspring.config.location=classpath:/application.yml,classpath:/properties/default.yml target/micros_spring_boot-1.5.3.RELEASE.jar
+创建一个基础的Spring Boot工程，命名为eureka-server，并在pom.xml中引入需要的依赖内容：
 
-## RxJava
-# 四个基本概念：Observable (可观察者，即被观察者)、 Observer (观察者)、 subscribe (订阅)、事件。实质上就是观察者模式的基本概念。被观察者通过subscribe()方法与观察者实现订阅关系，之后一有事件发出就通知观察者。
-RxJava 2.0 最核心的是Publisher和Subscriber。Publisher可以发出一系列的事件，而Subscriber负责和处理这些事件
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-dependencies</artifactId>
+           <version>Dalston.SR1</version>
+           <type>pom</type>
+           <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
 
-可以在 Publisher 中查询数据库或者从网络上获取数据，然后在 Subscriber 中显示。
-Publisher 不只有一种，事实上 Flowable 和 Processor 所有的子类都属于 Publisher。
-在数据发射途中，你可以利用操作符对数据进行变换。
+通过@EnableEurekaServer注解启动一个服务注册中心提供给其他应用进行对话。这一步非常的简单，只需要在一个普通的Spring Boot应用中添加这个注解就能开启此功能.
 
-Schedulers.io() 代表io操作的线程, 通常用于网络,读写文件等io密集型的操作
-Schedulers.computation() 代表CPU计算密集型的操作, 例如需要大量计算的操作
-Schedulers.newThread() 代表一个常规的新线程

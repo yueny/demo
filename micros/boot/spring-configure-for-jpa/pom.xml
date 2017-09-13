@@ -300,6 +300,7 @@
             </activation>
             <properties>
                 <env>local</env>
+				<logPath>/Users/yueny/data/logs/tomcat/micros/spring/boot</logPath>
             </properties>
         </profile>
 
@@ -307,6 +308,7 @@
             <id>dev</id>
             <properties>
                 <env>dev</env>
+				<logPath>/Users/yueny/data/logs/tomcat/micros/spring/boot</logPath>
             </properties>
         </profile>
         
@@ -314,6 +316,7 @@
             <id>qa</id>
 			<properties>
             	<env>qa</env>
+				<logPath>/data/logs/tomcat/micros/spring/boot</logPath>
 			</properties>
         </profile>
         
@@ -321,6 +324,7 @@
             <id>prod</id>
             <properties>
             	<env>prod</env>
+				<logPath>/data/logs/tomcat/micros/spring/boot</logPath>
             </properties>
         </profile>
 	</profiles>
