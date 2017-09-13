@@ -12,8 +12,11 @@
 	</properties>
 	  	
 	<modules>
-		<module>spring-cloud</module>
-		<module>spring-cloud-config</module>
+		<module>micros_cloud_spring_config</module>
+		<module>micros_cloud_spring_discovery</module>
+		<module>micros_cloud_spring_eureka</module>
+		<module>micros_cloud_spring_hystrix</module>
+		<module>micros_cloud_spring_netflix</module>
 	</modules>
 
 </project>
