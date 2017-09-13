@@ -27,11 +27,6 @@ public class ModifyDemoServiceImpl implements IModifyDemoService {
 		return modifyDemoRepository.count();
 	}
 
-	@Override
-	public List<ModifyDemoForJpaEntry> queryByDescLike(final String desc) {
-		return modifyDemoRepository.queryByDescLike(desc);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -40,7 +35,7 @@ public class ModifyDemoServiceImpl implements IModifyDemoService {
 	 * queryById(java.lang.Long)
 	 */
 	@Override
-	@Cacheable(value = "queryByIdFor", keyGenerator = "wiselyKeyGenerator")
+	@Cacheable(value = "mysql:queryByIdFor", keyGenerator = "wiselyKeyGenerator")
 	public ModifyDemoForJpaEntry queryById(final Long id) {
 		return modifyDemoRepository.findOne(id);
 	}

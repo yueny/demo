@@ -48,12 +48,4 @@ public class WelcomeController extends BaseController {
 		return "welcome";
 	}
 
-	@RequestMapping(value = "/welcomelike/{desc}")
-	public String homeForDesc(@PathVariable final String desc) {
-		logger.info("主页 {} 被访问了~！", getEnv());
-
-		addAttribute("title", this.welcomeProperties.getName());
-		addAttribute("userName", modifyDemoService.queryByDescLike(desc));
-		return "welcome";
-	}
 }

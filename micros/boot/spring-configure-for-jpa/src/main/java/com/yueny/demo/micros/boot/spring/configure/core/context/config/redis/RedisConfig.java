@@ -19,7 +19,13 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * redis集成注解缓存管理（注解用）
+ * redis集成注解缓存管理（注解用）<br>
+ * @Cacheable为注解取缓存<br>
+ * @CachePut为修改缓存，如不存在则创建。如在update时<br>
+ * @CacheEvict为删除缓存，当删除数据时，如果缓存还存在，就必须删除。如在delete时<br>
+ * 													各个注解中的value参数是一个key的前缀，
+ *                                                     并由KeyGenerator按一定的规则生成一个唯一标识
+ *                                                     <br>
  *
  * @author yueny09 <deep_blue_yang@163.com>
  *
@@ -79,9 +85,11 @@ public class RedisConfig extends CachingConfigurerSupport {
 				// name and all method parameters appended.
 				final StringBuilder sb = new StringBuilder();
 				sb.append(target.getClass().getName());
-				sb.append(method.getName());
+				sb.append(":");
 
+				sb.append(method.getName());
 				sb.append("#");
+
 				// final Cacheable cacheable =
 				// method.getAnnotation(Cacheable.class);
 				// if (cacheable != null) {

@@ -16,9 +16,9 @@ public class ModifyDemoServiceTest extends ServiceTester {
 
 	@Test
 	public void testQueryById() {
-		final List<ModifyDemoForJpaEntry> ts = modifyDemoService.queryByDescLike("MQ");
+		final ModifyDemoForJpaEntry en = modifyDemoService.queryById(1L);
 
-		Assert.assertTrue("数据不一致", ts.size() > 0);
+		Assert.assertNotNull(en);
 	}
 
 	@Test
