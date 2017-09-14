@@ -1,10 +1,11 @@
 server:
-  contextPath: /configserver
-  port: 8085
+  port: 8000
 
 spring:
+  application:
+    name: config-server
   cloud:
-    name: configserver
+    name: config-server
     config:
       server:
          git:
@@ -12,3 +13,9 @@ spring:
           uri: https://github.com/yueny/pra/tree/master/micros/cloud/config-center
           username: yueny
           password: liyu.521.
+
+#eureka.client.serviceUrl.defaultZone=http://peer1:1001/eureka/,http://peer2:1002/eureka/
+eureka:
+  client:
+     serviceUrl:
+        defaultZone: http://localhost:8001/eureka/

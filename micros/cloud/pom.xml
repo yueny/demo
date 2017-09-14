@@ -15,8 +15,12 @@
 		<module>micros_cloud_spring_config_server</module>
 		<module>micros_cloud_spring_discovery</module>
 		<module>micros_cloud_spring_eureka</module>
+		<module>micros_cloud_spring_eureka_client</module>
+		<module>micros_cloud_spring_eureka_consumer</module>
 		<module>micros_cloud_spring_hystrix</module>
 		<module>micros_cloud_spring_netflix</module>
+		<module>micros_cloud_spring_zuul</module>
+		<module>micros_cloud_spring_ribbon</module>
 	</modules>
 
 </project>

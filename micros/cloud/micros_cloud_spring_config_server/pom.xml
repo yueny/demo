@@ -21,9 +21,17 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-dependencies</artifactId>
+	            <version>1.5.4.RELEASE</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+	        
+			<dependency>
 				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-parent</artifactId>
-				<version>Brixton.SR4</version>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Dalston.SR1</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -42,6 +50,7 @@
 			</exclusions>
 		</dependency>
 
+		<!-- 配置中心 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-server</artifactId>
@@ -51,11 +60,30 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		
+		<!-- 服务发现 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+
 		<dependency>
 	        <groupId>org.projectlombok</groupId>
 	        <artifactId>lombok</artifactId>
 	        <scope>provided</scope>
 	    </dependency>
+	    
+	    <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<build>
@@ -63,17 +91,19 @@
 		
 	    <plugins>
 	    	<plugin>
-                <groupId>org.springframework.boot</groupId>
+				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
-            
-			<plugin>
-			    <groupId>org.projectlombok</groupId>
-			    <artifactId>lombok-maven-plugin</artifactId>
-			    <version>1.16.6.1</version>
+				<version>1.5.4.RELEASE</version>
+				<configuration>
+					<executable>true</executable>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
