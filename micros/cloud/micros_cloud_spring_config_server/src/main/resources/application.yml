@@ -1,0 +1,14 @@
+server:
+  contextPath: /configserver
+  port: 8085
+
+spring:
+  cloud:
+    name: configserver
+    config:
+      server:
+         git:
+          # 配置中心配置地址
+          uri: https://github.com/yueny/pra/tree/master/micros/cloud/config-center
+          username: yueny
+          password: liyu.521.

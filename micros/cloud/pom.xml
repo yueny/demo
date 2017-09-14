@@ -12,7 +12,7 @@
 	</properties>
 	  	
 	<modules>
-		<module>micros_cloud_spring_config</module>
+		<module>micros_cloud_spring_config_server</module>
 		<module>micros_cloud_spring_discovery</module>
 		<module>micros_cloud_spring_eureka</module>
 		<module>micros_cloud_spring_hystrix</module>
