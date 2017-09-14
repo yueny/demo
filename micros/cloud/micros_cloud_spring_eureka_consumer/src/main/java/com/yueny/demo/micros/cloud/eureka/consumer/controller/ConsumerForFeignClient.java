@@ -2,7 +2,8 @@ package com.yueny.demo.micros.cloud.eureka.consumer.controller;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.context.annotation.Description;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Feign的客户端接口定义<br>
@@ -14,9 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
  *
  */
 @FeignClient("eureka-client")
+// @FeignClient(value = "compute-service", fallback =
+// ComputeClientHystrix.class)
+// ComputeClientHystrix 为ConsumerForFeignClient接口的实现类
 @Description("Feign客户端")
 public interface ConsumerForFeignClient {
-	@GetMapping("/welcome")
+	@RequestMapping(method = RequestMethod.GET, value = "/welcome")
+	// Integer add(@RequestParam(value = "a") Integer a );
 	String consumer();
 
 }

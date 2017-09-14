@@ -18,6 +18,7 @@
 		<module>micros_cloud_spring_eureka_client</module>
 		<module>micros_cloud_spring_eureka_consumer</module>
 		<module>micros_cloud_spring_hystrix</module>
+		<module>micros_cloud_spring_hystrix_dashboard</module>
 		<module>micros_cloud_spring_netflix</module>
 		<module>micros_cloud_spring_zuul</module>
 		<module>micros_cloud_spring_ribbon</module>

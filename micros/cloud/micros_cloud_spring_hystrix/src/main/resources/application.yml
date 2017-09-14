@@ -1,79 +1,12 @@
-# Server settings (ServerProperties)
-# 在yaml中缩进不要使用TAB，否则会解析错误
-# 使用.yml时，属性名的值和冒号中间必须有空格. spring会从classpath下的/config目录或者classpath的根目录查找application.properties或application.yml。
-# /config优先于classpath根目录
-
-# 服务器配置
 server:
-   port: 8090
-   sessionTimeout: 45
-   # 默认是/,直接通过http://ip:port/就可以访问，如果要修改为http://ip:port/path/访问，需要server.context-path=/path
-   contextPath: /
-   #server.tomcat.protocol-header=x-forwarded-proto # ssl forward headers
-   #server.tomcat.remote-ip-header=x-forwarded-for
-   #server.tomcat.max-threads = 0 # number of threads in protocol handler
-   #server.tomcat.uri-encoding = UTF-8 # character encoding to use for URLdecoding
+   port: 8004
 
-database: 
-   style:
-      config: MY_SQL
-      
-spring: 
-   aop: 
-      proxy-target-class: true
-      auto: true
-   # 数据库配置
-   datasource:
-        driver-class-name: com.mysql.jdbc.Driver
-        type: com.alibaba.druid.pool.DruidDataSource
-        name: test
-        url: jdbc:mysql://localhost:3306/TEST?useUnicode=true&amp;characterEncoding=utf-8
-        username: root
-        password: root
-        filters: stat
-        maxActive: 20
-        initialSize: 1
-        maxWait: 60000
-        minIdle: 1
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: select 'x'
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        maxOpenPreparedStatements: 20
-   quartzDataSource:
-        driver-class-name: com.mysql.jdbc.Driver
-        type: com.alibaba.druid.pool.DruidDataSource
-        name: test
-        url: jdbc:mysql://localhost:3306/quartz?useUnicode=true&amp;characterEncoding=utf-8
-        username: root
-        password: root
-        # bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
-        filters: stat
-        maxActive: 20
-        initialSize: 1
-        maxWait: 60000
-        minIdle: 1
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: select 'x'
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        maxOpenPreparedStatements: 20
-   mvc:
-      # 设定静态文件路径，js,css等
-      #static-path-pattern: /static/**
-      view:
-         # 指定mvc视图的前缀
-         prefix: /
-         # 指定mvc视图的后缀
-         suffix: .ftl
-   
-# url/shutdown
-endpoints:
-   shutdown:
-      enabled: true
+# 通过spring.application.name属性，我们可以指定微服务的名称后续在调用的时候只需要使用该名称就可以进行服务的访问。
+spring:
+   application:
+      name: eureka-hystrix
+
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://localhost:8001/eureka/

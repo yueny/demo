@@ -10,7 +10,7 @@
 	</parent>
 	
 	<groupId>com.yueny.demo.micros</groupId>
-	<artifactId>micros_cloud_spring_hystrix</artifactId>
+	<artifactId>micros_cloud_spring_hystrix_dashboard</artifactId>
 	
 	<properties>
 		<java.version>1.8</java.version>
@@ -41,22 +41,17 @@
 	
 	<dependencies>
 		<dependency>
-	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-starter-eureka</artifactId>
-	    </dependency>
-    	
-    	<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-hystrix</artifactId>
+		</dependency>
+		<!-- 监控模块  -->
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-	    <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-starter-ribbon</artifactId>
-	    </dependency>
-	    
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-hystrix</artifactId>
+			<artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
 		</dependency>
 		
 		<dependency>

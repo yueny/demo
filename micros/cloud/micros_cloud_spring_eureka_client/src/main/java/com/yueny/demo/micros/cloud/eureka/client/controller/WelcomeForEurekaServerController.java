@@ -27,4 +27,19 @@ public class WelcomeForEurekaServerController {
 		return "welcome";
 	}
 
+	@GetMapping(value = "/welcome/big")
+	public String welcomeBig() {
+		try {
+			Thread.sleep(2000L);
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		final List<String> services = discoveryClient.getServices();
+		final ServiceInstance instance = discoveryClient.getLocalServiceInstance();
+		logger.info("/welcome, Services：{},host:" + instance.getHost() + ", service_id:" + instance.getServiceId(),
+				services);
+		return "welcome";
+	}
+
 }
