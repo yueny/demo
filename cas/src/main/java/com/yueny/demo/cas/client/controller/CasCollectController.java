@@ -14,9 +14,12 @@ import com.yueny.demo.api.resp.ResourceGroup;
 import com.yueny.demo.util.AnnotationManagerUtil;
 import com.yueny.rapid.data.resp.pojo.response.NormalResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @Description("CAS系统信息搜集服务")
-public class CasCollectController extends BaseController {
+@Slf4j
+public class CasCollectController {
 	/**
 	 * 系统标识
 	 */
@@ -28,7 +31,7 @@ public class CasCollectController extends BaseController {
 	 */
 	@RequestMapping(value = CollectConst.CAS_COLLECT_RESOURCE)
 	public NormalResponse<ResourceGroup> collect() {
-		logger.info("CAS系统信息搜集服务~");
+		log.info("CAS系统信息搜集服务~");
 		final NormalResponse<ResourceGroup> resp = new NormalResponse<>();
 
 		// 获取资源
@@ -37,6 +40,7 @@ public class CasCollectController extends BaseController {
 			// 获取资源
 			mmap = AnnotationManagerUtil.getMappingMethod("com.yueny.demo.cas.client.controller");
 		} catch (final Exception e) {
+			log.error("系统异常：", e);
 			resp.setCode("60009901");
 			resp.setMessage("资源获取失败！");
 			return resp;
@@ -47,6 +51,7 @@ public class CasCollectController extends BaseController {
 			group.setCasClientSystem(casClientSystem);
 			resp.setData(group);
 		} catch (final Exception e) {
+			log.error("系统异常：", e);
 			resp.setCode("60009902");
 			resp.setMessage("系统[" + casClientSystem + "]忙！");
 		}
