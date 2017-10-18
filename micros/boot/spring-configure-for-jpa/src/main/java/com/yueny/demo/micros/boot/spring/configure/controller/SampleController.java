@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yueny.demo.micros.boot.spring.configure.api.request.JobForMatcherRequest;
 import com.yueny.rapid.data.resp.pojo.response.NormalResponse;
 import com.yueny.rapid.lang.json.JsonUtil;
-import com.yueny.superclub.util.sla.jvm.SlaRateLimit;
-import com.yueny.superclub.util.sla.jvm.config.enums.SlaRateLimitReturnType;
-import com.yueny.superclub.util.sla.jvm.config.enums.SlaRateLimitType;
-import com.yueny.superclub.util.sla.whole.SlaRateWholeLimit;
-
-import io.reactivex.Observable;
 
 /*
  * @Controller和@ResponseBody的合集
@@ -29,9 +23,6 @@ import io.reactivex.Observable;
 @RestController
 public class SampleController extends BaseController {
 	@RequestMapping("/service/{key}")
-	// @SlaRateLimit(threshold = 1, type = SlaRateLimitType.WEB, returnType =
-	// SlaRateLimitReturnType.JSON)
-	@SlaRateWholeLimit(threshold = 1, returnType = SlaRateLimitReturnType.JSON)
 	public NormalResponse<String> key(@PathVariable final String key) {
 		logger.info("{}/{} 被访问了~！", key, getEnv());
 
@@ -47,7 +38,6 @@ public class SampleController extends BaseController {
 	}
 
 	@RequestMapping(value = "/post/data", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@SlaRateLimit(threshold = 1, type = SlaRateLimitType.SAL, returnType = SlaRateLimitReturnType.AUTO)
 	public NormalResponse<Boolean> matcherData(@RequestBody @Valid final JobForMatcherRequest req,
 			final BindingResult bindingResult) {
 		final NormalResponse<Boolean> reps = new NormalResponse<Boolean>();
@@ -69,7 +59,4 @@ public class SampleController extends BaseController {
 		return reps;
 	}
 
-	private void he() {
-		final Observable<String> observer = Observable.just("Hello");
-	}
 }
