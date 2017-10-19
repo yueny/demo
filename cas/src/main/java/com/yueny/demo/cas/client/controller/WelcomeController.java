@@ -16,8 +16,12 @@ import com.yueny.rapid.data.resp.pojo.response.NormalResponse;
 @Description("欢迎页")
 public class WelcomeController extends BaseController {
 
-	/*
-	 * 提供路由信息，负责URL到Controller中的具体函数的映射。
+	/**
+	 * 默认页<br/>
+	 *
+	 * @RequestMapping("/") 和 @RequestMapping 是有区别的<br/>
+	 * 如果不写参数，则为全局默认页，假如输入404页面，也会自动访问到这个页面。<br/>
+	 * 如果加了参数“/”，则只认为是根页面。<br/>
 	 */
 	@GetMapping(value = "/")
 	@AuthControl(desc = "主页")
