@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yueny.demo.annotation.AuthControl;
 import com.yueny.rapid.data.resp.pojo.response.NormalResponse;
@@ -24,11 +25,13 @@ public class WelcomeController extends BaseController {
 		logger.info("主页  被访问了~！");
 
 		addAttribute("title", "a");
+		addAttribute("userName", "yueny09");
 		return "welcome";
 	}
 
 	@RequestMapping("/service/{key}") // service/*/a/b.json
 	// @AuthControl(desc = "模拟菜单")
+	@ResponseBody
 	public NormalResponse<String> key(@PathVariable final String key) {
 		logger.info(" 被访问了~！", key);
 
