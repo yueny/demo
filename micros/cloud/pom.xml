@@ -13,6 +13,8 @@
 	  	
 	<modules>
 		<module>micros_cloud_spring_config_server</module>
+		<module>micros_cloud_spring_config_client_for_soter</module>
+		
 		<module>micros_cloud_spring_discovery</module>
 		<module>micros_cloud_spring_eureka</module>
 		<module>micros_cloud_spring_eureka_client</module>

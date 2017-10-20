@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: soter
+  cloud:
+    config:
+       uri: http://localhost:8889/configserver
+       
+server:
+  contextPath: /${spring.application.name}
+  port: 8001

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+   <title>hello</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<span th:text="${successMsg}"></span> && <span th:text="${profile}"></span>
+	
+	<table>
+	   <tr>
+	       <th>是否有效</th>
+	   </tr>
+	   <tr th:each="dataItem : ${list}" align="center" class="border:2px solid #000;">
+	       <td th:text="${dataItem.userName}"></td>
+	   </tr>
+	</table>
+ 
+</body>
+</html>

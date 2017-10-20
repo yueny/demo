@@ -1,16 +1,17 @@
+# http://localhost:8889/configserver
 server:
-  port: 8000
+  contextPath: /configserver
+  port: 8889
 
 spring:
   application:
-    name: config-server
+    name: configserver
   cloud:
-    name: config-server
     config:
       server:
          git:
-          # 配置中心配置地址
-          uri: https://github.com/yueny/pra/tree/master/micros/cloud/config-center
+          # 配置中心配置文件的项目地址
+          uri: https://github.com/yueny/config-center.git
           username: yueny
           password: liyu.521.
 

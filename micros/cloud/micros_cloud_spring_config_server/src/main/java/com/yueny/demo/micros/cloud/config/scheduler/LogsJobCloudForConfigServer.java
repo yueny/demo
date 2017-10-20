@@ -32,8 +32,11 @@ public class LogsJobCloudForConfigServer {
 	public void doSomething() {
 		// 间隔1分钟,执行任务
 		try {
-			final Thread thread = Thread.currentThread();
-			log.info("定时任务{}/{}，The time is now ：{}。", thread.getId(), thread.getName(), dateFormat.format(new Date()));
+			System.out.println("The time is now ：" + dateFormat.format(new Date()));
+
+			// final Thread thread = Thread.currentThread();
+			// log.info("定时任务{}/{}，The time is now ：{}。", thread.getId(),
+			// thread.getName(), dateFormat.format(new Date()));
 		} catch (final Exception e) {
 			log.error("【任务】 超过超时，下次继续.");
 		}

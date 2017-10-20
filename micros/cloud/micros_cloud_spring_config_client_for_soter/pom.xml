@@ -4,19 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.yueny</groupId>
-		<artifactId>yueny-parent</artifactId>
-		<version>1.1.4-SNAPSHOT</version>
+		<groupId>com.yueny.base</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.1.1-RELEASE</version>
+		<relativePath />
 	</parent>
 	
 	<groupId>com.yueny.demo.micros</groupId>
-	<artifactId>micros_cloud_spring_eureka</artifactId>
+	<artifactId>micros_cloud_spring_config_client_for_soter</artifactId>
 
 	<properties>
 		<java.version>1.8</java.version>
-		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<dependencyManagement>
@@ -28,13 +27,10 @@
 	            <type>pom</type>
 	            <scope>import</scope>
 	        </dependency>
-
+	        
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<!--
-				<version>Brixton.RELEASE</version>
-				-->
 				<version>Dalston.SR1</version>
 				<type>pom</type>
 				<scope>import</scope>
@@ -43,36 +39,59 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<dependency>
+	    <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- 配置中心客户端 -->
+    	<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-eureka-server</artifactId>
+			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
-		
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		
+           <groupId>org.springframework.cloud</groupId>
+           <artifactId>spring-cloud-config-client</artifactId>
+       </dependency>
+       
+		<dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-thymeleaf</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-devtools</artifactId>
+           <optional>true</optional>
+       </dependency>
+       
+       <dependency>
+           <groupId>org.springframework.boot</groupId>
+           <artifactId>spring-boot-starter-test</artifactId>
+           <scope>test</scope>
+       </dependency>
+       
+		<dependency>
+	        <groupId>org.projectlombok</groupId>
+	        <artifactId>lombok</artifactId>
+	        <scope>provided</scope>
+	    </dependency>
+	    
+	    <!-- Log Dependencies -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>log4j-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
 	</dependencies>
 	
 	<build>
-		<finalName>micros_cloud_spring_eureka</finalName>
-
-		<plugins>
-			<plugin>
+	    <plugins>
+	    	<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>1.5.4.RELEASE</version>
@@ -87,10 +106,13 @@
 					</execution>
 				</executions>
 			</plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
             </plugin>
 	    </plugins>
 	</build>
