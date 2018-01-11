@@ -33,10 +33,9 @@ public class DataPrecipitationDaoImpl extends AbstractOrginDao<ModifyDemoEntry> 
 	 * java.lang.Integer, java.lang.Integer)
 	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer shardingItem,
-			final Integer fetchDataNum) {
+	public List<Long> queryIdsBySharding(final int taskTotalItemsharding, final Integer taskItemValues) {
 		final QueryBuilder builder = QueryBuilder.builder()
-				.where("mod(ID, " + taskTotalItemsharding + ")", shardingItem).limit(fetchDataNum).build();
+				.where("mod(ID, " + taskTotalItemsharding + ")", taskItemValues).build();
 
 		return super.queryEntryIdsByColumns(builder);
 	}
@@ -48,10 +47,25 @@ public class DataPrecipitationDaoImpl extends AbstractOrginDao<ModifyDemoEntry> 
 	 * java.lang.Integer, java.lang.Integer)
 	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer shardingItem,
+	public List<Long> queryIdsBySharding(final int taskTotalItemsharding, final Integer taskItemValues,
+			final Integer fetchDataNum) {
+		final QueryBuilder builder = QueryBuilder.builder()
+				.where("mod(ID, " + taskTotalItemsharding + ")", taskItemValues).limit(fetchDataNum).build();
+
+		return super.queryEntryIdsByColumns(builder);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see com.yueny.demo.job.dao.IDataPrecipitationDao#quertIdsBySharding(int,
+	 * java.lang.Integer, java.lang.Integer)
+	 */
+	@Override
+	public List<Long> queryIdsBySharding(final int taskTotalItemsharding, final Integer taskItemValues,
 			final Integer fetchDataNum, final YesNoType type) {
 		final QueryBuilder builder = QueryBuilder.builder().where("TYPE", type.name())
-				.where("mod(ID, " + taskTotalItemsharding + ")", shardingItem).limit(fetchDataNum).build();
+				.where("mod(ID, " + taskTotalItemsharding + ")", taskItemValues).limit(fetchDataNum).build();
 
 		return super.queryEntryIdsByColumns(builder);
 	}
@@ -62,10 +76,10 @@ public class DataPrecipitationDaoImpl extends AbstractOrginDao<ModifyDemoEntry> 
 	 * @see com.yueny.demo.job.dao.IDataPrecipitationDao#quertIdsBySharding(int)
 	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final List<Integer> shardingItems,
+	public List<Long> queryIdsBySharding(final int taskTotalItemsharding, final List<Integer> taskItemValues,
 			final Integer fetchDataNum) {
 		final QueryBuilder builder = QueryBuilder.builder().where("TYPE", "N")
-				.where("mod(ID, " + taskTotalItemsharding + ")", BasicSqlOperand.IN, shardingItems).limit(fetchDataNum)
+				.where("mod(ID, " + taskTotalItemsharding + ")", BasicSqlOperand.IN, taskItemValues).limit(fetchDataNum)
 				.build();
 
 		return super.queryEntryIdsByColumns(builder);

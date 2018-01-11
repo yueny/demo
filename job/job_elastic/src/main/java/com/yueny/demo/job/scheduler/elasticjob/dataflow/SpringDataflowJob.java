@@ -77,7 +77,7 @@ public class SpringDataflowJob implements DataflowJob<Long>, IScheduler {
 			e.printStackTrace();
 		}
 
-		final List<Long> ids = dataPrecipitationService.quertIdsBySharding(shardingContext.getShardingTotalCount(),
+		final List<Long> ids = dataPrecipitationService.queryIdsBySharding(shardingContext.getShardingTotalCount(),
 				shardingContext.getShardingItem(), 10, YesNoType.N);
 		log.info("获取TYPE is 'N' 的信息:{}， Thread ID: {}, Sharding Context: {}.", ids, Thread.currentThread().getId(),
 				shardingContext);

@@ -8,16 +8,33 @@
 	</parent>
 	
 	<groupId>com.yueny.demo.job</groupId>
-	<artifactId>job_elastic</artifactId>
+	<artifactId>job_elastic_example</artifactId>
 	<packaging>jar</packaging>
 	
 	<properties>
 		<rapid.laster.veision>1.0.1-SNAPSHOT</rapid.laster.veision>
 		
-		<elastic.job.veision>2.1.4</elastic.job.veision>
+		<elastic.job.veision>2.1.5</elastic.job.veision>
 	</properties>
 	
 	<dependencies>
+		<!-- ej  -->
+		<dependency>
+		    <groupId>com.dangdang</groupId>
+		    <artifactId>elastic-job-lite-core</artifactId>
+		    <version>${elastic.job.veision}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.dangdang</groupId>
+		    <artifactId>elastic-job-lite-spring</artifactId>
+		    <version>${elastic.job.veision}</version>
+		</dependency>
+		<dependency>
+            <groupId>com.dangdang</groupId>
+            <artifactId>elastic-job-common-core</artifactId>
+            <version>${elastic.job.veision}</version>
+        </dependency>
+        
 		<!-- Compile -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -113,35 +130,6 @@
 			<version>${rapid.laster.veision}</version>
 		</dependency>
 		
-		<!-- ej  -->
-		<dependency>
-		    <groupId>com.dangdang</groupId>
-		    <artifactId>elastic-job-lite-core</artifactId>
-		    <version>${elastic.job.veision}</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>com.dangdang</groupId>
-		    <artifactId>elastic-job-lite-spring</artifactId>
-		    <version>${elastic.job.veision}</version>
-		</dependency>
-		<dependency>
-            <groupId>com.dangdang</groupId>
-            <artifactId>elastic-job-common-core</artifactId>
-            <version>${elastic.job.veision}</version>
-        </dependency>
-	    
-	    <dependency>
-            <groupId>com.taobao.diamond</groupId>
-            <artifactId>diamond-client</artifactId>
-            <version>3.3-SNAPSHOT</version>
-        </dependency>
-		<dependency>
-			<groupId>io.github.hengyunabc.xdiamond</groupId>
-			<artifactId>xdiamond-client</artifactId>
-			<version>1.0.4</version>
-		</dependency>
-		
 	    <!-- cache -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -225,7 +213,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>micros_job_elastic-${version}</finalName>
+		<finalName>micros_job_elastic</finalName>
 		
 		<resources>
 			<resource>

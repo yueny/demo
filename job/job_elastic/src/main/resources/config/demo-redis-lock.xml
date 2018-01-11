@@ -7,10 +7,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd    
         http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 	
-	<bean id="redisLock" class="com.yueny.rapid.lang.lua.lock.DistributedForRedisTemplateLock"
-		p:string-redis-template-ref="redisStringTemplate"/>
+	<bean id="redisLock" class="com.yueny.rapid.topic.distributed.lock.redis.DistributedRedisLock"
+		p:pool-ref="redisStringTemplate"/>
+	<!-- 
 	<bean id="redisLuaLock" class="com.yueny.rapid.lang.lua.lock.DistributedForLuaRedisLock"
 	    p:hostName="${redis.client.host}" p:port="${redis.client.port}"
 		p:password="${redis.client.password}"/>
+	 -->
 		
 </beans>

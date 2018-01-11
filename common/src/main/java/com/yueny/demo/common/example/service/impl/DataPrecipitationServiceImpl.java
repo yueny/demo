@@ -52,23 +52,10 @@ public class DataPrecipitationServiceImpl extends BaseSevice implements IDataPre
 		return dataPrecipitationDao.insertList(entrys);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * com.yueny.demo.job.service.IDataPrecipitationService#quertIdsBySharding(
-	 * int, java.lang.Integer, java.lang.Integer)
-	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer shardingItem,
-			final Integer fetchDataNum) {
-		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, shardingItem, fetchDataNum);
-	}
-
-	@Override
-	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final Integer shardingItem,
+	public List<Long> queryIdsBySharding(final int taskTotalItemsharding, final Integer shardingItem,
 			final Integer fetchDataNum, final YesNoType type) {
-		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, shardingItem, fetchDataNum, type);
+		return dataPrecipitationDao.queryIdsBySharding(taskTotalItemsharding, shardingItem, fetchDataNum, type);
 	}
 
 	/*
@@ -79,9 +66,20 @@ public class DataPrecipitationServiceImpl extends BaseSevice implements IDataPre
 	 * int)
 	 */
 	@Override
-	public List<Long> quertIdsBySharding(final int taskTotalItemsharding, final List<Integer> shardingItems,
+	public List<Long> queryIdsBySharding(final int taskTotalItemsharding, final List<Integer> shardingItems,
 			final Integer fetchDataNum) {
-		return dataPrecipitationDao.quertIdsBySharding(taskTotalItemsharding, shardingItems, fetchDataNum);
+		return dataPrecipitationDao.queryIdsBySharding(taskTotalItemsharding, shardingItems, fetchDataNum);
+	}
+
+	@Override
+	public List<Long> queryListBySharding(final int taskTotalItemsharding, final Integer taskItemValues) {
+		return dataPrecipitationDao.queryIdsBySharding(taskTotalItemsharding, taskItemValues);
+	}
+
+	@Override
+	public List<Long> queryListBySharding(final int taskTotalItemsharding, final Integer shardingItem,
+			final Integer fetchDataNum) {
+		return dataPrecipitationDao.queryIdsBySharding(taskTotalItemsharding, shardingItem, fetchDataNum);
 	}
 
 	/*

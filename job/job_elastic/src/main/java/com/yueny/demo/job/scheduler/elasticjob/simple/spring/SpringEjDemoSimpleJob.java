@@ -57,7 +57,7 @@ public class SpringEjDemoSimpleJob extends AbstractSimpleJob {
 		// shardingContext.getShardingItem() 当前分片项 0-N
 		// shardingContext.getShardingParameter() 当前分片项的分片参数
 
-		final List<Long> ids = dataPrecipitationService.quertIdsBySharding(shardingContext.getShardingTotalCount(),
+		final List<Long> ids = dataPrecipitationService.queryListBySharding(shardingContext.getShardingTotalCount(),
 				shardingContext.getShardingItem(), 10);
 
 		System.out.println("SpringEjDemoSimpleJob...");

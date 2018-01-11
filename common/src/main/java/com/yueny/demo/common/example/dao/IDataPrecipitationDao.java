@@ -28,13 +28,28 @@ public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWho
 	 *
 	 * @param taskTotalItemsharding
 	 *            当前任务类型的任务队列数量
-	 * @param shardingItem
+	 * @param taskItemValues
+	 *            当前分片项 0-N，运行在本作业服务器的分片序列号
+	 * @return
+	 */
+	List<Long> queryIdsBySharding(final int taskTotalItemsharding, final Integer taskItemValues);
+
+	/**
+	 * 根据分片项查询未处理的数据主键<br>
+	 * select id from modify_demo where mod(ID, #{taskItemsharding}) in
+	 * ${taskItemValues} limit #{fetchDataNum}<br>
+	 * eg: select id from modify_demo where mod(ID, 5) in (1,2)
+	 *
+	 * @param taskTotalItemsharding
+	 *            当前任务类型的任务队列数量
+	 * @param taskItemValues
 	 *            当前分片项 0-N，运行在本作业服务器的分片序列号
 	 * @param fetchDataNum
 	 *            每次获取数据的数量
 	 * @return
 	 */
-	List<Long> quertIdsBySharding(int taskTotalItemsharding, Integer shardingItem, Integer fetchDataNum);
+	List<Long> queryIdsBySharding(final int taskTotalItemsharding, final Integer taskItemValues,
+			final Integer fetchDataNum);
 
 	/**
 	 * 根据分片项查询未处理的数据主键<br>
@@ -44,7 +59,7 @@ public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWho
 	 *
 	 * @param taskTotalItemsharding
 	 *            当前任务类型的任务队列数量
-	 * @param shardingItem
+	 * @param taskItemValues
 	 *            当前分片项 0-N，运行在本作业服务器的分片序列号
 	 * @param fetchDataNum
 	 *            每次获取数据的数量
@@ -52,7 +67,7 @@ public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWho
 	 *            状态
 	 * @return
 	 */
-	List<Long> quertIdsBySharding(int taskTotalItemsharding, Integer shardingItem, Integer fetchDataNum,
+	List<Long> queryIdsBySharding(int taskTotalItemsharding, Integer taskItemValues, Integer fetchDataNum,
 			final YesNoType type);
 
 	/**
@@ -63,13 +78,13 @@ public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWho
 	 *
 	 * @param taskTotalItemsharding
 	 *            当前任务类型的任务队列数量
-	 * @param shardingItems
+	 * @param taskItemValues
 	 *            当前分片项 0-N，运行在本作业服务器的分片序列号
 	 * @param fetchDataNum
 	 *            每次获取数据的数量
 	 * @return
 	 */
-	List<Long> quertIdsBySharding(int taskTotalItemsharding, List<Integer> shardingItems, Integer fetchDataNum);
+	List<Long> queryIdsBySharding(int taskTotalItemsharding, List<Integer> taskItemValues, Integer fetchDataNum);
 
 	/**
 	 * 查询全表的数据实体主键列表<br>
@@ -93,4 +108,5 @@ public interface IDataPrecipitationDao extends IOriginDao<ModifyDemoEntry>, IWho
 	 * @return 是否成功
 	 */
 	boolean setInactive(final Long primaryId, final YesNoType type);
+
 }

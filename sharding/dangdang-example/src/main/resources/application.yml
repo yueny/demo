@@ -1,0 +1,25 @@
+# 服务器配置
+server:
+   port: 8090
+   tomcat:
+      uri-enconding: UTF-8
+   sessionTimeout: 45
+   contextPath: /
+
+spring: 
+   aop: 
+      proxy-target-class: true
+      auto: true
+   mvc:
+      # 设定静态文件路径，js,css等
+      #static-path-pattern: /static/**
+      view:
+         # 指定mvc视图的前缀
+         prefix: /
+         # 指定mvc视图的后缀
+         suffix: .ftl
+   
+# url/shutdown
+endpoints:
+   shutdown:
+      enabled: true
