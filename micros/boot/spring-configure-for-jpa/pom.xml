@@ -81,6 +81,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.yueny.rapid.topic</groupId>
+			<artifactId>rapid-topic-profiler</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>com.yueny.rapid.util</groupId>
 			<artifactId>rapid-util-sla</artifactId>

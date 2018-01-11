@@ -17,7 +17,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 import com.yueny.demo.micros.boot.spring.configure.api.request.JobForMatcherRequest;
 import com.yueny.rapid.data.resp.pojo.response.NormalResponse;
-import com.yueny.superclub.util.exec.async.factory.NamedThreadFactory;
+import com.yueny.rapid.lang.thread.factory.NamedThreadFactory;
 
 public class HttpUtilsTest {
 	private static final String serviceUrl = "http://localhost:8090";

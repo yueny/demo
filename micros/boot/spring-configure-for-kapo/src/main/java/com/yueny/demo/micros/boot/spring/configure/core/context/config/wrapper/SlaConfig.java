@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.yueny.rapid.lang.lua.sla.SlaAccessForLuaRedisServer;
-import com.yueny.superclub.util.sla.core.advice.ILimitAdvice;
-import com.yueny.superclub.util.sla.whole.RateLimitForWholeAdvice;
+import com.yueny.superclub.util.sla.internal.ILimitAdvice;
+import com.yueny.superclub.util.sla.internal.application.RateLimitAdvice;
 
 /**
  * 限流
@@ -40,12 +39,7 @@ public class SlaConfig {
 
 	@Bean(name = "rateLimitAdvice")
 	public ILimitAdvice rateLimitAdvice() {
-		// method 1
-		// final ILimitAdvice advice = new RateLimitAdvice();
-
-		// method 2： 无效
-		final ILimitAdvice advice = new RateLimitForWholeAdvice(
-				new SlaAccessForLuaRedisServer(hostName, port, password));
+		final ILimitAdvice advice = new RateLimitAdvice();
 
 		return advice;
 	}

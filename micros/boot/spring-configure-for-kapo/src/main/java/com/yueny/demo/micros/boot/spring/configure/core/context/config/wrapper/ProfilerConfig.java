@@ -3,7 +3,7 @@ package com.yueny.demo.micros.boot.spring.configure.core.context.config.wrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.yueny.rapid.topic.profiler.ProfilerLogAspect;
+import com.yueny.rapid.topic.profiler.core.ProfilerLogAspect;
 
 /**
  * 限流
