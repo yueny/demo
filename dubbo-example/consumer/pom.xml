@@ -2,18 +2,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.yueny.demo</groupId>
 		<artifactId>dubbo-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<groupId>com.yueny.demo.dubbo</groupId>
-	<artifactId>schema</artifactId>
+	<artifactId>consumer</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.yueny.demo.dubbo</groupId>
+			<artifactId>provider-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.yueny</groupId>
+			<artifactId>api</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yueny.rapid.data</groupId>
+			<artifactId>rapid-data-resp</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -31,6 +49,17 @@
 			<artifactId>spring-beans</artifactId>
 		</dependency>
 
+		<!-- incubator-dubbo -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -38,32 +67,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.yueny.rapid</groupId>
-			<artifactId>api</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.lang</groupId>
-			<artifactId>rapid-lang-mask</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.lang</groupId>
-			<artifactId>rapid-lang-util</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.data</groupId>
-			<artifactId>rapid-data-resp</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yueny.rapid.lang</groupId>
-			<artifactId>rapid-lang-json</artifactId>
-			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -86,19 +89,8 @@
 			<groupId>org.logback-extensions</groupId>
 			<artifactId>logback-ext-spring</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<resources>
 			<resource>
@@ -114,6 +106,16 @@
 				<directory>src/test/resources</directory>
 			</testResource>
 		</testResources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
-	
 </project>
