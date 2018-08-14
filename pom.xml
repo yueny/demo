@@ -28,6 +28,7 @@
 		<module>rocketmq</module>
 		<module>cas</module>
 		<!--  
+		<module>jdbc</module>
 		<module>aspect</module>
 		<module>dubbo</module>
 		<module>exec</module>
