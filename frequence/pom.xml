@@ -167,12 +167,13 @@
 		    <artifactId>leopard-json</artifactId>
 		    <version>0.9.6</version>
 		</dependency>
-		<!-- 请求特殊参数。让Controller类像普通的Service类一样定义接口参数，让接口定义更加清晰、方便编写单元测试、方便编写Javadoc。APIdoc可以根据这些特殊参数自动生成文档。 -->
+		<!-- 请求特殊参数。让Controller类像普通的Service类一样定义接口参数，让接口定义更加清晰、方便编写单元测试、方便编写Javadoc。APIdoc可以根据这些特殊参数自动生成文档。 
 		<dependency>
 		    <groupId>io.leopard</groupId>
 		    <artifactId>leopard-xparam</artifactId>
 		    <version>0.9.6</version>
 		</dependency>
+		-->
 		<!-- 自定义Spring标签。<leopard:mysql-dsn />、<leopard:jdbc />、<leopard:redis-dsn />、<leopard:redis />、<leopard:queue />、<leopard:component-scan/>等 -->
 		<dependency>
 		    <groupId>io.leopard</groupId>
