@@ -33,7 +33,7 @@ public class OpertController extends BaseController {
 
 		final Map<String, String> maps = new HashMap<>();
 		maps.put("id", "666");
-		final boolean rs = mailService.sendTemplateMail("yuany@mizlicai.com", "REGISTER", "email/emailTemplate", maps);
+		final boolean rs = mailService.sendTemplateMail("yuany@aliyun.com", "REGISTER", "email/emailTemplate", maps);
 
 		final NormalResponse<Boolean> reps = new NormalResponse<>();
 		reps.setData(rs);
